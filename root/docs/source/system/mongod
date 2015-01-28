@@ -150,15 +150,3 @@ sudo start mongodb
 ############################
 
 > root/scripts/dbrestore.bash <backup_zip> <dbname>
-
-############################
-# Update shoes value
-############################
-
-> mongo kalzate
-
-# To identify unique document use barcode or _id. See next example for updating quantity:
-> db.shoes.update({barcode:'foo'}, {$set: {quantity:0}})
-> db.shoes.find({barcode:'foo'}).pretty()
-> db.shoes.update({_id : ObjectId("bar")}, {$set: {quantity:1}})
-> db.shoes.find({_id : ObjectId("bar")}).pretty()

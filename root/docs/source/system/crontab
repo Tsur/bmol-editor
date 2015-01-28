@@ -17,10 +17,10 @@ tail -f /var/log/syslog
 # Create Cron job entry for dumping(exporting) database and automatically starting up the server  after the machine reboots:
 
 > sudo apt-get install zip
-// just in case: chmod a+x /var/www/kalzate/root/scripts/dbdump.sh 
+// just in case: chmod a+x /var/www/scripts.bash
 > crontab -e
-@reboot /var/www/kalzate/server/server.bash
-* 22 * * * kalzate /var/www/kalzate/root/scripts/dbdump.sh >/dev/null 2>&1
+@reboot /var/www/scripts.bash
+* 22 * * * user /var/www/scripts.bash >/dev/null 2>&1
 # Example to run command every 5 minutes always:
 */5 * * * * /bin/date >> /tmp/date
 # Other alternatives it might work:
