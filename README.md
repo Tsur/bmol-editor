@@ -11,7 +11,7 @@ $ cd root
 $ npm install -g nave
 $ nave use myenvironment stable
 # Set up global dependences
-$ npm install -g grunt-cli bunyan less jsdoc
+$ npm install -g bower grunt-cli bunyan less jsdoc
 # Set up local dependences
 $ npm install
 ```
