@@ -1,7 +1,7 @@
 {
-  "name": "kalzate-pos",
+  "name": "bmol-editor",
   "version": "0.0.1",
-  "description": "Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js",
+  "description": "bmol map editor",
   "dependencies": {
     "angular": "~1.2",
     "angular-resource": "~1.2",
