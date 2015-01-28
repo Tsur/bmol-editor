@@ -16,7 +16,7 @@ module.exports = exports = {
       ],
 
       js: [
-        'public/vendor/jquery/dist/jquery.min.js',
+        'public/vendor/jquery/jquery.min.js',
         'public/vendor/angular/angular.js',
         // 'public/vendor/angular-resource/angular-resource.js', 
         'public/vendor/angular-cookies/angular-cookies.js',
