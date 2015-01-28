@@ -1,0 +1,164 @@
+
+############################
+# set up
+############################
+
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list
+apt-get update
+apt-get install mongodb-10gen
+
+############################
+# authentication
+############################
+
+Mongodb does not come with any type of authentication out of the box. To enable authentication you need to perform these additional steps.
+
+> vim /etc/mongod.conf
+
+change auth to true:
+
+auth = true
+
+> sudo service mongodb restart
+
+> mongo
+	>use admin
+	>db.addUser('admin', 'password')
+	>db.auth('admin', 'password')
+	>exit
+
+other thing worth mentioning is the admin user has to authenticate against the admin database before it can login to any other db. To put this simply, if there is a database called foo and you wish to login to foo using the admin user just created above the authentication will fail. You have to authenticate against the admin database first:
+
+>use admin
+>db.auth('admin', 'password')
+>use other_database
+>exit
+
+############################
+# List users having access 
+############################
+
+> use database
+> db.system.users.find()
+
+############################
+# List databases
+############################
+
+> show databases
+
+############################
+# List collections
+############################
+
+> use <database_name>
+> db.getCollectionNames()
+
+or alternatively:
+
+> show collections
+
+############################
+# find pretty
+############################
+
+> db.<collection_name>.find().pretty()
+
+############################
+# remove database
+############################
+
+> db.dropDatabase();
+
+############################
+# remove collection
+############################
+
+> db.<collection_name>.remove()
+
+or alternatively:
+
+> db.<collection_name>.drop()
+
+############################
+# remove items in collection
+############################
+
+> db.<collection_name>.remove({})
+
+remove just one:
+
+> db.<collection_name>.remove( { type : "food" }, 1 )
+
+############################
+# config file
+############################
+
+> vim /etc/init/mongodb.conf
+
+############################
+# Remove lock 
+############################
+
+> sudo rm -f /var/lib/mongodb/mongod.lock
+
+############################
+# Shutdown mongo
+############################
+
+> mongo
+> use admin
+> db.shutdownServer()
+
+############################
+# Mongo connection
+############################
+
+To connect using the shell:
+mongo ds035368.mongolab.com:35368/<db_name> -u <dbuser> -p <dbpassword>
+
+To connect using a driver via the standard URI RFC 3986 (what's this?):
+mongodb://<dbuser>:<dbpassword>@ds035368.mongolab.com:35368/<db_name>
+mongodb://localhost/kalzate?poolSize=10
+
+############################
+# Running Mongo
+############################
+
+#start it as daemon
+sudo mongod --fork --dbpath /var/lib/mongodb/ --smallfiles --logpath /var/log/mongodb.log --logappend
+
+#start it as foreground process
+sudo mongod -f /etc/mongodb.conf
+
+#start it as service:
+
+# change permissions
+cd /var/log/mongodb
+sudo chown -R mongodb:mongodb .
+cd /var/lib/mongodb
+sudo chown -R mongodb:mongodb .
+
+#(same as sudo service mongodb start)
+sudo status mongodb
+sudo stop mongodb
+sudo start mongodb
+
+############################
+# Restore backup from zip
+############################
+
+> root/scripts/dbrestore.bash <backup_zip> <dbname>
+
+############################
+# Update shoes value
+############################
+
+> mongo kalzate
+
+# To identify unique document use barcode or _id. See next example for updating quantity:
+> db.shoes.update({barcode:'foo'}, {$set: {quantity:0}})
+> db.shoes.find({barcode:'foo'}).pretty()
+> db.shoes.update({_id : ObjectId("bar")}, {$set: {quantity:1}})
+> db.shoes.find({_id : ObjectId("bar")}).pretty()

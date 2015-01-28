@@ -1,0 +1,25 @@
+> sudo apt-get update
+> sudo apt-get upgrade
+> sudo apt-get install redis-server
+
+# Redis conf
+> cp /etc/redis/redis.conf /etc/redis/redis.conf.default
+# now modify vim /etc/redis/redis.conf
+
+#Redis CLI
+> redis-cli
+
+redis-cli set mykey "my binary safe value"
+redis-cli get mykey
+redis-cli KEYS *
+
+quit # exit from redis-cli
+
+# export all keys
+redis-cli  KEYS * | xargs -n 1 redis-cli dump
+
+# Remove all keys in a database
+> redis-cli -n <db_number> flushdb
+
+# Remove all data in all databases
+> redis-cli flushall

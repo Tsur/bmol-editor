@@ -1,0 +1,421 @@
+
+#######################
+
+Git workflow
+
+#######################
+
+highly inspired by git flow :
+
+https://github.com/nvie/gitflow
+http://nvie.com/posts/a-successful-git-branching-model/
+http://paul.stadig.name/2010/12/thou-shalt-not-lie-git-rebase-ammend.html
+
+1) Main branches
+----------------
+
+master: the branch where the source code always reflects a production-ready state.
+develop: the branch where the source code always reflects a state with the latest delivered development changes for the next release. This is a “integration branch”.
+
+When the source code in the develop branch reaches a stable point and is ready to be released, all of the changes should be merged back into master and then tagged with a release number. Each time when changes are merged back into master and committed there is a new production release by definition.
+
+Those two branches are never deleted!
+
+
+2) Sprint Branches
+------------------
+
+The different types of branches we may use are:
+
+Feature branches: one for each sprint story/topic/task
+Release branches: after sprint is completed with all its features, if proceed ...
+Hotfix branches: if something unexpected comes up
+
+
+2.1) Feature branches
+---------------
+
+branch off from:
+develop
+Must merge back into:
+develop
+Branch naming convention: feat_<story_number>_<description>, dev_<story_number>_<description>
+
+Feature branches are used to develop new features for the upcoming or a distant future release. When starting development of a feature, the target release in which this feature will be incorporated may well be unknown at that point. The essence of a feature branch is that it exists as long as the feature is in development, but will eventually be merged back into develop (to definitely add the new feature to the upcoming release) or discarded (in case of a disappointing experiment).
+
+Feature branches typically exist in developer repos only, not in origin.
+
+Creating a feature branch 
+When starting work on a new feature, branch off from the develop branch.
+
+$ git checkout -b myfeature develop
+Switched to a new branch "myfeature"
+
+
+Incorporating a finished feature on develop 
+Finished features may be merged into the develop branch definitely add them to the upcoming release:
+
+$ git checkout develop
+Switched to branch 'develop'
+$ git merge --no-ff myfeature
+Updating ea1b82a..05e9557
+(Summary of changes)
+$ git branch -d myfeature
+Deleted branch myfeature (was 05e9557).
+$ git push origin develop
+
+2.2) Release branches
+---------------------
+
+branch off from:
+develop
+Must merge back into:
+develop and master
+
+Branch naming convention: release_<version_number>
+
+They allow for last-minute dotting of i’s and crossing t’s. Furthermore, they allow for minor bug fixes and preparing meta-data for a release (version number, build dates, etc.). By doing all of this work on a release branch, the develop branch is cleared to receive features for the next big release.
+
+The key moment to branch off a new release branch from develop is when develop (almost) reflects the desired state of the new release usually after sprint is successfully completed. At least all features that are targeted for the release-to-be-built must be merged in to develop at this point in time. All features targeted at future releases may not—they must wait until after the release branch is branched off.
+
+
+2.3) Hotfix branches
+--------------------
+
+branch off from:
+master
+
+Must merge back into:
+develop and master
+
+Branch naming convention: hotfix_<bug_number>
+
+Hotfix branches are very much like release branches in that they are also meant to prepare for a new production release, albeit unplanned. They arise from the necessity to act immediately upon an undesired state of a live production version. When a critical bug in a production version must be resolved immediately, a hotfix branch may be branched off from the corresponding tag on the master branch that marks the production version.
+
+The essence is that work of team members (on the develop branch) can continue, while another person is preparing a quick production fix.
+
+when a release branch currently exists, the hotfix changes need to be merged into that release branch, instead of develop. Back-merging the bugfix into the release branch will eventually result in the bugfix being merged into develop too, when the release branch is finished.
+
+#######################
+
+CONFIG
+
+#######################
+
+commits messages should have the following format:
+
+[<issue_number>] #<issue_type> description
+
+example: [KZ-17] #FIX shoes module wrong get method fixed
+
+los <issue_type> pueden ser:
+
+FEAT (new feature)
+FIX (bug fix)
+DOCS (changes to documentation)
+STYLE (formatting, missing semi colons, etc; no code change)
+REFACTOR (refactoring production code)
+TEST (adding missing tests, refactoring tests; no production code change)
+CHORE (updating grunt tasks etc; no production code change)
+
+Get an account on: https://github.com/
+
+# Copy id_rsa.pub file by using command line interface (then paste it into github)
+> xclip -sel clip < ~/.ssh/id_rsa.pub
+
+# if you do not have it yet, generate RSA keys pair, set a passphrase (password) so that you can only use it from your computer and then copy it with the previous command and paste in github
+> ssh-keygen -t rsa -C "youremail@youremail.com"
+
+Settings:
+
+> git config --list
+
+note: it may display many times the same entry, look at the last one!
+
+For setting configs only in the current repository do NOT use --global:
+
+# Sets the default name for git to use when you commit
+> git config user.name <username>
+> git config user.email <email>
+
+For setting configs in all repositories:
+
+> git config --global name "Zurisadai"
+> git config --global alias.ci commit
+> git config --global alias.co checkout
+> git config --global alias.last "log -1 HEAD"
+> git config --global alias.unstage "reset HEAD --"
+
+# Tell git that you don't want to type your username and password every time you talk to a remote server. To use this option, you need to turn on the credential helper so that git will save your password in memory for some time:
+> git config --global credential.helper cache
+
+# Set git to use the credential memory cache for 1 hour (setting is in seconds)
+> git config --global credential.helper 'cache --timeout=3600'
+
+# Git using meld tool
+> sudo apt-get install meld
+
+# Meld as default when running git difftool
+git config --global diff.tool meld
+
+# Meld as default when running git mergetool
+git config --global merge.tool meld
+
+# To remove previous configuration
+git config --global --unset diff.tool
+git config --global --unset merge.tool
+
+# gitk is a git history viewer to help you to visualize all commits
+> sudo apt-get update
+> sudo apt-get install gitk
+> git config --global alias.visual '!gitk'
+
+# Git auto-completion
+Go to https://github.com/git/git/blob/master/contrib/completion/git-completion.bash and save file to "~/.git-completion.bash" then type vim ~/.bashrc and paste:
+
+source ~/.git-completion.bash
+
+#######################
+
+BASICS
+
+#######################
+
+remotes are server repositories, by defualt when you clone you have the origin remote wich is the server your cloning the reposiroty from. You can have more remotes, for instance if you have some collaborator who want to contribute with some new features.
+
+//List remotes
+> git remote
+> git remote -v
+
+//List in detail
+> git remote <remote_name> show
+> git remote origin show
+
+//Add a remote
+> git remove add paul git@github.com:<username>/<project_name>.git
+
+git pull == git fetch & git merge
+git pull origin  == git fetch origin && git merge origin
+git pull origin/master  == git fetch origin/master && git merge origin/master
+
+origin is the remote and master the branch
+----------------------------------------------------------
+
+
+
+### CLONE ###
+
+For write access:
+
+    ```bash
+    $ cp id_rsa ~/.ssh
+    $ cp id_rsa.pub ~/.ssh
+    $ git clone git@github.com:<username>/<project_name>.git
+    ```
+
+For only read access: 
+
+    ```bash
+    $ git clone https://github.com/<username>/<project_name>.git kalzate
+    ```
+
+### ALIAS ###
+
+git config --global alias.add-commit '!git add -A && git commit'
+
+unset the alias:
+
+git config --global --unset alias.<your_alias>
+
+### BRANCHES ### 
+
+# DELETE BRAN LOCALLY
+git branch -d branch_name
+# DELETE BRANCH REMOTELLY
+git push origin --delete branch_name
+
+# CREATE BRANCH LOCALLY
+git checkout -b new_branch
+# CREATE BRANCH REMOTELLY
+git push origin new_branch
+
+http://git-scm.com/book/es/Ramificaciones-en-Git-Procedimientos-b%C3%A1sicos-para-ramificar-y-fusionar
+
+# Test github knows you
+> ssh -T git@github.com
+
+# It should tell you something as: Hi YourUserName! You've successfully authenticated, but GitHub does not provide shell access. If something different is displayed, then run:
+> ssh-add
+
+
+How do I clone all remote branches to local with Git?
+--------------------------------------------
+
+First, clone a remote Git repository and cd into it:
+
+$ git clone git://example.com/myproject
+$ cd myproject
+
+Next, look at the local branches in your repository:
+
+$ git branch
+* master
+
+But there are other branches hiding in your repository! You can see these using the -a flag:
+
+$ git branch -a
+* master
+  remotes/origin/HEAD
+  remotes/origin/master
+  remotes/origin/v1.0-stable
+  remotes/origin/experimental
+
+If you just want to take a quick peek at an upstream branch, you can check it out directly:
+
+$ git checkout origin/experimental
+
+But if you want to work on that branch, you'll need to create a local tracking branch:
+
+$ git checkout -b experimental origin/experimental
+
+Now, if you look at your local branches, this is what you'll see:
+
+$ git branch
+* experimental
+  master
+
+You can actually track more than one remote repository using git remote.
+
+$ git remote add win32 git://example.com/users/joe/myproject-win32-port
+$ git branch -a
+* master
+  remotes/origin/HEAD
+  remotes/origin/master
+  remotes/origin/v1.0-stable
+  remotes/origin/experimental
+  remotes/win32/master
+  remotes/win32/new-widgets
+
+At this point, things are getting pretty crazy, so run gitk to see what's going on:
+
+$ gitk --all &
+
+You can fetch all branches from all remotes like this:
+
+git clone <url>
+git fetch --all
+
+Fetch updates local copies of remote branches so this is always safe for your local branches BUT that means:
+
+1) This will not create local branches tracking remote branches, you have to do this manually
+
+2) If you want to update your local branches you still need to pull every branch.
+
+So if you will probably want to run:
+
+git pull --all
+
+However, pull --all will work only for your local branches which track remote branches(step 1) This will not create local branches...). To track all remote branches execute this oneliner BEFORE git pull --all:
+
+for remote in `git branch -r`; do git branch --track $remote; done
+---TL;DR version---
+
+for remote in `git branch -r`; do git branch --track $remote; done
+git fetch --all
+git pull --all
+(it seems that pull fetches all branches from all remotes, but I always fetch first just to be sure)
+
+Run the first command only if there are remote branches on the server that aren't tracked by your local branches.
+
+P.S. AFAIK git fetch --all and git remote update are equivalent.
+
+
+RESTORE LOCAL REPOSITORY TO SOME COMMIT ID
+
+git reset --soft commit_id
+
+You can also tag your local repo at anytime and then to reset to that tag:
+
+git reset --soft MY_TAG
+
+
+# Summary git commands
+
+git init -> inicia un repositorio nuevo(si estamos trabajando en un servidor, bitbucket hace esto por nosotros)
+
+git add file/dir -> añade un nuevo fichero o directorio al repositorio
+
+git rm file/dir -> elimina un fichero o directorio del repositorio
+
+git commit -m "message" -> actualiza el repositorio LOCAL con los ultimos cambios, si acompañamos con la opcion -a no necesitamos hacer antes un git add .
+
+git push -> mandamos el commit al servidor, es como svn ci
+
+git pull -> actualizamos el repositorio local con el remoto, como un svn update. Internamente ese comando hace git fetch origin; git merge origin master. Se usa si no hemos realizado commits
+
+git checkout -b branch_name -> To create a branch and switch to it at the same time, you can run the git checkout command with the -b switch
+
+git checkout master -> switch to the master branch
+
+git merge branch_name -> merge the branch_name to the current branch (usually master)
+
+git branch -d branch_name -> delete the branch
+
+git fetch origin; git rebase origin/master -> Si hemos realizado un commit y queremos bajar los cambios del servidor.
+
+git status -> igual que el svn status
+
+el estado de los ficheros puede ser:
+
+untracked -> Sin seguimiento. Cuando un fichero está en el sistema de archivos pero no ha sido añadido todavía al repositorio Git está en este estado.
+
+unmodified -> Sin modificar. el fichero si que estaba añadido previamente al repositorio, pero no ha sido cambiado desde el último commit. Por tanto, Git lo ignorará.
+
+modified -> Modificado. Cuando modificamos un fichero que está bajo el control de versiones se marca como modificado. Sin embargo, al hacer un commit no se añade automaticamente por el simple hecho de haber sido modificado sino que hay que añadirlo con git add.
+
+staged -> Marcado para commit. solo estos ficheros serán los que se añadan al siguiente commit que realicemos.
+
+
+RAMAS(BRANCHES):
+
+First, you must create your branch locally
+
+git checkout -b your_branch_name
+
+After that, you can work locally in your branch, when you are ready to share the branch, push it. The next command push the branch to the remote repository origin and tracks it
+
+git push -u origin your_branch_name
+
+You can continue working in the branch and pushing whenever you want without passing arguments to git push (argumentless git push will push the master to remote master, your_branch local to remote your_branch, etc...)
+
+git push
+
+Teammates can reach your branch, by doing:
+
+git clone ....
+git fetch
+git checkout --track -b your_branch origin/your_branch
+... work ...
+git commit
+... work ...
+git commit
+git push
+
+
+Stashing con Git
+
+Estamos trabajando en una mejora, y llevamos realizado un 40% por ejemplo de esa mejora(no hacemos el commit hasta tener el trabajo completo, hasta el 100%), entonces de repente nos dicen mira que tienes que resolver un problema que es urgente, entonces hacemos un "git stash" y ese 40% que llevabamos lo congelamos, lo almacenamos en un directorio totalmente nuevo. Luego del git stash, podemos hacer un pull o podemos cambiar de rama sin problemas, resolver esa urgencia, y luego volver a donde estabamos al principio con "git stash apply". Si tenemos mas de un stash, podemos verlos todos con "git stash list" y ver en detalle un en concreto con "git stash show stash@{0}" o el stash que sea, en este caso el primero(stash@{0}). Si tenemos mas de un stash para aplicarlo tenemos que hacer "git stash apply stash@{0}". Tambien podemos utilizar las herramientas normales de git sobre nuestros stash como "git diff stash@{0}"
+
+
+# Muestra la pila de stash
+git stash list
+
+# Hacer un stash de todo
+git add .
+git stash
+
+# Aplicar stash
+git stash apply
+
+# Si tenías ficheros que habías añadido antes del stash y no quieres tenerlos en staging
+git reset HEAD <file>

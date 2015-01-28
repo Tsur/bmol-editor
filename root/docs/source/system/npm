@@ -1,0 +1,30 @@
+
+// For development (dependences & devDependencies)
+npm install
+
+// For production( only dependeces)
+npm config set production
+npm install
+//or simply
+npm install --production
+
+If you do npm config set production, then that sets the --production configuration flag for all npm commands, by setting production = true in the ~/.npmrc file.
+
+If you do npm start --production, then it'll set the NODE_ENV=production environ for the start script.
+
+If you do npm install --production then it won't install devDependencies locally.
+
+The ~/.npm folder is a cache folder that contains local packages so that you don't have to download them over and over when you install them in a new project. You can safely delete this folder and you can in fact do it using the npm cache command: 
+
+npm cache clean
+
+The ~/.node-gyp folder is the devDir of node-gyp (see relevant source code). This is where development header files are copied in order to perform the compilation of native modules. you can safely delete this directory, as it will be re-created the next time you'll install a module that needs node-gyp.
+
+It could be handly when working for instance with node-gyp:
+npm config set python /path/to/executable/python2.7
+
+
+
+
+
+

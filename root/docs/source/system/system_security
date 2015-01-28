@@ -1,0 +1,7 @@
+* POST REQUESTS
+
+	A) Check server logs for malicious/massive POST Requests and block the ip's they are comming from
+
+	B) IP filtering
+
+	C) Express middleware (before all other middlewares) to log POST request with data becose server logs does not save POST data

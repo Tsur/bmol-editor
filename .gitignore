@@ -1,0 +1,7 @@
+*~
+.vagrant
+root/npm-debug.log
+root/public/vendor
+root/docs/html
+root/node_modules
+root/tools/sprites/sprites

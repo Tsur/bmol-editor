@@ -1,0 +1,43 @@
+Interesting
+-----------
+
+
+http://gaurassociates.com/#/about
+
+________________________________________
+
+Data migration 
+
+Pelica Migrator to migrate TBs of data from RDBMS to MongoDB, but before that you need to work out on the schema design in mongo and some capacity planning (shards, cpu, ...)
+
+If you are looking to go from Postgres to MongoDB, take a look at the MongoDB Foreign Data Wrapper (https://github.com/enterprisedb) which allows for read/write connections between MongoDB and Postgres.
+
+there is a well known in BigData world tool called BigDataPumper which supports high performance data migration between Oracle and NoSQL databases like MongoDB, HBase, Cassandra, CouchDB, etc. check out it here http://www.spviewer.com/bigdatapumper.html
+
+Create a node/python script to do the work
+
+________________________________________
+
+Mongo Conferences
+
+http://www.mongodb.com/mongodb-coming-you
+
+________________________________________
+
+Javascript books
+
+JavaScript Ninja
+NodeJS in Action
+ng-book
+
+________________________________________
+
+Javascript Resources
+
+http://www.jsdb.io/
+
+________________________________________
+
+A line across the entire width of the terminal. This is a variant of the above that uses tput cols to find the width of the terminal and set that number as the minimum field witdh.
+
+> printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -

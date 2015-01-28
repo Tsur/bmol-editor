@@ -1,0 +1,33 @@
+Environment file which stores environment variable values. It should not be tracked in the repository since it may contain sensitive data. 
+
+```bash
+$ cd root
+$ touch .env
+$ vim .env
+```
+
+IMPORTANT NOTE: if you export a environment variable with the same name as in the .env file, the value used will be that of the exported environment variable and not actually the .env file variable. So if you wanna make sure your using the value in the .env file for let's say NODE_ENV variable, then it must be not set in the environment:
+
+```bash
+$ export NODE_ENV=testing
+#Now it will be 'testing' regardless the NODE_ENV value in your .env file (i.e. 'development')
+$ export NODE_ENV=
+#Now it will be the value of your "NODE_ENV" variable in your .env file (i.e. 'development')
+```
+
+This works that way because dotenv before look if there is already a defined environment variable:
+
+```js
+process.env[key]  = process.env[key] || value;
+```
+
+-------------------------------------------------
+
+Below there is an example of a .env file:
+
+# Node config
+NODE_CONFIG_DIR=''
+NODE_ENV='development'
+# Mail config
+SMTP_AUTH_USER=''
+SMTP_AUTH_PASSWD=''

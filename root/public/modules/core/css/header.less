@@ -1,0 +1,214 @@
+nav
+{
+  display:none;
+}
+
+@font-face {
+  font-family: 'fontello';
+  src: url('../fonts/fontello.eot?77807374');
+  src: url('../fonts/fontello.eot?77807374#iefix') format('embedded-opentype'),
+       url('../fonts/fontello.woff?77807374') format('woff'),
+       url('../fonts/fontello.ttf?77807374') format('truetype'),
+       url('../fonts/fontello.svg?77807374#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?77807374#fontello') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+}
+ 
+.icon-help:before { content: '\e800'; } /* '' */
+.icon-notify:before { content: '\e801'; } /* '' */
+.icon-chat:before { content: '\e802'; } /* '' */
+.icon-angle-down:before { content: '\e803'; } /* '' */
+.icon-cubes:before { content: '\e808'; } /* '' */
+.icon-window:before { content: '\e80d'; } /* '' */
+.icon-chart-bar:before { content: '\e80f'; } /* '' */
+.icon-chart-line:before { content: '\e810'; } /* '' */
+.icon-cart-2:before { content: '\e811'; } /* '' */
+.icon-infinity:before { content: '\e812'; } /* '' */
+.icon-infinity-outline:before { content: '\e813'; } /* '' */
+.icon-basket-alt:before { content: '\e818'; } /* '' */
+.icon-help-circled-alt:before { content: '\e819'; } /* '' */
+.icon-cart:before { content: '\e81c'; } /* '' */
+.icon-android:before { content: '\e81d'; } /* '' */
+.icon-chat2:before { content: '\e81e'; } /* '' */
+
+
+// .nav-icon-sprite(@x: 0, @y: 0, @width: 0, @height: 0) {
+//     background-position: @x @y;
+//     width: @width;
+//     height: @height;
+// }
+
+// span.nav-icon-sprites {
+//     background-image: url(../img/nav-icons-36-blue.png);    
+//     background-repeat: no-repeat;
+//     display: block;
+
+//     &.nav-icon-sprites-box {
+//         .nav-icon-sprite(0, 0, 36px, 36px);
+//     }
+
+//     &.nav-icon-sprites-chat {
+//         .nav-icon-sprite(-36px, 0, 36px, 36px);
+//     }
+
+//     &.nav-icon-sprites-chat2 {
+//         .nav-icon-sprite(0, -36px, 36px, 36px);
+//     }
+
+//     &.nav-icon-sprites-raspberry {
+//         .nav-icon-sprite(-36px, -36px, 36px, 36px);
+//     }
+
+//     &.nav-icon-sprites-reports {
+//         .nav-icon-sprite(-72px, 0, 36px, 36px);
+//     }
+
+//     &.nav-icon-sprites-stock {
+//         .nav-icon-sprite(-72px, -36px, 36px, 36px);
+//     }
+
+//     &.nav-icon-sprites-terminal {
+//         .nav-icon-sprite(0, -72px, 36px, 36px);
+//     }
+// }
+
+//Navbar brand 
+.navbar-brand {
+  padding: 15px 5px;
+  padding-right: 10px;
+}
+
+.navbar-brand img{
+  width: 160px;
+  height: 25px;
+}
+
+//Navbar Custom
+.navbar-default {
+  border:0;
+  border-bottom: 2px solid #b3c9e5;
+}
+
+.navbar-default span{
+  font-size: 28px;
+}
+
+.navbar-default ul li.navbar-custom, .navbar-brand {
+  border-right: 1px dotted rgb(255, 255, 255);
+  border-right: 1px dotted rgba(255, 255, 255, .15);
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+}
+
+.navbar-default ul.navbar-right {
+  border-left: 1px dotted rgb(255, 255, 255);
+  border-left: 1px dotted rgba(255, 255, 255, .15);
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+}
+
+.navbar-default ul li.navbar-custom{
+  height:55px;
+}
+
+.navbar-default ul li.navbar-custom div.circle { 
+  width: 36px;
+  height: 36px;
+  background-color: #95bcd6;
+  -moz-border-radius: 70px; 
+  -webkit-border-radius: 70px; 
+  border-radius: 70px;
+  margin-top:4px;
+  text-align:center;
+}
+
+.navbar-default ul li.navbar-custom a:hover div.circle{ 
+  background-color: #243E53;
+}
+
+.navbar-default ul li.navbar-custom.active a:hover div.circle{ 
+  background-color: #95bcd6;
+}
+
+.navbar-default ul li.navbar-custom div.circle span{ 
+  font-size: 17px;
+  margin-top: 5px;
+}
+
+//Navbar user section
+.navbar-default ul.navbar-right li a
+{
+  color:#ddd;
+}
+
+.nav-user-settings
+{
+  background-color: #95bcd6;
+  padding: 0 15px;
+  width: 144px;
+  cursor:pointer;
+}
+
+.nav-user-settings span
+{
+  font-size: 12px;
+  color: grey;
+}
+
+.nav-user-settings div:first-child { 
+  width: 25px;
+  height: 25px;
+  background: #ddd; 
+  -moz-border-radius: 70px; 
+  -webkit-border-radius: 70px; 
+  border-radius: 70px;
+  float:left;
+  margin-top:15px;
+}
+
+.nav-user-settings div:first-child img { 
+  width:25px;
+  height:25px;
+}
+
+.nav-user-settings div:last-child { 
+  margin-top: 10px;
+  margin-left: 35px;
+}
+
+.nav-user-settings div:last-child span:first-child { 
+  font-weight: bold;
+}
+
+.nav-user-settings div:last-child span:last-child { 
+  position: relative;
+  top: -6px;
+}
+
+// Dropdown Menu
+.navbar-default ul.dropdown-menu {
+  margin-top: 8px;
+  background-color: #637b8c;
+  border-color: #b3c9e5;
+}
+
+.navbar-default ul.dropdown-menu a:hover {
+  background-color: #7c9cb2;
+}

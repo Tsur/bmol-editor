@@ -1,0 +1,5 @@
+How to generate ssl key pair for node https:
+
+openssl genrsa -out key_name.key 1024 
+openssl req -new -key key_name.key -out certrequest.csr
+openssl x509 -req -in certrequest.csr -signkey key_name.key -out key_name.crt

@@ -1,0 +1,99 @@
+<div data-ng-show="progress" class="progress progress-striped active">
+    <div class="progress-bar" style="width: 100%"></div>
+</div>
+<div class="row" data-ng-show="!progress">
+    <div class="col-xs-2 col-md-2">
+       <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Tile Set</h3>
+          </div>
+          <div class="panel-body">
+            <div data-file-dropzone="['*']" data-on-file="sprFile.onFile(file)" data-file-input="true" data-upload-file-text="Drop SPR file &hellip;" data-on-file-error="sprFile.onFileError(err)" data-on-file-loading="sprFile.onFileLoading()" data-read-file-as="buffer" style="text-align:center"></div>
+            <div ng-show="sprFile.error" class="alert alert-danger">
+              <p class="text-center">El fichero no se pudo cargar</p>
+            </div>
+            <div ng-show="sprFile.loading" class="progress progress-striped active">
+              <div class="progress-bar" style="width: 100%">
+              </div>
+            </div>
+            <div ng-show="sprFile.loaded" id="tile-select">
+              <ul class="raw">
+              </ul>
+              <ul class="grounds" data-display-tiles="sprFile.groundsRange">
+              </ul>
+              <ul class="ornaments">
+              </ul>
+              <ul class="objects">
+              </ul>
+              <ul class="npcs">
+              </ul>
+              <ul class="meta">
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="map-tools">
+            <div class="dropdown">
+                <!--
+                <button data-toggle="dropdown" type="button" class="btn btn-sm btn-default">
+                TileSet <span class="caret"></span>
+                </button>
+                -->
+                <button id="import-tileset" type="button" class="btn btn-sm btn-success">
+                  <span class="glyphicon glyphicon-import"></span>
+                </button>
+                <button id="delete-tile" type="button" class="btn btn-sm btn-danger">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <!--
+                <ul id="tile-dropdown-menu" class="dropdown-menu">
+                  <li rel="grounds"><a>Grounds</a></li>
+                  <li rel="ornaments"><a>Ornaments</a></li>
+                  <li rel="objects"><a>Objects</a></li>
+                  <li rel="npcs"><a>NPC's</a></li>
+                  <li rel="meta"><a>Meta</a></li>
+                </ul>
+                -->
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-xs-8 col-md-8">
+        <div id="map-grid-parent">
+          <!-- <bmol-base-map></bmol-base-map> -->
+          <canvas bmol-base-map="size"></canvas>
+        </div>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Map Layers</h3>
+          </div>
+          <div class="panel-body" id="map-layers">
+            <label><input type="radio" name="map-layers" value="map-grid-base" rel="grounds" checked/> Base</label>
+            <label><input type="radio" name="map-layers" value="map-grid-objects" rel="objects"/> Objects</label>
+            <label><input type="radio" name="map-layers" value="map-grid-ornaments" rel="ornaments"/> Ornaments</label>
+            <label><input type="radio" name="map-layers" value="map-grid-npc" rel="npcs"/> Npc</label>
+            <label><input type="radio" name="map-layers" value="map-grid-meta" rel="meta"/> Meta</label>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Meta Info</h3>
+          </div>
+          <div class="panel-body">
+            <input type="text" placeholder="Message" class="form-control" id="meta-info"/>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Map Actions</h3>
+          </div>
+          <div class="panel-body">
+            <button id="map-save" type="button" class="btn btn-sm btn-info">
+                  <span class="glyphicon glyphicon-save"></span>
+            </button>
+          </div>
+        </div>
+    </div>
+</div>

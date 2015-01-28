@@ -1,0 +1,23 @@
+
+1) Install nave: sudo npm install -g nave
+2) Install virtual env with nave: nave install latest
+3) turn to this new(hosted in ~/.nave): nave use latest
+4) check it is right: node -v && npm config get root && npm config get prefix
+(use npm config get to see all of them)
+5) check there is global packeges installed : npm list -g
+6) npm install -g yo (without sudo !!!)
+7) yo doctor
+8) something like: echo "export NODE_PATH=$NODE_PATH:/home/your_user/.nave/installed/0.11.13/lib/node_modules" >> ~/.bashrc && source ~/.bashrc
+9) yo
+10) install generators
+
+
+change permisions to all your folders in ~ to ugo=rwx, specially to tmp and .npm (chmod ugo=rwx -R ~)
+chown your_user:your_user ~/tmp
+chown your_user:your_user ~/.npm
+
+
+
+
+
+

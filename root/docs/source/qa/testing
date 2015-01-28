@@ -1,0 +1,198 @@
+
+-------
+Testing
+-------
+
+Unit Testing and Quality Assurance (QA) are two very important aspects of writing good quality, maintainable code that does what you expect.
+
+1) Choosing a Test Runner
+
+One of the first tools we need is a good testing runner or framework: we use Mocha. It is similar to Nodeunit, but with few more bells and whistles (like a test-creation API) along with a zillion output formatters. It is also really simple to use and lets us keep our test files small and focused on one particular unit of code. You can use a few different vocabularies (BDD, TDD, etc) to write your tests. Using the Behaviour-driven Development (BDD) interface of Mocha  makes our tests very readable and obvious to anyone as to what is being tested. A simple example of Mocha using the BDD interface would look like this:
+
+describe('MyClass', function () {
+
+  describe('addOne()', function () {
+
+    it('should correctly add one to the given number', function () {
+      // assertions here
+    })
+
+  })
+
+  describe('subtractOne()', function () {
+
+    it('should correctly subtract one from the given number', function () {
+      // assertions here
+    })
+
+  })
+
+})
+
+2) Choosing an Assertion Library
+
+The next tool you need is an assertion library. In Python, the standard library contains an assertion library and often the test runner will provide some more wrappers as for instance those in pytest or unittest.TestCase. In Node, the standard library contains some basic assert functions. If you want more than that (e.g. some convenience wrappers) you'll need to look for an additional assertion library. Our choice is Should JS. Should compliments Mocha with its BDD style interface which gives us the ability to string together very natural sounding function chains.
+
+Other nice assertion library we'll like to get stuck to is ChaiJS, which offers the same BDD-type stuff that should.js offers, in addition to having a couple of other modes, including "assert"-style. The ChaiJS assert-style adds a few nice convenience methods over the Node.JS stdlib assert module.
+
+3) Mocking / Stubbing / Dependency Injection
+
+People use different terms to describe the act of replacing the implementations of the "database" (or whatever else) layer when writing unit tests. Mocking, stubbing, sandboxing, dependency injection - all terms are quite the same - lets us avoid the performance penalty and additional complexity involved in actually testing against a real database. Note that you may also choose to have further integration/functional/whatever-you-call-it tests which do actually talk to a real database.
+
+It is extremely likely you are going to need to mock out the external dependencies of your system(basically whatever Input/Output operation) as for isntance the database layer. In quite a lot of situations you can just use plain old Javascript Objects or simple functions as your mocks, however when it comes to mocking out more complex functionality, a mocking framework can really simplify things. One such mocking framework is Sinon JS.
+
+Let's check the next example using SinonJS:
+
+module.exports = function getUsers(userService) {
+
+  var users = []
+
+  for (var i = 0; i <= 3; i++) {
+    var user = userService.get(i)
+    users.push(user)
+  }
+
+  users.sort(function (a, b) {
+    return a.name - b.name
+  })
+
+  return users
+
+}
+
+We can test this really easily like so:
+
+var sinon = require('sinon')
+  , userService = require('./userService')
+  , getUsers = require('./getUsers')
+
+describe('getUsers', function () {
+
+  it('should return a list of users in alphabetical order', function (done) {
+
+    //Get a faked userService object : userService references now to getUserStub
+    var getUserStub = sinon.stub(userService, 'get')
+
+    //Give a new desired behaviour to getUserStub
+    getUserStub.withArgs(0).returns({ name: 'Fred' })
+    getUserStub.withArgs(1).returns({ name: 'Barney' })
+    getUserStub.withArgs(2).returns({ name: 'Dave' })
+
+    var users = getUsers(userService)
+    users[0].name.should.equal('Barney')
+    users[1].name.should.equal('Dave')
+    users[2].name.should.equal('Fred')
+
+  })
+
+})
+
+Sinon is also really good at testing code that needs to happen after a certain amount of time has passed using its "Fake Timers"
+
+4) Other tools
+
+node-sandboxed-module (https://github.com/felixge/node-sandboxed-module): It uses the Node.js Virtual Machine (VM) module to run a module in a totally new V8 context, and then load in replacement required modules. 
+
+nock (https://github.com/pgte/nock): Sometimes in your tests you need to mock the response from a HTTP request. Nock makes this really easy and does it in a completely unobtrusive manner.
+
+supertest (https://github.com/visionmedia/supertest): It makes testing HTTP servers and Express applications super easy.
+
+rewire(https://github.com/jhnns/rewire/): Rewire is a dependency injector which has been designed to modify the behaviour of a module such that you can easily inject mocks and manipulate private variables. This might sound like quite a powerful and potentially dangerous tool, and it is, however it can be very useful when you have code that looks something like this:
+
+var fs = require('fs')
+
+module.exports = function doesFileExist(callback) {
+
+    fs.exists('/tmp/myfile', function (error, exists) {
+        if (exists) {
+            callback(error, true)
+        } else {
+            callback(error, false)
+        }
+    }) 
+
+}
+
+To test this module, and its two possible paths of execution, you could create a test that sets up some fixtures where the file exists, and then have a test that actually tests the file system, and then setup another test where the file doesn't exist to test the other path, or you could use Rewire:
+
+var rewire = require('rewire')
+  , doesFileExist = rewire('./doesFileExist')
+
+describe('doesFileExist', function () {
+
+  it('should return true when file exists', function () {
+
+    doesFileExist.__set__(
+      { fs: 
+        { exists: function (path, callback) {
+            callback(null, true)
+          }
+        }
+      }
+    )
+
+    doesFileExist(function (error, exists) {
+      exists.should.equal(true, 'file does not exist')
+    })
+
+  })
+
+  it('should return false when the file does not exist', function () {
+
+    doesFileExist.__set__(
+      { fs: 
+        { exists: function (path, callback) {
+            callback(null, false)
+          }
+        }
+      }
+    )
+
+    doesFileExist(function (error, exists) {
+      exists.should.equal(false, 'files exists')
+    })
+
+  })
+
+})
+
+Now obviously this is a very contrived example, but it illustrates the point quite well. We just override the fs module within our module under test and pass in a mocked exists function, negating the need for us to actually mess with the file system at all.
+
+5) Code Analysis
+
+Test Code Coverage Report
+-------------------------
+
+Istanbul (https://github.com/gotwarlost/istanbul): Having tests is all well and good, however knowing how much of your codebase is covered by your tests is even better. Istanbul does a great job of providing this information, it reports on line coverage, statement coverage, function coverage and the most important metric, branch coverage. 
+
+
+Code Errors Detection Report
+----------------------------
+
+JSHint (https://github.com/jshint/jshint/, https://github.com/gruntjs/grunt-contrib-jshint):Every Javascript developer should already be aware of JSHint. It is a Static Code analysis tool that helps detect errors and potential problems with your code, helping spot those little syntax errors in our code whilst we are writing it, not when we come to run it.
+
+JSCS (https://github.com/mdevils/node-jscs): another Static Code Analysis tool that works in a very similar manner to JSHint. However, whereas JSHint is fairly non-opinionated and it mostly checking for syntax errors and general programming bad practices, JSCS allows you to be highly opinionated and set a series of coding standards that have to be adhered to across your project. For example, it allows you to dictate that comma first must be used, a new line must exist at the end of your files and that combining your var declarations is a must. It is also highly customisable in that you can create your own rules if you so choose.
+
+Others: JSLint(http://www.jslint.com/),  Google Closure Linter,  JavaScript Lint (http://www.javascriptlint.com/)
+
+5) Conclusion
+
+Compared to other environments (Rails, Pyramid, Django, etc) there is a bit more leg work to getting your tests started with Node.JS. Other environments offer a bit more of a unified, pre-baked testing setup. It is perfectly feasable to write a very comprehensive test suite for your application, employing unit tests, integration tests (optionally with mocks) and fullblown, full-stack functional tests. However .... we still miss pytest(http://pytest.org/latest/) similar testing tool in NodeJS.
+
+In Node, our testing tool is actually NPM. A typical scripts directive inside the package JSON file looks something similar to this:
+
+"scripts": {
+  "lint": "./node_modules/.bin/jshint . --reporter=./node_modules/jshint-full-path/index.js",
+  "checkStyle": "./node_modules/.bin/jscs .",
+  "pretest": "npm run-script lint && npm run-script checkStyle",
+  "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive -R spec -r should",
+  "posttest": "./node_modules/.bin/istanbul check-coverage && rm -rf coverage"
+}
+
+whenever we want to run all the tests and QA processes on our project we just run: npm run
+
+I'm sure that in the relatively near future, people in the Node community will begin settling on tools and libraries and things will consolidate a bit more. This should make it easier for newcomers like myself to know where to start. Tests FTW!
+
+
+
+

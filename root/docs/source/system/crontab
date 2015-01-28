@@ -1,0 +1,34 @@
+# List cron jobs for each user
+
+> for user in $(cut -f1 -d: /etc/passwd); do echo $user; crontab -u $user -l; done> 
+
+# List cron jobs for current user
+
+> crontab -l
+
+# Edit cron jobs(add, delete, change):
+
+> crontab -e
+
+# Crontab log
+
+tail -f /var/log/syslog
+
+# Create Cron job entry for dumping(exporting) database and automatically starting up the server  after the machine reboots:
+
+> sudo apt-get install zip
+// just in case: chmod a+x /var/www/kalzate/root/scripts/dbdump.sh 
+> crontab -e
+@reboot /var/www/kalzate/server/server.bash
+* 22 * * * kalzate /var/www/kalzate/root/scripts/dbdump.sh >/dev/null 2>&1
+# Example to run command every 5 minutes always:
+*/5 * * * * /bin/date >> /tmp/date
+# Other alternatives it might work:
+5 * * * * /bin/date >> /tmp/date
+/5 * * * * /bin/date >> /tmp/date
+> sudo service cron start
+
+# Interesting services
+http://crontab-generator.org/
+https://www.easycron.com/
+https://www.setcronjob.com/

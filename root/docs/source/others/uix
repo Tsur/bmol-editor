@@ -1,0 +1,11 @@
+
+
+CSS Icons Resources
+
+http://fontello.com/
+
+https://icomoon.io/
+
+http://glyphicons.com/
+
+To use the full set of icons, you will need to add the provided classes to your glyphicons.less or bootstrap.css file. I searched on glyphicons.com and found the building icon uses UTF+E090, so you will need to add .glyphicon-building { &:before { content: "\e090"; } }
