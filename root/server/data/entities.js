@@ -79,13 +79,13 @@ var register = {
 
 //Grounds
 register.ground([1], 10, 'Grass');
-register.ground([112], 15, 'Dark Wood');
-register.ground([223], 15, 'Bright Wood');
-register.ground([270], 10, 'Stone Ground');
-register.ground([281], 15, 'Soil Ground');
-register.ground([292], 15, 'Mud Ground');
-register.ground([303], 15, 'Black Stone Ground');
-register.ground([314], 15, 'White Stone Ground');
+register.ground([2], 15, 'Dark Wood');
+register.ground([3], 15, 'Bright Wood');
+register.ground([4], 10, 'Stone Ground');
+register.ground([5], 15, 'Soil Ground');
+register.ground([6], 15, 'Mud Ground');
+register.ground([7], 15, 'Black Stone Ground');
+register.ground([8], 15, 'White Stone Ground');
 register.ground([244, 245, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 258], 15, 'Grass');
 register.ground([157, 168, 179, 190, 201, 212, 224, 235, 246], 15, 'Soil');
 
