@@ -37,7 +37,8 @@ _Route.create = function(url, handler) {
   url = utils.prependTo(url, '/');
 
   _Route.http('post', url, handler);
-  _Route.io(url.splice(1).replace(/\//gi, ':'), handler);
+
+  _Route.io(Array.prototype.splice.call(url, 1).join('').replace(/\//gi, ':'), handler);
 
 };
 
@@ -63,7 +64,7 @@ _Route.http = function() {
 
     var data = req.body;
 
-    handler(data, function(err, result) {
+    handler(req, data, function(err, result) {
 
       if (err) {
 
@@ -91,11 +92,12 @@ _Route.initIO = function(socket) {
 
     socket.on(command, function(data) {
 
-      _ioHandlers[command](data, function(err, result) {
+      handler(socket.handshake, data, function(err, result) {
 
         if (err) {
 
           return socket.emit(command + ':error', err);
+
         }
 
         socket.emit(command + ':end', result);

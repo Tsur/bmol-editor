@@ -12,7 +12,11 @@ module.exports = function(app) {
 
   // Routes.create('api/dashboard/summary', dashboard.summary);
 
-  Routes.http('/api/bmol/data', core.entities);
+  Routes.create('api/bmol/entities', core.entities);
+
+  Routes.create('api/bmol/palette', core.palette);
+
+  // Routes.http('/api/bmol/data', core.entities);
 
   // Routes.io('api:dashboard:summary', dashboard.summary);
 

@@ -86,6 +86,6 @@ module.exports = function(db) {
   // Enable auth
   // require('./auth/init')();
 
-  return http;
+  return server;
 
 };

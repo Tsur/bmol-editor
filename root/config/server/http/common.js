@@ -43,6 +43,8 @@ module.exports = function(app, db) {
   // Passing the request url to environment locals
   app.use(function(req, res, next) {
 
+    // Allow connections from everywhere
+    // res.header('Access-Control-Allow-Origin', "*")
     res.locals.url = req.protocol + '://' + req.headers.host + req.url;
     next();
 
