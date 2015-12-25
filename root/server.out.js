@@ -2,13 +2,13 @@
 
 var express = require('express')
 var path = require('path');
-// Bootstrap db connection
-require('mongoose').connect('mongodb://localhost/bmol-dev', function(err) {
-
-  if (err) {
-
-    return console.error('Could not connect to MongoDB', err);
-  }
+// // Bootstrap db connection
+// require('mongoose').connect('mongodb://localhost/bmol-dev', function(err) {
+//
+//   if (err) {
+//
+//     return console.error('Could not connect to MongoDB', err);
+//   }
 
   // Bootstrap the server application
   var app = express();
@@ -43,18 +43,18 @@ require('mongoose').connect('mongodb://localhost/bmol-dev', function(err) {
   // Start the app by listening on <port>
   require('http').Server(app).listen(9090);
 
-});
+// });
 
 // If the Node process ends, close the Mongoose connection
-process.on('SIGINT', function() {
-
-  require('mongoose').connection.close(function() {
-
-    console.log(
-      'Mongoose default connection "%s" disconnected after server termination');
-
-    process.exit(0);
-
-  });
-
-});
+// process.on('SIGINT', function() {
+//
+//   require('mongoose').connection.close(function() {
+//
+//     console.log(
+//       'Mongoose default connection "%s" disconnected after server termination');
+//
+//     process.exit(0);
+//
+//   });
+//
+// });

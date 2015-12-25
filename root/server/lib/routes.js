@@ -38,7 +38,7 @@ _Route.create = function(url, handler) {
 
   _Route.http('post', url, handler);
 
-  _Route.io(Array.prototype.splice.call(url, 1).join('').replace(/\//gi, ':'), handler);
+  // _Route.io(Array.prototype.splice.call(url, 1).join('').replace(/\//gi, ':'), handler);
 
 };
 
