@@ -1,0 +1,196 @@
+<div id="app-menu" data-ng-controller="MenuCtrl">
+
+  <div class="ui left visible vertical inverted sidebar labeled icon menu kz-menu-index">
+
+      <a title="home" class="item kz-menu-item" data-ui-sref="index"><i class="paint brush icon"></i></a>
+      <a title="ticket" class="item kz-menu-item" data-ui-sref="sales"><i class="home icon"></i></a>
+      <a title="stock" class="item kz-menu-item" data-ui-sref="stock"><i class="bug icon"></i></a>
+      <!-- <a title="users" class="item kz-menu-item"><i class="users icon"></i></a> -->
+      <a title="settings" class="item kz-menu-item bottom"><i class="settings icon"></i></a>
+
+  </div>
+
+  <div class="ui menu icon left vertical visible sidebar kz-menu-container">
+
+      <div class="kz-menu-header"><span class="kz-menu-header-text">RME <i class="help circle icon"></i></span></div>
+
+      <div class="kz-menu-content">
+
+        <div class="col-xs-2 col-md-2">
+           <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Tile Set</h3>
+              </div>
+              <div class="panel-body">
+                <div data-file-dropzone="['*']" data-on-file="sprFile.onFile(file)" data-file-input="true" data-upload-file-text="Drop SPR file &hellip;" data-on-file-error="sprFile.onFileError(err)" data-on-file-loading="sprFile.onFileLoading()" data-read-file-as="buffer" style="text-align:center"></div>
+                <div ng-show="sprFile.error" class="alert alert-danger">
+                  <p class="text-center">El fichero no se pudo cargar</p>
+                </div>
+                <div ng-show="sprFile.loading" class="progress progress-striped active">
+                  <div class="progress-bar" style="width: 100%">
+                  </div>
+                </div>
+                <div ng-show="sprFile.loaded" id="tile-select">
+                  <ul class="raw">
+                  </ul>
+                  <ul class="grounds" data-display-tiles="sprFile.groundsRange">
+                  </ul>
+                  <ul class="ornaments">
+                  </ul>
+                  <ul class="objects">
+                  </ul>
+                  <ul class="npcs">
+                  </ul>
+                  <ul class="meta">
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div id="map-tools">
+                <div class="dropdown">
+                    <!--
+                    <button data-toggle="dropdown" type="button" class="btn btn-sm btn-default">
+                    TileSet <span class="caret"></span>
+                    </button>
+                    -->
+                    <button id="import-tileset" type="button" class="btn btn-sm btn-success">
+                      <span class="glyphicon glyphicon-import"></span>
+                    </button>
+                    <button id="delete-tile" type="button" class="btn btn-sm btn-danger">
+                      <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                    <!--
+                    <ul id="tile-dropdown-menu" class="dropdown-menu">
+                      <li rel="grounds"><a>Grounds</a></li>
+                      <li rel="ornaments"><a>Ornaments</a></li>
+                      <li rel="objects"><a>Objects</a></li>
+                      <li rel="npcs"><a>NPC's</a></li>
+                      <li rel="meta"><a>Meta</a></li>
+                    </ul>
+                    -->
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xs-8 col-md-8">
+            <div id="map-grid-parent">
+              <!-- <bmol-base-map></bmol-base-map> -->
+              <canvas bmol-base-map="size"></canvas>
+            </div>
+        </div>
+        <div class="col-xs-2 col-md-2">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Map Layers</h3>
+              </div>
+              <div class="panel-body" id="map-layers">
+                <label><input type="radio" name="map-layers" value="map-grid-base" rel="grounds" checked/> Base</label>
+                <label><input type="radio" name="map-layers" value="map-grid-objects" rel="objects"/> Objects</label>
+                <label><input type="radio" name="map-layers" value="map-grid-ornaments" rel="ornaments"/> Ornaments</label>
+                <label><input type="radio" name="map-layers" value="map-grid-npc" rel="npcs"/> Npc</label>
+                <label><input type="radio" name="map-layers" value="map-grid-meta" rel="meta"/> Meta</label>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Meta Info</h3>
+              </div>
+              <div class="panel-body">
+                <input type="text" placeholder="Message" class="form-control" id="meta-info"/>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Map Actions</h3>
+              </div>
+              <div class="panel-body">
+                <button id="map-save" type="button" class="btn btn-sm btn-info">
+                      <span class="glyphicon glyphicon-save"></span>
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+
+  </div>
+
+  <div class="ui menu icon left vertical sidebar kz-menu-container">
+
+      <div class="kz-menu-header"><span class="kz-menu-header-text"> RME-JS <i class="help circle icon"></i></span></div>
+
+      <div class="kz-menu-content">
+        <span class="ui-tit_white"> GETTING STARTED </span>
+
+        <ul class="ui-level1">
+
+            <li class=""> <a href="#"> About </a> </li>
+            <li class=""> <a href="#"> Show me the data! </a> </li>
+            <!--<li> <a href="#"> Give me a tour </a> </li>-->
+            <!--<li> <a href="#"> VIP Area</a> </li>-->
+            <!--<li> <a href="#"> Run a demo</a> </li>-->
+            <!--<li><p> ITRSInsights 1.0.0 |  lit by VALO  0.9.0-SNAPSHOT</p></li>-->
+
+        </ul>
+
+        <span class="ui-tit_white">HELP AND GUIDANCE</span>
+
+        <div class="ui-icons">
+            <!--<img src="images/menu/icon_plus1.svg"  onmouseover="this.src='images/menu/icon_plus2.svg';" onmouseout="this.src='images/menu/icon_plus1.svg';" onclick="this.src='images/menu/icon_plus3.svg';"/>-->
+        </div>
+
+        <ul class="ui-level2">
+
+            <li> Commands</li>
+            <li> Interactions</li>
+            <li class=""> Queries</li>
+            <li class=""> Working with Notebooks</li>
+            <!--<li> Working with Dashboards</li>-->
+
+        </ul>
+
+        <ul class="ui-level2">
+
+            <li class="">Licensed by ITRS GROUP LTD</li>
+            <ul class="ui-level3">
+                <!--<li>Terms of Service</li>-->
+                <!--<li>Privacy Policy</li>-->
+            </ul>
+
+        </ul>
+
+      </div>
+
+  </div>
+
+  <div class="ui menu icon left vertical sidebar kz-menu-container">
+
+      <div class="kz-menu-header"><span class="kz-menu-header-text"> STOCK <i class="cube icon"></i></span></div>
+
+      <div class="kz-menu-content">
+
+        <span class="ui-tit_white" title="print stock"><i class="print icon"></i></span>
+        <span class="ui-tit_white" title="import stock"><i class="download icon"></i></span>
+        <span class="ui-tit_white" title="export stock"><i class="upload icon"></i></span>
+        <span class="ui-tit_white kz-right" title="add new stock" data-ui-sref="createStock"><i class="add circle icon"></i></span>
+
+        <ul class="ui-level1"></ul>
+
+        <span class="ui-tit_white">Brand X</span>
+
+        <ul class="ui-level2">
+
+            <li> <i class="cubes icon"></i> Size 36</li>
+            <li> Size 37</li>
+            <li> Size 38</li>
+            <li> Size 41</li>
+            <!--<li> Working with Dashboards</li>-->
+
+        </ul>
+
+        <input type="text" class="kz-menu-search-input" placeholder="Search...">
+
+      </div>
+
+  </div>
+
+</div>

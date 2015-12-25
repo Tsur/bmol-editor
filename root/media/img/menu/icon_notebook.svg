@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="23px" height="21px" viewBox="0 0 23 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>icon notebook</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="structure" sketch:type="MSArtboardGroup" transform="translate(-33.000000, -137.000000)">
+            <g id="MENÚ-SIDEBAR" sketch:type="MSLayerGroup" transform="translate(0.000000, -10.000000)">
+                <g id="icon-notebook" transform="translate(33.800000, 147.000000)" sketch:type="MSShapeGroup">
+                    <rect id="Rectangle-598" fill="#EFEFEF" x="0" y="0" width="22" height="21"></rect>
+                    <rect id="Rectangle-599" fill="#464D51" x="4" y="5" width="14" height="2" rx="1"></rect>
+                    <rect id="Rectangle-599-Copy" fill="#464D51" x="4" y="9" width="14" height="2" rx="1"></rect>
+                    <rect id="Rectangle-599-Copy-2" fill="#464D51" x="4" y="13" width="10" height="2" rx="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

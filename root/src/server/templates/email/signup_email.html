@@ -1,0 +1,32 @@
+<!-- 
+GMAIL and other email client services does not support style head tag, use inline instead 
+check https://www.campaignmonitor.com/css/
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href='http://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class="outer_container">
+		<div class="inner_container">
+			<div class="content" style="color: #485c6b;font-size: 18px;font-family: 'Josefin Slab', 'Sans Serif', cursive;">
+				<p>Hola {{_user.firstname}},</p>
+				<p>
+					Parece que este es tu primer día en el curro, así que antes que nada &#8230; ¡déjame darte la enhorabuena!
+				</p>
+				<p>
+					Sinceramente deseamos que durante el tiempo que estés con nosotros lo pases bien y aunque el trabajo, al fin y al cabo, sea trabajo, queremos que sea lo más llevadero posible, que te sientas cómod@ y que estés a gusto. Justo aquí debajo dispones de los datos que necesitarás para poder ingresar en la aplicación:
+				</p>
+				<div>
+					<p>Nombre de usuari@: <strong>{{_user.username}}</strong></p>
+					<p>Contraseña: <strong>{{password}}</strong></p>
+				</div>
+				<p>Attn. La Familia Kalzada ;)</p>
+				{% include 'email_signature.html' %}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.2 (15857) - http://www.bohemiancoding.com/sketch -->
+    <title>Line</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="SIDEBAR" sketch:type="MSArtboardGroup" transform="translate(-127.000000, -1187.000000)" stroke-linecap="square" stroke="#E4E3E3">
+            <g id="ESTADOS" sketch:type="MSLayerGroup" transform="translate(127.000000, 907.000000)">
+                <g id="Rectangle-627-Copy-+-Line-+-Line-Copy-2-Copy" transform="translate(1.000000, 281.000000)" sketch:type="MSShapeGroup">
+                    <path d="M0,11.5 C0,5.14872538 5.14732891,0 11.5,0 L11.5,0 C17.8512746,0 23,5.14732891 23,11.5 L23,11.5 C23,17.8512746 17.8526711,23 11.5,23 L11.5,23 C5.14872538,23 0,17.8526711 0,11.5 L0,11.5 Z M11.5,7.5 L11.5,15.5 M15.5,11.5 L7.5,11.5" id="Line"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

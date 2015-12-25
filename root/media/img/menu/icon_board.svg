@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="20px" height="16px" viewBox="0 0 20 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.2 (15857) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="SIDEBAR" sketch:type="MSArtboardGroup" transform="translate(-195.000000, -916.000000)" fill="#363A3D">
+            <g id="ESTADOS" sketch:type="MSLayerGroup" transform="translate(102.000000, 902.000000)">
+                <path d="M95,14 C93.9,14 93,14.9 93,16 L93,28 C93,29.1 93.9,30 95,30 L111,30 C112.1,30 113,29.1 113,28 L113,18 C113,16.9 112.1,16 111,16 L103,16 L101,14 L95,14 Z" id="Shape-Copy" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

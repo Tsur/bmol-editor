@@ -1,0 +1,51 @@
+#app-stock {
+  margin-bottom: 80px;
+}
+#app-stock .panel-custom {
+  background-color: #7c9cb2;
+  border-color: #b3c9e5;
+}
+#app-stock .panel-custom .panel-heading,
+#app-stock .panel-custom .panel-footer {
+  background-color: #7c9cb2;
+  border-color: #b3c9e5;
+}
+#app-stock .panel-custom h3 {
+  position: relative;
+  top: 5px;
+  font-size: 25px;
+  font-family: 'Reenie Beanie', 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+}
+#app-stock input,
+#app-stock span.input-group-addon,
+#app-stock select,
+#app-stock .btn-custom-default,
+#app-stock .btn-custom-default:focus {
+  -webkit-transition: background-color 0.5s;
+  /* For Safari 3.1 to 6.0 */
+  transition: background-color 0.5s;
+  background-color: #637b8c;
+  border: 1px solid #b3c9e5;
+  color: white;
+}
+#app-stock .btn-custom-default:hover {
+  -webkit-transition: background-color 0.5s;
+  /* For Safari 3.1 to 6.0 */
+  transition: background-color 0.5s;
+  background-color: #253c54;
+  border: 1px solid #b3c9e5;
+  color: white;
+}
+#app-stock input:disabled,
+#app-stock .btn-custom-default:disabled {
+  color: #fff;
+  background-color: #6C8699;
+  border: 1px solid #b3c9e5;
+}
+#app-stock input::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: white;
+}
+#app-stock table.table-custom td {
+  background-color: #7c9cb2;
+}

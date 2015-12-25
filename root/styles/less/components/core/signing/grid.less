@@ -1,0 +1,251 @@
+// Wallpaper Image
+.background-image
+{
+  position:absolute;
+  z-index:0;
+  width:100%;
+  height:100%;
+  bottom:0;
+  left:0;
+  padding-bottom: 45px;
+}
+
+// Background overlap layer
+.background-image-overlap
+{
+  position:absolute;
+  z-index:1;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  overflow:hidden;
+}
+
+// Github
+.github_badge
+{
+  background-color: #627b8e;
+  overflow: hidden;
+  /* top left corner */
+  position: fixed;
+  right: -3em;
+  top: 2.5em;
+  /* 45 deg ccw rotation */
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  /* shadow */
+  -webkit-box-shadow: 0 0 2px #000;
+  -moz-box-shadow: 0 0 2px #000;
+  box-shadow: 0 0 2px #303030;
+  z-index: 100;
+}
+
+.github_badge a
+{
+  border: 1px solid #7c9cb2;
+  color: #303030;
+  display: block;
+  font: 81.25% 'Reenie Beanie', 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+  font-size:20px;
+  margin: 1px 0 1px 0;
+  padding: 6px 40px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 0.8em #444444;
+}
+
+/*
+span.github_icon
+{
+  background-image: url('../img/signin/github-24.png');
+  width:24px;
+  height:24px;
+  display:inline-block;
+  float:right;
+  position:relative;
+  top:-3px;
+  left:6px;
+}
+*/
+
+// Footer
+#footer
+{
+  position:absolute;
+  bottom:0;
+  height: 45px;
+  width:100%;
+  background-color: #627b8e;
+  box-shadow: -1px 0px 4px #000;
+  color:black;
+  overflow: hidden;
+  text-align:center;
+}
+
+#footer p
+{
+  color:black;
+  text-shadow: 1px 0px #606060;
+  font-family: 'Reenie Beanie', cursive;
+  font-size:20px;
+}
+
+@media all and (max-width: 680px)
+{
+  #footer .credit
+  {
+    visibility:hidden;
+  }
+}
+
+#footer .credit
+{
+  margin: 10px 0;
+}
+
+#footer .credit a
+{
+  color:#101010;
+  text-decoration: none;
+}
+
+// Center Panel
+.panel-security-check
+{
+  border-radius: 2px;
+  box-shadow: 0px 0px 5px #f4efef;
+  border:0;
+  opacity: .82;
+  filter: alpha(opacity=82); /* For IE8 and earlier */
+  width:450px;
+  height:320px;
+  top:50%;
+  left:50%;
+  margin-top:-182px;
+  margin-left:-225px;
+  position:absolute;
+  background-color: white;
+}
+
+.background-image-overlap canvas
+{
+  z-index:1;
+}
+
+/*#html5-icon
+{
+  background-image: url('../img/signin/html5-36.png');
+  width:36px;
+  height:36px;
+  float:left;
+  position:relative;
+  top:11px;
+  left:5px;
+  cursor:pointer;
+}*/
+
+.panel-security-check form
+{
+  padding-bottom: 25px;
+}
+
+.panel-security-check .btn-custom
+{
+  position: relative;
+  font-size: 16px;
+  height: 40px;
+  padding: 10px;
+  margin:20px 0;
+  border-radius: 2px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.panel-security-check input[type='submit'].btn-custom
+{
+  background-color:#7c9fd3;
+  -o-transition:.8s;
+  -ms-transition:.8s;
+  -moz-transition:.8s;
+  -webkit-transition:.8s;
+  /* ...and now for the proper property */
+  transition:.8s;
+
+}
+
+.panel-security-check input[type='submit'].btn-custom:hover
+{
+  background-color:#6d8ebc;
+  -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+  /* ...and now for the proper property */
+  transition:.5s;
+}
+
+.panel-security-check input[type='text'], .panel-security-check input[type='password'], .panel-security-check input[type='email']
+{
+  font-size: 15px;
+  color: #627b8e;
+}
+
+.panel-security-check .btn-custom:focus
+{
+  z-index: 2;
+  border-color: #627b8e;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(57, 128, 186, 0.6);
+  outline: 0 none;
+}
+
+.panel-security-check .logo-img
+{
+  //background-image: url(../img/logo.png);
+  //background-repeat: no-repeat;
+  //background-color: transparent;
+  //background-position: center;
+  margin-top:4px;
+  //display:block;
+  width:auto;
+  height:46px;
+}
+
+.panel-security-check .form-loading
+{
+  opacity: 0.4;
+}
+
+.panel-security-check .loading-svg
+{
+  background-image: url(../img/common/loading-cylon.svg);
+  background-repeat: no-repeat;
+  background-size: 64px 64px;
+  width:64px;
+  height:64px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin-top:-32px;
+  margin-left:-32px;
+}
+
+.panel-security-check .forgot-icon
+{
+  position:absolute;
+  top:155px;
+  left:405px;
+  font-size:18px;
+  color:#7c9fd3;
+  cursor:pointer;
+  z-index:10;
+}
+
+.forgot-form
+{
+  margin-top:45px;
+}

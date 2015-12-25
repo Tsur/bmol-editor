@@ -1,0 +1,109 @@
+@import url(http://fonts.googleapis.com/css?family=Reenie+Beanie|Anton);
+
+a
+{
+  text-decoration: none !important;
+}
+
+#main-container
+{
+  position:absolute;
+  top:0;
+  left:0;
+  min-height: 100%;
+  height: 100%;
+  width:100%;
+  min-width:100%;
+  overflow:hidden;
+
+  /* Comment below if bootstrap
+  bottom:0;
+  padding-bottom:45px;
+  height:auto;
+  min-height:auto;
+  display:block;*/
+}
+
+#app-menu {
+
+  height:100%;
+  width: 350px;
+  position: absolute;
+  overflow:hidden;
+  // border-right: 3px solid rgba(45, 83, 122, 0.7);
+
+}
+
+#app-menu footer{
+
+  height: 50px;
+  width: 100%;
+  background-color: #2d537a;
+  // background-color: #95bcd6;
+
+}
+
+#app-section {
+
+  position: absolute;
+  width: ~"calc(100% - 350px)";
+  height: 100%;
+  margin-left:350px;
+  overflow: auto;
+  background-color: @color-1;
+  border-left: 2px solid @color-4;
+
+  .kz-loading {
+
+      background-color: @color-1;
+  }
+
+  .kz-loading .loader{
+
+      color: #bbb;
+      font-size: 14px;
+  }
+
+  .kz-section-content .ui-map-grid-container{
+
+    margin-left: 10px;
+    position: absolute;
+    width: ~"calc(100% - 20px)";
+    height: ~"calc(100% - 50px)";
+    overflow: auto;
+    border-bottom: 2px solid #444;
+    border-right: 2px solid #444;
+
+  }
+
+}
+
+
+
+/* 404 */
+.server-error
+{
+  font-size: 35px;
+  color: black;
+  font-family: 'Reenie Beanie', cursive;
+  margin-top: 45px;
+}
+
+.text-medium-size
+{
+  font-size: 17px;
+}
+
+.content-page {
+
+  //width: ~"calc(100% - 250px)";
+  padding-top: 80px;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.kz-right{
+
+  float:right;
+
+}

@@ -1,0 +1,8 @@
+<form  ng-submit="signup()" data-ng-class="{'form-loading': loading}" novalidate>
+	<input type="text" placeholder="Nombre, Primer Apellido" class="form-control btn-custom" data-ng-model="fullname" data-ng-disabled="loading" tabindex="1" />
+	<input type="email" placeholder="Correo electrónico" class="form-control btn-custom" data-ng-model="email" data-ng-disabled="loading" tabindex="2" />
+	<input type="submit" class="btn btn-lg btn-primary btn-block btn-custom" value="Crear Cuenta" data-ng-disabled="loading" tabindex="3"/>
+	<div class="text-center text-medium-size" data-ng-hide="loading">
+		<small> En realidad ... <a class="text-primary" data-ui-sref="forgot">¡he olvidado mi contraseña!</a></small>
+	</div>
+</form>

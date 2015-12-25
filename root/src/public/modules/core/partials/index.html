@@ -1,0 +1,24 @@
+<section id="app-section">
+
+	<div class="kz-nav-menu">
+		<!-- <div class="ui pointing secondary menu">
+			<a class="item" data-tab="first">First</a>
+			<a class="item" data-tab="second">Second</a>
+			<a class="item active" data-tab="third">Third</a>
+		</div> -->
+	</div>
+
+	<div class="kz-section-content" data-ng-controller="MapCtrl">
+
+		<div data-ng-show="progress">
+		    <div class="ui active inverted dimmer kz-loading">
+			 		<div class="ui large text loader">You look fantastic!</div>
+		 		</div>
+		</div>
+
+		<div class="ui-map-grid-container" data-ng-show="!progress">
+		    <canvas data-base-map="size"></canvas>
+		</div>
+
+	</div>
+</section>

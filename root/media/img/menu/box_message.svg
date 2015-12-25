@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="70px" height="35px" viewBox="0 0 70 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 10 + Rectangle 11</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="SIDEBAR-MENÚ" sketch:type="MSArtboardGroup" transform="translate(-459.000000, -1192.000000)" fill="#44494B">
+            <g id="Rectangle-10-+-Rectangle-11-+-DELETE" sketch:type="MSLayerGroup" transform="translate(459.000000, 1192.000000)">
+                <g id="Rectangle-10-+-Rectangle-11" sketch:type="MSShapeGroup">
+                    <g>
+                        <rect id="Rectangle-10" x="0" y="0" width="70" height="30" rx="3"></rect>
+                        <path d="M39.4956718,25 L39.4956718,30.788211 C39.4956718,32.440816 38.1537322,33.780517 36.5042099,33.780517 L31,33.780517" id="Rectangle-11" transform="translate(35.247836, 29.390259) rotate(-315.000000) translate(-35.247836, -29.390259) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
