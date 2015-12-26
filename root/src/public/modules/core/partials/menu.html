@@ -16,8 +16,8 @@
 
       <div class="kz-menu-content">
 
-        <div class="ui-folderdrop-container">
-            <div ng-show="sprFile.error" class="ui-folderdrop-error">{{sprFile.errorMsg}}</div>
+        <div class="ui-folderdrop-container" data-ng-show="!sprFile.ready">
+            <div data-ng-show="sprFile.error" class="ui-folderdrop-error">{{sprFile.errorMsg}}</div>
             <div class="ui-folderdrop-label"
                  data-folder-drop="['*']"
                  data-container-text="DROP FOLDER WITH SPR AND DAT FILES HERE &hellip;"
@@ -34,7 +34,7 @@
   			 		<div class="ui large text loader"><span>Your head will be mine!</span></div>
   		 		</div>
         </div>
-        <div ng-show="sprFile.loaded" id="tile-select">
+        <div ng-show="sprFile.ready" id="tile-select">
           <div data-sui-dropdown class="ui fluid selection dropdown">
             <i class="dropdown icon"></i>
             <div class="default text">Select Palette</div>

@@ -2,23 +2,55 @@
 
 import settings from '../../../../settings/init';
 
-class SpriteManager {
+function loadSpritesMetadata(file){
 
-  constructor(){
+  this.dataFileSignature = file.getUint32(0, true);
+	this.itemCount = file.getUint16(4, true);
+	this.creatureCount = file.getUint16(6, true);
+	this.effectCount = file.getUint16(8, true);
+	this.distanceCount = file.getUint16(10, true);
+
+  // .dat file starts with id 100
+  const minClientID = 100;
+  // We don't load distance/effects, if we would, just add effect_count & distance_count here
+  const maxclientID = this.itemCount + this.creatureCount;
+
+  this.version = this.clients.getBySignature(this.dataFileSignature);
+
+}
+
+class SpritesManager {
+
+  constructor(ClientsVersion){
+
+    this.clients = ClientsVersion;
 
   }
 
-  static factory(){
+  load(data, cb){
 
-    return new SpriteManager();
+    loadSpritesMetadata.bind(this)(new DataView(data.dat.data));
+
+    cb();
+
+  }
+
+  getVersionInfo(){
+
+    return {dat: this.dataFileSignature, spr: this.sprFileSignature, version: this.version};
+  }
+
+  static factory(ClientsVersion){
+
+    return new SpritesManager(ClientsVersion);
 
   }
 
 }
 
-SpriteManager.factory.$inject = [];
+SpritesManager.factory.$inject = ['ClientsVersion'];
 
-export default SpriteManager;
+export default SpritesManager;
 
 //
 // angular.module('bmol.core')

@@ -21,6 +21,7 @@ import BaseMapDirective from './directives/basemap';
 
 // Import services
 import AuthService from './services/auth';
+import ClientsVersion from './services/clients_version';
 import CanvasManager from './services/canvas_manager';
 import SpritesManager from './services/sprites_manager';
 
@@ -53,6 +54,7 @@ export default function(){
 
   // Load services
   angular.module('core').factory('Auth', AuthService.factory);
+  angular.module('core').factory('ClientsVersion', ClientsVersion.factory);
   angular.module('core').factory('CanvasManager', CanvasManager.factory);
   angular.module('core').factory('SpritesManager', SpritesManager.factory);
 

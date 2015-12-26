@@ -4,13 +4,13 @@ import _ from 'lodash';
 
 class MenuPaletteCtrl {
 
-  constructor($scope){
+  constructor($scope, SpritesManager){
 
     $scope.sprFile = {
 
       loading: false,
       error: false,
-      loaded: false,
+      ready: false,
 
       onLoading: function() {
 
@@ -27,12 +27,26 @@ class MenuPaletteCtrl {
 
       onData: function(data) {
 
-        $scope.sprFile.loading = false;
         $scope.sprFile.error = false;
 
-        //
-        // $scope.sprFile.loading = false;
-        //
+        SpritesManager.load(data, error => {
+
+            $scope.sprFile.loading = false;
+
+            if(error){
+
+              $scope.sprFile.error = true;
+              return $scope.sprFile.errorMsg = error.message;
+
+            }
+
+            $scope.sprFile.ready = true;
+
+            console.log('start painting');
+
+
+        });
+
         // SpriteManager.loadSpr(file['data']);
         //
         // if (SpriteManager.sprLoaded() && SpriteManager.dataLoaded()) {
@@ -64,6 +78,6 @@ class MenuPaletteCtrl {
 
 }
 
-MenuPaletteCtrl.$inject = ['$scope'];
+MenuPaletteCtrl.$inject = ['$scope', 'SpritesManager'];
 
 export default MenuPaletteCtrl;
