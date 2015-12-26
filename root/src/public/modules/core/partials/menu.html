@@ -1,4 +1,4 @@
-<div id="app-menu" data-ng-controller="MenuCtrl">
+<div id="app-menu">
 
   <div class="ui left visible vertical inverted sidebar labeled icon menu kz-menu-index">
 
@@ -10,11 +10,79 @@
 
   </div>
 
-  <div class="ui menu icon left vertical visible sidebar kz-menu-container">
+  <div class="ui menu icon left vertical visible sidebar kz-menu-container" data-ng-controller="MenuPaletteCtrl">
 
       <div class="kz-menu-header"><span class="kz-menu-header-text">RME <i class="help circle icon"></i></span></div>
 
       <div class="kz-menu-content">
+
+        <div class="ui-folderdrop-container">
+            <div ng-show="sprFile.error" class="ui-folderdrop-error">{{sprFile.errorMsg}}</div>
+            <div class="ui-folderdrop-label"
+                 data-folder-drop="['*']"
+                 data-container-text="DROP FOLDER WITH SPR AND DAT FILES HERE &hellip;"
+                 data-container-class=""
+                 data-on-click="false"
+                 data-on-file="sprFile.onData(data)"
+                 data-on-file-error="sprFile.onError(err)"
+                 data-on-file-loading="sprFile.onLoading()"
+                 data-read-file-as="buffer">
+            </div>
+        </div>
+        <div ng-show="sprFile.loading">
+          <div class="ui active inverted dimmer kz-loading">
+  			 		<div class="ui large text loader"><span>Your head will be mine!</span></div>
+  		 		</div>
+        </div>
+        <div ng-show="sprFile.loaded" id="tile-select">
+          <div data-sui-dropdown class="ui fluid selection dropdown">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select Palette</div>
+            <div class="menu">
+              <div class="item" data-value="terrain">
+                <!-- <img class="ui mini avatar image" src="/images/avatar/small/jenny.jpg"> -->
+                Terrain Palette
+              </div>
+              <div class="item" data-value="doodad">
+                <!-- <img class="ui mini avatar image" src="/images/avatar/small/elliot.jpg"> -->
+                Doodad Palette
+              </div>
+              <div class="item" data-value="item">
+                <!-- <img class="ui mini avatar image" src="/images/avatar/small/stevie.jpg"> -->
+                Item Palette
+              </div>
+              <div class="item" data-value="house">
+                <!-- <img class="ui mini avatar image" src="/images/avatar/small/christian.jpg"> -->
+                House Palette
+              </div>
+              <div class="item" data-value="waypoint">
+                <!-- <img class="ui mini avatar image" src="/images/avatar/small/matt.jpg"> -->
+                Waypoint Palette
+              </div>
+              <div class="item" data-value="creature">
+                <!-- <img class="ui mini avatar image" src="/images/avatar/small/justen.jpg"> -->
+                Creature Palette
+              </div>
+              <div class="item" data-value="raw">
+                <!-- <img class="ui mini avatar image" src="/images/avatar/small/justen.jpg"> -->
+                Raw Palette
+              </div>
+            </div>
+          </div>
+          <ul class="raw">
+          </ul>
+          <ul class="grounds" data-display-tiles="sprFile.groundsRange">
+          </ul>
+          <ul class="ornaments">
+          </ul>
+          <ul class="objects">
+          </ul>
+          <ul class="npcs">
+          </ul>
+          <ul class="meta">
+          </ul>
+        </div>
+        <!--
 
         <div class="col-xs-2 col-md-2">
            <div class="panel panel-default">
@@ -48,33 +116,18 @@
             </div>
             <div id="map-tools">
                 <div class="dropdown">
-                    <!--
-                    <button data-toggle="dropdown" type="button" class="btn btn-sm btn-default">
-                    TileSet <span class="caret"></span>
-                    </button>
-                    -->
                     <button id="import-tileset" type="button" class="btn btn-sm btn-success">
                       <span class="glyphicon glyphicon-import"></span>
                     </button>
                     <button id="delete-tile" type="button" class="btn btn-sm btn-danger">
                       <span class="glyphicon glyphicon-remove"></span>
                     </button>
-                    <!--
-                    <ul id="tile-dropdown-menu" class="dropdown-menu">
-                      <li rel="grounds"><a>Grounds</a></li>
-                      <li rel="ornaments"><a>Ornaments</a></li>
-                      <li rel="objects"><a>Objects</a></li>
-                      <li rel="npcs"><a>NPC's</a></li>
-                      <li rel="meta"><a>Meta</a></li>
-                    </ul>
-                    -->
                 </div>
 
             </div>
         </div>
         <div class="col-xs-8 col-md-8">
             <div id="map-grid-parent">
-              <!-- <bmol-base-map></bmol-base-map> -->
               <canvas bmol-base-map="size"></canvas>
             </div>
         </div>
@@ -109,7 +162,7 @@
                 </button>
               </div>
             </div>
-        </div>
+        </div> -->
       </div>
 
   </div>

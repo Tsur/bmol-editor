@@ -11,13 +11,18 @@ import {registerModule} from '../../../common/helpers/angular';
 // import SigninCtrl from './controllers/signin';
 // import SignupCtrl from './controllers/signup';
 import MenuCtrl from './controllers/menu';
+import MenuPaletteCtrl from './controllers/menu_palette';
 import MapCtrl from './controllers/map';
 
 // Import directives
+import DropDownDirective from './directives/sui_dropdown';
+import FolderDropDirective from './directives/folderdrop';
 import BaseMapDirective from './directives/basemap';
 
 // Import services
 import AuthService from './services/auth';
+import CanvasManager from './services/canvas_manager';
+import SpritesManager from './services/sprites_manager';
 
 // Import routes
 import routes from './config/routes';
@@ -36,15 +41,20 @@ export default function(){
   // angular.module('core').controller('SigninCtrl', SigninCtrl);
   // angular.module('core').controller('SignupCtrl', SignupCtrl);
   angular.module('core').controller('MenuCtrl', MenuCtrl);
+  angular.module('core').controller('MenuPaletteCtrl', MenuPaletteCtrl);
   angular.module('core').controller('MapCtrl', MapCtrl);
 
   // Load directives
-  angular.module('core').directive('baseMap', BaseMapDirective.factory);
+  angular.module('core').directive('suiDropdown', DropDownDirective);
+  angular.module('core').directive('folderDrop', FolderDropDirective);
+  angular.module('core').directive('baseMap', BaseMapDirective);
 
   // Load filters
 
   // Load services
   angular.module('core').factory('Auth', AuthService.factory);
+  angular.module('core').factory('CanvasManager', CanvasManager.factory);
+  angular.module('core').factory('SpritesManager', SpritesManager.factory);
 
   // Load routes
   angular.module(settings.applicationModuleName).config(routes);

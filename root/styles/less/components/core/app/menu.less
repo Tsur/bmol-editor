@@ -296,6 +296,38 @@ nav
       overflow: auto;
       color: #bbb;
 
+      .ui-folderdrop-container{
+
+        height: ~"calc(100% - 20px)";
+        margin: 10px;
+        border: 1px dashed #bbb;
+        text-align: center;
+        padding: 20px;
+        display: table;
+        background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='120px'><text x='12' y='30' fill='grey' fill-opacity='0.4' font-size='10'>Drop folder here!</text></svg>");
+
+      }
+
+      .ui-folderdrop-label {
+
+        display: table-cell;
+        vertical-align: middle;
+        transform: rotate(335deg);
+        font-family: 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+
+      }
+
+      .ui-folderdrop-error{
+
+        position: absolute;
+        background-color: @color-4;
+        border: 2px solid #913d3d;
+        padding: 9px;
+        text-align: center;
+        color: #913d3d;
+
+      }
+
 
           .ui-tit_white {
 

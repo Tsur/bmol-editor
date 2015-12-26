@@ -12,6 +12,8 @@ window.onload = event => {
 
     window.jQuery = window.$ = jquery;
 
+    require('../../node_modules/semantic-ui-css/semantic.min.js');
+
     initApplication();
     initCoreModule();
 

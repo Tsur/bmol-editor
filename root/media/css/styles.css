@@ -11,27 +11,6 @@
    Bootstrap related variables.
    ========================================================================== */
 @import url(http://fonts.googleapis.com/css?family=Reenie+Beanie|Anton);
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(../fonts/open-sans.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 600;
-  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(../fonts/open-sans-semibold.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url(../fonts/open-sans-light.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-}
 .ui.labeled.icon.menu .item {
   min-width: 5.8em;
 }
@@ -94,8 +73,7 @@ a {
   width: calc(100% - 20px);
   height: calc(100% - 50px);
   overflow: auto;
-  border-bottom: 2px solid #444;
-  border-right: 2px solid #444;
+  border: 1px solid #444;
 }
 /* 404 */
 .server-error {
@@ -345,6 +323,29 @@ nav {
   color: #bbb;
   /*Why can I change the opacity? */
   /* Level 2 */
+}
+#app-menu .kz-menu-container .kz-menu-content .ui-folderdrop-container {
+  height: calc(100% - 20px);
+  margin: 10px;
+  border: 1px dashed #bbb;
+  text-align: center;
+  padding: 20px;
+  display: table;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='120px'><text x='12' y='30' fill='grey' fill-opacity='0.4' font-size='10'>Drop folder here!</text></svg>");
+}
+#app-menu .kz-menu-container .kz-menu-content .ui-folderdrop-label {
+  display: table-cell;
+  vertical-align: middle;
+  transform: rotate(335deg);
+  font-family: 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+}
+#app-menu .kz-menu-container .kz-menu-content .ui-folderdrop-error {
+  position: absolute;
+  background-color: #333535;
+  border: 2px solid #913d3d;
+  padding: 9px;
+  text-align: center;
+  color: #913d3d;
 }
 #app-menu .kz-menu-container .kz-menu-content .ui-tit_white {
   font-family: Lato-Black, sans-serif;
