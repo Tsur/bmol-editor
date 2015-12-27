@@ -41,6 +41,7 @@ class MenuPaletteCtrl {
             }
 
             $scope.sprFile.ready = true;
+            debugger;
 
             console.log('start painting');
 
