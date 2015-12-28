@@ -16,6 +16,7 @@ import MapCtrl from './controllers/map';
 
 // Import directives
 import DropDownDirective from './directives/sui_dropdown';
+import AccordionDirective from './directives/sui_accordion';
 import FolderDropDirective from './directives/folderdrop';
 import BaseMapDirective from './directives/basemap';
 
@@ -46,6 +47,7 @@ export default function(){
   angular.module('core').controller('MapCtrl', MapCtrl);
 
   // Load directives
+  angular.module('core').directive('suiAccordion', AccordionDirective);
   angular.module('core').directive('suiDropdown', DropDownDirective);
   angular.module('core').directive('folderDrop', FolderDropDirective);
   angular.module('core').directive('baseMap', BaseMapDirective);

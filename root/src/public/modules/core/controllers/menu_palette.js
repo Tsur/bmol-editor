@@ -6,6 +6,8 @@ class MenuPaletteCtrl {
 
   constructor($scope, SpritesManager){
 
+    $scope.manager = SpritesManager;
+
     $scope.sprFile = {
 
       loading: false,
@@ -29,6 +31,24 @@ class MenuPaletteCtrl {
 
         $scope.sprFile.error = false;
 
+        SpritesManager.load(data);
+
+        $scope.terrainPalette = [
+
+          SpritesManager.id(100).spriteList[0].id,
+          SpritesManager.id(101).spriteList[0].id,
+          SpritesManager.id(103).spriteList[0].id,
+          SpritesManager.id(104).spriteList[0].id,
+          SpritesManager.id(106).spriteList[0].id
+
+        ];
+
+        $scope.sprFile.loading = false;
+        $scope.sprFile.ready = true;
+
+
+        /*
+
         SpritesManager.load(data, error => {
 
             $scope.sprFile.loading = false;
@@ -47,6 +67,8 @@ class MenuPaletteCtrl {
 
 
         });
+
+        */
 
         // SpriteManager.loadSpr(file['data']);
         //

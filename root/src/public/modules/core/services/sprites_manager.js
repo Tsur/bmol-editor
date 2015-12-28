@@ -1,6 +1,121 @@
 'use strict';
 
 import settings from '../../../../settings/init';
+import BufferReader from 'buffer-reader';
+import PNGImage from 'pngjs-image';
+
+function createPNG(size) {
+  const image = PNGImage.createImage(size, size);
+  for(let i = 0; i < 32; i++) {
+    for(let j = 0; j < 32; j++) {
+      // image.setPixel(i, j, {red: 255, green: 0, blue: 255, alpha: 255});
+      image.setPixel(i, j, {red: 0, green: 0, blue: 0, alpha: 0});
+    }
+  }
+
+  return image;
+}
+
+class SpritesManager {
+
+  constructor(){
+
+  }
+
+  spr(id, le) {
+
+    if (this._spr[id]) return this._spr[id];
+
+    const size = 32;
+
+    const image = createPNG(size);
+    const formula = 6 + (id - 1) * 4;
+
+    this._spr_buffer.seek(formula);
+
+    const address = this._spr_buffer.nextUInt32LE();
+
+    if (address == 0) throw new Error('invalid id', id);
+
+    this._spr_buffer.seek(address);
+
+    // Skipping color key.
+    this._spr_buffer.move(3);
+
+    const offset = this._spr_buffer.tell() + this._spr_buffer.nextUInt16LE();
+
+    let currentPixel = 0;
+
+    while(this._spr_buffer.tell() < offset) {
+
+      const transparentPixels = this._spr_buffer.nextUInt16LE();
+      const coloredPixels = this._spr_buffer.nextUInt16LE();
+
+      currentPixel += transparentPixels;
+
+      for (let i = 0; i < coloredPixels; i++){
+
+        image.setPixel(
+          parseInt(currentPixel % size),
+          parseInt(currentPixel / size),
+          {red:this._spr_buffer.nextUInt8(), green:this._spr_buffer.nextUInt8(), blue:this._spr_buffer.nextUInt8(), alpha:255});
+
+        currentPixel++;
+      }
+    }
+
+
+    // const img_64 = String.fromCharCode.apply(null, image.toBlobSync());
+    // this._spr[id] = 'data:image/png;base64,' + btoa(img_64);
+
+    this._spr[id] = 'data:image/png;base64,' + image.toBlobSync().base64Slice(0, image.toBlobSync().byteLength);
+
+    return this._spr[id];
+
+  }
+
+  id(id){
+
+    return this._dat[id];
+  }
+
+  load(data){
+
+    this._spr_buffer = new BufferReader(new Buffer(data.spr.data));
+    this._dat_buffer = new BufferReader(new Buffer(data.dat.data));
+
+    this.info = {
+
+      sprSignature: this._spr_buffer.nextUInt32LE(),
+      sprSize: this._spr_buffer.nextUInt16LE(),
+
+      datSignature: this._dat_buffer.nextUInt32LE(),
+      datSize: {
+
+      	itemCount: this._dat_buffer.nextUInt16LE(),
+      	creatureCount: this._dat_buffer.nextUInt16LE(),
+      	effectCount: this._dat_buffer.nextUInt16LE(),
+      	distanceCount: this._dat_buffer.nextUInt16LE()
+      }
+    };
+
+    this._spr = {};
+    this._dat = loadSpritesMetadata(this._dat_buffer, this.info.datSize.itemCount + this.info.datSize.creatureCount);
+
+  }
+
+  static factory(){
+
+    return new SpritesManager();
+
+  }
+
+}
+
+SpritesManager.factory.$inject = [];
+
+export default SpritesManager;
+
 
 const DatFlagGround = 0;
 const DatFlagGroundBorder = 1;
@@ -43,85 +158,53 @@ const DatFlagNoMoveAnimation = 253; // 10.10: real value is 16, but we need to d
 const DatFlagChargeable = 254;
 const DatFlagLast = 255;
 
-function loadSpritesMetadata(file){
+function loadSpritesMetadata(file, toID){
 
-  this._data = {};
-
-  this.dataFileSignature = file.getUint32(0, true);
-	this.itemCount = file.getUint16(4, true);
-	this.creatureCount = file.getUint16(6, true);
-	this.effectCount = file.getUint16(8, true);
-	this.distanceCount = file.getUint16(10, true);
+  const data = {};
 
   // .dat file starts with id 100
   const minClientID = 100;
-  let id = 100;
-  let offset = 12;
   // We don't load distance/effects, if we would, just add effect_count & distance_count here
-  const maxclientID = this.itemCount + this.creatureCount;
+  const maxclientID = toID;
 
-  this.version = this.clients.getBySignature(this.dataFileSignature);
+  let id = 100;
+
+  // this.version = this.clients.getBySignature(this.dataFileSignature);
 
   while(id <= maxclientID) {
 
-    this._data[id] = {};
-
-    let noffset = loadSpriteMetadataFlags(offset, file, this._data[id]);
-
-    offset = noffset;
+    data[id] = loadSpriteMetadataFlags(file);
 
     const groupCount = 1;
 
     for(let k = 0; k < groupCount; ++k) {
 
       // Size and GameSprite data
-			this._data[id]['width'] = file.getUint8(offset, true);
-
-      offset++;
-
-      this._data[id]['height'] = file.getUint8(offset, true);
-
-			offset++;
+			data[id]['width'] = file.nextUInt8();
+      data[id]['height'] = file.nextUInt8();
 
       // Skipping the exact size
-			if((this._data[id]['width'] > 1) || (this._data[id]['height'] > 1)){
-				offset++;
+			if((data[id]['width'] > 1) || (data[id]['height'] > 1)){
+        file.move(1);
 			}
 
-      this._data[id]['layers'] = file.getUint8(offset, true); // Number of blendframes (some sprites consist of several merged sprites)
+      data[id]['layers'] = file.nextUInt8(); // Number of blendframes (some sprites consist of several merged sprites)
+			data[id]['pattern_x'] = file.nextUInt8();
+			data[id]['pattern_y'] = file.nextUInt8();
+      data[id]['pattern_z'] = file.nextUInt8();
+      data[id]['frames'] = file.nextUInt8();// Length of animation
+      data[id]['numsprites'] = data[id]['width'] * data[id]['height'] * data[id]['layers'] * data[id]['pattern_x'] * data[id]['pattern_y'] * data[id]['pattern_z'] * data[id]['frames'];
 
-      offset++;
+      for(let i = 0; i < data[id]['numsprites']; ++i) {
 
-			this._data[id]['pattern_x'] = file.getUint8(offset, true);
+        let sprite_id = file.nextUInt16LE();
 
-      offset++;
+				if(!data[id]['spriteList']) {
 
-			this._data[id]['pattern_y'] = file.getUint8(offset, true);
-
-      offset++;
-
-      this._data[id]['pattern_z'] = file.getUint8(offset, true);
-
-      offset++;
-
-			this._data[id]['frames'] = file.getUint8(offset, true);// Length of animation
-
-      offset++;
-
-      this._data[id]['numsprites'] = this._data[id]['width'] * this._data[id]['height'] * this._data[id]['layers'] * this._data[id]['pattern_x'] * this._data[id]['pattern_y'] * this._data[id]['pattern_z'] * this._data[id]['frames'];
-
-      for(let i = 0; i < this._data[id]['numsprites']; ++i) {
-
-        let sprite_id = file.getUint16(offset, true);
-
-        offset += 2;
-
-				if(!this._data[id]['spriteList']) {
-
-          this._data[id]['spriteList'] = [];
+          data[id]['spriteList'] = [];
 				}
 
-        this._data[id]['spriteList'].push({id:sprite_id});
+        data[id]['spriteList'].push({id:sprite_id});
 			}
 
     }
@@ -130,19 +213,13 @@ function loadSpritesMetadata(file){
 
   }
 
+  return data;
+
 }
 
-function getUTF8String(dataview, offset, length, endian=true) {
-    var utf16 = new ArrayBuffer(length * 2);
-    var utf16View = new Uint16Array(utf16);
-    for (var i = 0; i < length; ++i) {
-        utf16View[i] = dataview.getUint8(offset + i, endian);
-    }
-    return String.fromCharCode.apply(null, utf16View);
-}
+function loadSpriteMetadataFlags(file){
 
-function loadSpriteMetadataFlags(offset, file, store){
-
+  let store = {};
   let prev_flag = 0;
   let flag = DatFlagLast;
 
@@ -150,11 +227,9 @@ function loadSpriteMetadataFlags(offset, file, store){
 
 		prev_flag = flag;
 
-    flag = file.getUint8(offset, true);
+    flag = file.nextUInt8();
 
-    offset += 1;
-
-    if(flag == DatFlagLast) return offset;
+    if(flag == DatFlagLast) return store;
 
     switch (flag) {
 
@@ -193,47 +268,37 @@ function loadSpriteMetadataFlags(offset, file, store){
 			case DatFlagCloth:
 			case DatFlagLensHelp:
 			case DatFlagUsable:
-				offset += 2;
+				file.move(2);
 				break;
 
 			case DatFlagLight:
-				offset += 4;
+				file.move(4);
 				break;
 
 			case DatFlagDisplacement:
 
-				store['drawoffset_x'] = file.getUint16(offset, true);
-
-        offset += 2;
-
-				store['drawoffset_y'] = file.getUint16(offset, true);
-
-        offset += 2;
+				store['drawoffset_x'] = file.nextUInt16LE();
+				store['drawoffset_y'] = file.nextUInt16LE();
 
 				break;
 
 			case DatFlagElevation:
 
-        store['draw_height'] = file.getUint16(offset, true);
-
-        offset += 2;
+        store['draw_height'] = file.nextUInt16LE();
 
 				break;
 
 			case DatFlagMinimapColor:
 
-        store['minimap_color'] = file.getUint16(offset, true);
-
-        offset += 2;
+        store['minimap_color'] = file.nextUInt16LE();
 
         break;
 
 			case DatFlagMarket:
 
-        offset += 6;
-        const marketName = getUTF8String(file, offset, 16);
-        debugger;
-				offset += 4;
+        file.move(6);
+        const marketName = file.nextString(16);
+        dfile.move(4);
 				break;
 
 			default: break;
@@ -241,9 +306,9 @@ function loadSpriteMetadataFlags(offset, file, store){
 		}
   }
 
-  return offset;
+  return store;
 }
-
+/*
 class SpritesManager {
 
   constructor(ClientsVersion){
@@ -348,3 +413,4 @@ export default SpritesManager;
 //
 //     }
 //   ]);
+*/
