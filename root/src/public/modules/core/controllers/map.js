@@ -10,10 +10,10 @@ class MapCtrl {
 
     $scope.size = {
 
-      'width': 2560,
-      'height': 2560
+      'width': 1000,
+      'height': 1000
     };
-    
+
     $timeout(() => {
 
       $scope.progress = false

@@ -43,7 +43,7 @@
               </div>
               <div class="content">
                 <ul class="transition hidden">
-                  <li data-ng-repeat="id in terrainPalette"><img src="{{manager.spr(id)}}"></li>
+                  <li data-ng-repeat="id in terrainPalette"><img src="{{manager.spr(id)}}" data-ng-click="manager.setID(id)"></li>
                 </ul>
               </div>
               <div class="title">

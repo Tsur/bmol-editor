@@ -20,9 +20,25 @@ class SpritesManager {
 
   constructor(){
 
+    this._loaded = false;
+    this.selectedID = false;
+
+  }
+
+  setID(id){
+
+    this.selectedID = id;
+  }
+
+  getID(){
+
+    return this.selectedID;
+
   }
 
   spr(id, le) {
+
+    if(!this._loaded) return;
 
     if (this._spr[id]) return this._spr[id];
 
@@ -101,7 +117,13 @@ class SpritesManager {
 
     this._spr = {};
     this._dat = loadSpritesMetadata(this._dat_buffer, this.info.datSize.itemCount + this.info.datSize.creatureCount);
+    this._loaded = true;
 
+  }
+
+  isLoaded(){
+
+    return this._loaded;
   }
 
   static factory(){

@@ -70,10 +70,25 @@ a {
 #app-section .kz-section-content .ui-map-grid-container {
   margin-left: 10px;
   position: absolute;
-  width: calc(100% - 20px);
-  height: calc(100% - 50px);
-  overflow: auto;
+  width: calc(100% - 50px);
+  height: calc(100% - 85px);
+  overflow: hidden;
   border: 1px solid #444;
+}
+#app-section .kz-section-content .ui-map-horizontal-scrollbar {
+  margin-left: 10px;
+  position: absolute;
+  width: calc(100% - 50px);
+  height: 20px;
+  bottom: 10px;
+  overflow: scroll;
+}
+#app-section .kz-section-content .ui-map-vertical-scrollbar {
+  position: absolute;
+  height: calc(100% - 85px);
+  width: 15px;
+  right: 10px;
+  overflow: scroll;
 }
 /* 404 */
 .server-error {
@@ -93,6 +108,8 @@ a {
 .kz-right {
   float: right;
 }
+/* Overwrite the default to keep the scrollbar always visible */
+/** initial setup **/
 nav {
   display: none;
 }

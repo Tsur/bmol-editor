@@ -1,35 +1,100 @@
 'use strict';
 
+import debounce from 'debounce';
+
 function linkHandler(scope, element, attrs, CanvasManager){
 
   // const base_img = new Image();
   // base_img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAADxJREFUWEft0MEJACAMBEHt+rpXItZgfEzg3llmJlmj825ARTzf+S2AAAECBAgQIECAAAECBAh8IVARXdukCGAlxHjlDAAAAABJRU5ErkJggg==";
 
-  const wheight = window.innerHeight;
+  // const wheight = window.innerHeight;
+  //
+  // element.bind('$destroy', function() {
+  //
+  //   //remove event listeners that might cause memory leaks; Listeners registered to the element are automatically cleaned up when this is removed(destroyed), but if you registered a listener on a service or on a DOM node that isn't being deleted, you'll have to clean it up yourself here
+  //
+  //   angular
+  //     .element(window)
+  //     .unbind('resize');
+  //
+  // });
+  //
+  const canvas = element[0];
+  const parent = element.parent()[0];
 
-  element.bind('$destroy', function() {
+  let scrollLeft = 0;
+  let scrollTop = 0;
 
-    //remove event listeners that might cause memory leaks; Listeners registered to the element are automatically cleaned up when this is removed(destroyed), but if you registered a listener on a service or on a DOM node that isn't being deleted, you'll have to clean it up yourself here
+  // // Set Canvas Size Dynamically
+  canvas.width = parent.offsetWidth;
+  canvas.height = parent.offsetHeight;
 
-    angular
-      .element(window)
-      .unbind('resize');
+  angular
+  .element(window)
+  .bind('resize', debounce(function(e) {
+
+    canvas.width = parent.offsetWidth;
+    canvas.height = parent.offsetHeight;
+
+    horizontalScroll.querySelector('div').style.width = ((32000 - 32) + horizontalScroll.clientWidth) + 'px';
+
+    // CanvasManager.displayGrid(context, parent.offsetWidth, parent.offsetHeight);
+    CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight);
+
+  }, 150));
+
+  element
+  .unbind("mousedown")
+  .bind("mousedown", function(e) {
+
+    var rect = canvas.getBoundingClientRect();
+
+    const x = Math.floor((e.clientX - rect.left) / 32);
+    const y = Math.floor((e.clientY - rect.top) / 32);
+
+    // console.log(x,y);
+
+    CanvasManager.set(context, x, y, scrollLeft, scrollTop);
+
+    CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
+
+    return false;
 
   });
 
-  var canvas = element[0];
+  const horizontalScroll = $('.ui-map-horizontal-scrollbar')[0];
+  const verticalScroll = $('.ui-map-vertical-scrollbar')[0];
 
-  // Set Canvas Size Dynamically
-  canvas.width = scope.size.width;
-  canvas.height = scope.size.height;
+  horizontalScroll.querySelector('div').style.width = 32000 + 'px';
+  horizontalScroll.querySelector('div').style.height = '1px';
 
-  // Paint Canvas with grid image(base_img)
-  var width = canvas.width / 32;
-  var height = canvas.height / 32;
-  var context = canvas.getContext("2d");
-  const parent = element.parent()[0];
+  horizontalScroll.onscroll = e => {
 
-  CanvasManager.displayGrid(context, parent.offsetWidth, parent.offsetHeight);
+    scrollLeft = horizontalScroll.scrollLeft;
+
+    CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
+
+    return false;
+
+  };
+
+  verticalScroll.onscroll = e => {
+
+    scrollTop = verticalScroll.scrollTop;
+
+    CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
+
+    return false;
+
+  };
+
+  // var width = scope.size.width * 32;
+  // var height = scope.size.height * 32;
+  const context = canvas.getContext("2d");
+
+  // CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight);
+
+  // CanvasManager.displayGrid(context, parent.offsetWidth, parent.offsetHeight);
 
 
       // for (var i = 0; i < width; i++) {

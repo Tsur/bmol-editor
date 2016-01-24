@@ -6,13 +6,93 @@ import _ from 'lodash';
 
 class CanvasManager {
 
-  constructor(){
+  constructor(SpritesManager){
 
+    this.SpritesManager = SpritesManager;
     this.currentSprite = 0;
     this.dragging = false;
     this.deleting = false;
     this.out = false;
     this.coords = {};
+    this.map = {
+
+      version: '1.0',
+      info: 'Bmol Map Editor',
+      desc: 'This is a map example',
+      width: 1000,
+      height: 1000,
+      layer: []
+    }
+
+    this.currentX = 0;
+    this.currentY = 0;
+
+    this.initMap();
+
+  }
+
+  initMap(){
+
+    for (let i=0; i < this.map.width; i++){
+
+      this.map.layer[i] = [];
+
+      for (let j=0; j < this.map.height; j++){
+
+        this.map.layer[i][j] = 0;
+
+      }
+    }
+
+  }
+
+  set(canvasContext, x, y, widthOffset=0, heightOffset=0){
+
+    if(!this.SpritesManager.getID()) return;
+
+    const wo = Math.floor(widthOffset/32);
+    const ho = Math.floor(heightOffset/32);
+    const wop = widthOffset-(wo*32);
+    const hop = heightOffset-(ho*32);
+
+    console.log(x+wo, y+ho, wop);
+
+    this.map.layer[x+wo][y+ho] = this.SpritesManager.getID();
+
+    // const image = this.SpritesManager.spr(this.map.layer[x][y]);
+    //
+    // if(image) canvasUtil.paintTile(canvasContext, x*32, y*32, image);
+
+  }
+
+  paint(canvasContext, width, height, widthOffset=0, heightOffset=0){
+
+    if(!this.SpritesManager.isLoaded()) return;
+
+    const wo = Math.floor(widthOffset/32);
+    const ho = Math.floor(heightOffset/32);
+    const wop = widthOffset-(wo*32);
+    const hop = heightOffset-(ho*32);
+
+    const verticalLines = Math.floor(width/32);
+    const horizontalLines = Math.floor(height/32);
+
+    console.log(wop);
+
+    canvasUtil.clearTile(canvasContext, 0, 0, width, height);
+
+    for (let i=0; i <= verticalLines; i++){
+
+      for (let j=0; j <= horizontalLines; j++){
+
+        if(!this.map.layer[i+wo][j+ho]) {
+            continue;
+        }
+
+        canvasUtil.paintTile(canvasContext, (i*32)-wop, (j*32)-hop, this.SpritesManager.spr(this.map.layer[i+wo][j+ho]));
+
+      }
+    }
 
   }
 
@@ -36,14 +116,14 @@ class CanvasManager {
 
   }
 
-  static factory(){
+  static factory(SpritesManager){
 
-    return new CanvasManager();
+    return new CanvasManager(SpritesManager);
 
   }
 
 }
 
-CanvasManager.factory.$inject = [];
+CanvasManager.factory.$inject = ['SpritesManager'];
 
 export default CanvasManager;

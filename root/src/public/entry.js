@@ -13,6 +13,7 @@ window.onload = event => {
     window.jQuery = window.$ = jquery;
 
     require('../../node_modules/semantic-ui-css/semantic.min.js');
+    // require('nanoscroller');
 
     initApplication();
     initCoreModule();
