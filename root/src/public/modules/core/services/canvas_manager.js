@@ -52,10 +52,8 @@ class CanvasManager {
 
     const wo = Math.floor(widthOffset/32);
     const ho = Math.floor(heightOffset/32);
-    const wop = widthOffset-(wo*32);
-    const hop = heightOffset-(ho*32);
 
-    console.log(x+wo, y+ho, wop);
+    console.log(x+wo, y+ho);
 
     this.map.layer[x+wo][y+ho] = this.SpritesManager.getID();
 
@@ -77,13 +75,13 @@ class CanvasManager {
     const verticalLines = Math.floor(width/32);
     const horizontalLines = Math.floor(height/32);
 
-    console.log(wop);
+    console.log(wo, widthOffset, wop);
 
     canvasUtil.clearTile(canvasContext, 0, 0, width, height);
 
-    for (let i=0; i <= verticalLines; i++){
+    for (let i=0; i <= horizontalLines ; i++){
 
-      for (let j=0; j <= horizontalLines; j++){
+      for (let j=0; j <= verticalLines; j++){
 
         if(!this.map.layer[i+wo][j+ho]) {
             continue;

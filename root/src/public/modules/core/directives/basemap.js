@@ -36,7 +36,7 @@ function linkHandler(scope, element, attrs, CanvasManager){
     canvas.width = parent.offsetWidth;
     canvas.height = parent.offsetHeight;
 
-    horizontalScroll.querySelector('div').style.width = ((32000 - 32) + horizontalScroll.clientWidth) + 'px';
+    // horizontalScroll.querySelector('div').style.width = ((32000 - 32) + horizontalScroll.clientWidth) + 'px';
 
     // CanvasManager.displayGrid(context, parent.offsetWidth, parent.offsetHeight);
     CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight);
@@ -49,10 +49,17 @@ function linkHandler(scope, element, attrs, CanvasManager){
 
     var rect = canvas.getBoundingClientRect();
 
-    const x = Math.floor((e.clientX - rect.left) / 32);
-    const y = Math.floor((e.clientY - rect.top) / 32);
+    const wo = Math.floor(scrollLeft/32);
+    const ho = Math.floor(scrollTop/32);
+    const wop = scrollLeft-(wo*32);
+    const hop = scrollTop-(ho*32);
 
-    // console.log(x,y);
+    console.log(wo, ho, wop, hop);
+
+    const x = Math.floor((e.clientX - rect.left + wop) / 32);
+    const y = Math.floor((e.clientY - rect.top + hop) / 32);
+
+    console.log(x,y);
 
     CanvasManager.set(context, x, y, scrollLeft, scrollTop);
 
@@ -65,8 +72,10 @@ function linkHandler(scope, element, attrs, CanvasManager){
   const horizontalScroll = $('.ui-map-horizontal-scrollbar')[0];
   const verticalScroll = $('.ui-map-vertical-scrollbar')[0];
 
-  horizontalScroll.querySelector('div').style.width = 32000 + 'px';
+  horizontalScroll.querySelector('div').style.width = '32000px';
   horizontalScroll.querySelector('div').style.height = '1px';
+
+  // console.log(parent.offsetWidth,(32000 + (parent.offsetWidth-(32*Math.floor(parent.offsetWidth/32)))));
 
   horizontalScroll.onscroll = e => {
 
