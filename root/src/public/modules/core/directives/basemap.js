@@ -24,6 +24,8 @@ function linkHandler(scope, element, attrs, CanvasManager){
 
   let scrollLeft = 0;
   let scrollTop = 0;
+  let lastDownTarget;
+  let increment = 0;
 
   // // Set Canvas Size Dynamically
   canvas.width = parent.offsetWidth;
@@ -39,13 +41,15 @@ function linkHandler(scope, element, attrs, CanvasManager){
     // horizontalScroll.querySelector('div').style.width = ((32000 - 32) + horizontalScroll.clientWidth) + 'px';
 
     // CanvasManager.displayGrid(context, parent.offsetWidth, parent.offsetHeight);
-    CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight);
+    CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
 
   }, 150));
 
   element
   .unbind("mousedown")
   .bind("mousedown", function(e) {
+
+    lastDownTarget = event.target;
 
     var rect = canvas.getBoundingClientRect();
 
@@ -54,12 +58,12 @@ function linkHandler(scope, element, attrs, CanvasManager){
     const wop = scrollLeft-(wo*32);
     const hop = scrollTop-(ho*32);
 
-    console.log(wo, ho, wop, hop);
+    // console.log(wo, ho, wop, hop);
 
     const x = Math.floor((e.clientX - rect.left + wop) / 32);
     const y = Math.floor((e.clientY - rect.top + hop) / 32);
 
-    console.log(x,y);
+    // console.log(x,y);
 
     CanvasManager.set(context, x, y, scrollLeft, scrollTop);
 
@@ -69,15 +73,73 @@ function linkHandler(scope, element, attrs, CanvasManager){
 
   });
 
+  document.addEventListener('keydown', debounce(e => {
+
+    if(lastDownTarget != canvas) return;
+
+    if(e.keyIdentifier === "Right"){
+
+      if(scrollLeft >= 32000 - parent.offsetWidth) return;
+
+      scrollLeft += (10 + increment);
+
+    }
+
+    if(e.keyIdentifier === "Left"){
+
+      if(scrollLeft <= 0) return;
+
+      scrollLeft -= (10 + increment);
+
+    }
+
+    if(e.keyIdentifier === "Down"){
+
+      if(scrollTop >= 32000 - parent.offsetHeight) return;
+
+      scrollTop += (10 + increment);
+
+    }
+
+    if(e.keyIdentifier === "Up"){
+
+      if(scrollTop <= 0) return;
+
+      scrollTop -= (10 + increment);
+
+    }
+
+    horizontalScroll.scrollLeft = scrollLeft;
+    verticalScroll.scrollTop = scrollTop;
+
+    CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
+
+    increment += 10;
+
+  }, 10));
+
+  document.addEventListener('keyup', e => {
+
+    if(lastDownTarget != canvas) return;
+
+    // console.log(increment);
+
+    increment = 0;
+
+  });
+
   const horizontalScroll = $('.ui-map-horizontal-scrollbar')[0];
   const verticalScroll = $('.ui-map-vertical-scrollbar')[0];
 
   horizontalScroll.querySelector('div').style.width = '32000px';
   horizontalScroll.querySelector('div').style.height = '1px';
 
+  verticalScroll.querySelector('div').style.height = '32000px';
+  verticalScroll.querySelector('div').style.width = '1px';
+
   // console.log(parent.offsetWidth,(32000 + (parent.offsetWidth-(32*Math.floor(parent.offsetWidth/32)))));
 
-  horizontalScroll.onscroll = e => {
+  horizontalScroll.onscroll = debounce(e => {
 
     scrollLeft = horizontalScroll.scrollLeft;
 
@@ -85,9 +147,9 @@ function linkHandler(scope, element, attrs, CanvasManager){
 
     return false;
 
-  };
+  }, 10);
 
-  verticalScroll.onscroll = e => {
+  verticalScroll.onscroll = debounce(e => {
 
     scrollTop = verticalScroll.scrollTop;
 
@@ -95,7 +157,7 @@ function linkHandler(scope, element, attrs, CanvasManager){
 
     return false;
 
-  };
+  }, 10);
 
   // var width = scope.size.width * 32;
   // var height = scope.size.height * 32;

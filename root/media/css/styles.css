@@ -70,25 +70,25 @@ a {
 #app-section .kz-section-content .ui-map-grid-container {
   margin-left: 10px;
   position: absolute;
-  width: calc(100% - 50px);
-  height: calc(100% - 85px);
+  width: calc(100% - 40px);
+  height: calc(100% - 75px);
   overflow: hidden;
   border: 1px solid #444;
 }
 #app-section .kz-section-content .ui-map-horizontal-scrollbar {
   margin-left: 10px;
   position: absolute;
-  width: calc(100% - 50px);
+  width: calc(100% - 40px);
   height: 20px;
   bottom: 10px;
-  overflow: scroll;
+  overflow-x: scroll;
 }
 #app-section .kz-section-content .ui-map-vertical-scrollbar {
   position: absolute;
-  height: calc(100% - 85px);
-  width: 15px;
+  height: calc(100% - 75px);
+  width: 20px;
   right: 10px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 /* 404 */
 .server-error {
@@ -107,6 +107,58 @@ a {
 }
 .kz-right {
   float: right;
+}
+.ui-map-vertical-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+.ui-map-vertical-scrollbar::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #bbb;
+}
+.ui-map-vertical-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #bbb;
+}
+.ui-map-vertical-scrollbar::-webkit-scrollbar-thumb:window-inactive {
+  background: white;
+}
+.ui-map-vertical-scrollbar::-webkit-scrollbar-track {
+  background-color: grey;
+}
+.ui-map-vertical-scrollbar::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+.ui-map-vertical-scrollbar::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+.ui-map-vertical-scrollbar::-webkit-resizer {
+  background-color: transparent;
+}
+.ui-map-horizontal-scrollbar::-webkit-scrollbar {
+  height: 3px;
+}
+.ui-map-horizontal-scrollbar::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #bbb;
+}
+.ui-map-horizontal-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #bbb;
+}
+.ui-map-horizontal-scrollbar::-webkit-scrollbar-thumb:window-inactive {
+  background: white;
+}
+.ui-map-horizontal-scrollbar::-webkit-scrollbar-track {
+  background-color: grey;
+}
+.ui-map-horizontal-scrollbar::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+.ui-map-horizontal-scrollbar::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+.ui-map-horizontal-scrollbar::-webkit-resizer {
+  background-color: transparent;
 }
 /* Overwrite the default to keep the scrollbar always visible */
 /** initial setup **/

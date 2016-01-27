@@ -33,15 +33,18 @@ class CanvasManager {
 
   initMap(){
 
+    const tiles = [12929, 536, 9879, 10355];
+
     for (let i=0; i < this.map.width; i++){
 
       this.map.layer[i] = [];
 
       for (let j=0; j < this.map.height; j++){
 
-        this.map.layer[i][j] = 0;
+        this.map.layer[i][j] = 0; //tiles[Math.floor(Math.random() * tiles.length)];
 
       }
+
     }
 
   }
@@ -53,7 +56,9 @@ class CanvasManager {
     const wo = Math.floor(widthOffset/32);
     const ho = Math.floor(heightOffset/32);
 
-    console.log(x+wo, y+ho);
+    // console.log(x+wo, y+ho);
+
+    // console.log(this.SpritesManager.getID())
 
     this.map.layer[x+wo][y+ho] = this.SpritesManager.getID();
 
@@ -75,15 +80,15 @@ class CanvasManager {
     const verticalLines = Math.floor(width/32);
     const horizontalLines = Math.floor(height/32);
 
-    console.log(wo, widthOffset, wop);
+    // console.log(horizontalLines, verticalLines);
 
     canvasUtil.clearTile(canvasContext, 0, 0, width, height);
 
-    for (let i=0; i <= horizontalLines ; i++){
+    for (let i=0; i <= verticalLines+1; i++){
 
-      for (let j=0; j <= verticalLines; j++){
+      for (let j=0; j <= horizontalLines+1; j++){
 
-        if(!this.map.layer[i+wo][j+ho]) {
+        if(!this.map.layer[i+wo] || !this.map.layer[i+wo][j+ho]) {
             continue;
         }
 
