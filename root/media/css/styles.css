@@ -90,6 +90,26 @@ a {
   right: 10px;
   overflow-y: scroll;
 }
+#game {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.88);
+  z-index: 1000;
+  display: none;
+}
+#game .canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 544px;
+  height: 544px;
+  margin-top: -272px;
+  margin-left: -272px;
+  border: 1px solid #444;
+}
 /* 404 */
 .server-error {
   font-size: 35px;
@@ -491,6 +511,9 @@ nav {
 }
 #app-section .kz-nav-menu {
   height: 45px;
+}
+#app-section .kz-nav-menu .menu a {
+  color: grey;
 }
 #app-section .kz-section-content {
   height: calc(100% - 45px);

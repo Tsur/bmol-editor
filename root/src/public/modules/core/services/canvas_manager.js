@@ -6,14 +6,14 @@ import _ from 'lodash';
 
 class CanvasManager {
 
-  constructor(SpritesManager){
+  constructor($rootScope, SpritesManager){
 
+    this.$rootScope = $rootScope;
     this.SpritesManager = SpritesManager;
     this.currentSprite = 0;
     this.dragging = false;
     this.deleting = false;
     this.out = false;
-    this.coords = {};
     this.map = {
 
       version: '1.0',
@@ -21,11 +21,11 @@ class CanvasManager {
       desc: 'This is a map example',
       width: 1000,
       height: 1000,
+      temple: {x:8, y:8, z:4},
       layer: []
     }
 
-    this.currentX = 0;
-    this.currentY = 0;
+    this.coords = {x:0, y:0};
 
     this.initMap();
 
@@ -49,18 +49,26 @@ class CanvasManager {
 
   }
 
-  set(canvasContext, x, y, widthOffset=0, heightOffset=0){
+  setCoords(coords){
+
+    this.coords = coords;
+
+    this.$rootScope.$broadcast('coords:updated', coords);
+
+  }
+
+  set(canvasContext, x, y){
 
     if(!this.SpritesManager.getID()) return;
 
-    const wo = Math.floor(widthOffset/32);
-    const ho = Math.floor(heightOffset/32);
+    // const wo = Math.floor(widthOffset/32);
+    // const ho = Math.floor(heightOffset/32);
 
     // console.log(x+wo, y+ho);
 
     // console.log(this.SpritesManager.getID())
 
-    this.map.layer[x+wo][y+ho] = this.SpritesManager.getID();
+    this.map.layer[x][y] = this.SpritesManager.getID();
 
     // const image = this.SpritesManager.spr(this.map.layer[x][y]);
     //
@@ -99,6 +107,17 @@ class CanvasManager {
 
   }
 
+  //Same but painting empty tiles too
+  paintPlayer(canvasContext, width, height, widthOffset=0, heightOffset=0){
+
+    const x = (width/2) - 16;
+    const y = (height/2) - 16;
+
+    canvasUtil.paintTile(canvasContext, x, y, this.SpritesManager.spr(128));
+
+
+  }
+
   displayGrid(canvasContext, width, height){
 
     const verticalLines = Math.floor(width/32);
@@ -115,18 +134,37 @@ class CanvasManager {
 
   getCoords(i) {
 
-    return { x: i % 80, y: i / 80};
+    return { x: this.currentX, y: this.currentY};
 
   }
 
-  static factory(SpritesManager){
+  getMap(){
 
-    return new CanvasManager(SpritesManager);
+    return this.map;
+  }
+
+  serializeMap(){
+
+    // const serializedMap = {};
+    //
+    // serializedMap.version =  this.map.version;
+    // serializedMap.info =  this.map.info;
+    // serializedMap.desc =  this.map.desc;
+    // serializedMap.width =  this.map.width;
+    // serializedMap.height =  this.map.height;
+
+    // return JSON.stringify(serializedMap);
+    return this.map;
+  }
+
+  static factory($rootScope, SpritesManager){
+
+    return new CanvasManager($rootScope, SpritesManager);
 
   }
 
 }
 
-CanvasManager.factory.$inject = ['SpritesManager'];
+CanvasManager.factory.$inject = ['$rootScope', 'SpritesManager'];
 
 export default CanvasManager;

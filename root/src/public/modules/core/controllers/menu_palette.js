@@ -39,7 +39,7 @@ class MenuPaletteCtrl {
           SpritesManager.id(101).spriteList[0].id,
           SpritesManager.id(103).spriteList[0].id,
           SpritesManager.id(104).spriteList[0].id,
-          SpritesManager.id(106).spriteList[0].id
+          SpritesManager.id(106).spriteList[0].id 
 
         ];
 

@@ -1,6 +1,16 @@
-<section id="app-section">
+<section id="app-section" data-ng-controller="MapCtrl">
 
 	<div class="kz-nav-menu">
+
+		<div class="ui secondary menu">
+		  <a class="item" data-download-json="saveMap" download="map">Save Map</a>
+		  <a class="item" data-game-map="#game">Play Game</a>
+			<div class="right menu">
+				<a class="active item">(<span>{{canvasX}}</span>, <span>{{canvasY}}</span>)</a>
+			</div>
+		</div>
+		<!-- <div style="color:white">(<span>{{canvasX}}</span>, <span>{{canvasY}}</span>)</div> -->
+
 		<!-- <div class="ui pointing secondary menu">
 			<a class="item" data-tab="first">First</a>
 			<a class="item" data-tab="second">Second</a>
@@ -8,7 +18,7 @@
 		</div> -->
 	</div>
 
-	<div class="kz-section-content" data-ng-controller="MapCtrl">
+	<div class="kz-section-content">
 
 		<div data-ng-show="progress">
 		    <div class="ui active inverted dimmer kz-loading">

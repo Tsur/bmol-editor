@@ -2,7 +2,7 @@
 
 import debounce from 'debounce';
 
-function linkHandler(scope, element, attrs, CanvasManager){
+function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
   // const base_img = new Image();
   // base_img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAADxJREFUWEft0MEJACAMBEHt+rpXItZgfEzg3llmJlmj825ARTzf+S2AAAECBAgQIECAAAECBAh8IVARXdukCGAlxHjlDAAAAABJRU5ErkJggg==";
@@ -27,6 +27,12 @@ function linkHandler(scope, element, attrs, CanvasManager){
   let lastDownTarget;
   let increment = 0;
 
+  $rootScope.$on('game:scope', e => {
+
+    lastDownTarget = null;
+    
+  })
+
   // // Set Canvas Size Dynamically
   canvas.width = parent.offsetWidth;
   canvas.height = parent.offsetHeight;
@@ -45,11 +51,7 @@ function linkHandler(scope, element, attrs, CanvasManager){
 
   }, 150));
 
-  element
-  .unbind("mousedown")
-  .bind("mousedown", function(e) {
-
-    lastDownTarget = event.target;
+  function getCoords(canvas, clientX, clientY, scrollLeft, scrollTop){
 
     var rect = canvas.getBoundingClientRect();
 
@@ -60,18 +62,40 @@ function linkHandler(scope, element, attrs, CanvasManager){
 
     // console.log(wo, ho, wop, hop);
 
-    const x = Math.floor((e.clientX - rect.left + wop) / 32);
-    const y = Math.floor((e.clientY - rect.top + hop) / 32);
+    const x = Math.floor((clientX - rect.left + wop) / 32) + wo;
+    const y = Math.floor((clientY - rect.top + hop) / 32) + ho;
 
+    return {x, y};
+
+  }
+
+  element
+  .unbind("mousedown")
+  .bind("mousedown", function(e) {
+
+    lastDownTarget = event.target;
+
+    const coords = getCoords(canvas, e.clientX, e.clientY, scrollLeft, scrollTop);
     // console.log(x,y);
 
-    CanvasManager.set(context, x, y, scrollLeft, scrollTop);
+    CanvasManager.set(context, coords.x, coords.y);
 
     CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
 
     return false;
 
   });
+
+  element
+  .unbind("mousemove")
+  .bind("mousemove", debounce(function(e) {
+
+    CanvasManager.setCoords(getCoords(canvas, e.clientX, e.clientY, scrollLeft, scrollTop));
+
+    // console.log(CanvasManager.coords.x, CanvasManager.coords.y);
+    return false;
+
+  }, 50));
 
   document.addEventListener('keydown', debounce(e => {
 
@@ -280,15 +304,15 @@ function linkHandler(scope, element, attrs, CanvasManager){
 
 }
 
-function BaseMap(SpritesManager, CanvasManager){
+function BaseMap($rootScope, SpritesManager, CanvasManager){
 
     return {
 
-      link: (scope, element, attrs) => linkHandler(scope, element, attrs, CanvasManager)
+      link: (scope, element, attrs) => linkHandler(scope, element, attrs, $rootScope, CanvasManager)
 
     };
 }
 
-BaseMap.$inject = ['SpritesManager', 'CanvasManager'];
+BaseMap.$inject = ['$rootScope', 'SpritesManager', 'CanvasManager'];
 
 export default BaseMap;
