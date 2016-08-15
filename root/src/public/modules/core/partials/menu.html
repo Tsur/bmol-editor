@@ -39,11 +39,13 @@
             <div data-sui-accordion class="ui inverted accordion">
               <div class="title">
                 <i class="dropdown icon"></i>
-                Terrain Palette
+                Ground Palette
               </div>
               <div class="content">
                 <ul class="transition hidden">
-                  <li data-ng-repeat="id in terrainPalette"><img src="{{manager.spr(id)}}" data-ng-click="manager.setID(id)"></li>
+                  <!-- <li data-ng-repeat="id in groundPalette"><img src="{{manager.spr(id)}}" data-ng-click="manager.setID(id)"></li> -->
+                  <li data-ng-repeat="id in groundPalette"><img src="{{manager.getFromPalette('ground', id)}}" data-ng-click="manager.setTile('ground', id)"></li>
+
                 </ul>
               </div>
               <div class="title">
@@ -51,11 +53,18 @@
                 Nature Palette
               </div>
               <div class="content">
-                <p class="transition hidden">There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+                <li data-ng-repeat="id in naturePalette"><img src="{{manager.getFromPalette('nature', id)}}" data-ng-click="manager.setTile('nature', id)"></li>
               </div>
               <div class="title">
                 <i class="dropdown icon"></i>
                 Item Palette
+              </div>
+              <div class="content">
+                <li data-ng-repeat="id in itemPalette"><img src="{{manager.getFromPalette('item', id)}}" data-ng-click="manager.setTile('item', id)"></li>
+              </div>
+              <div class="title">
+                <i class="dropdown icon"></i>
+                Raw Palette
               </div>
               <div class="content">
                 <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>

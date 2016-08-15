@@ -68,7 +68,12 @@ class CanvasManager {
 
     // console.log(this.SpritesManager.getID())
 
-    this.map.layer[x][y] = this.SpritesManager.getID();
+    // this.map.layer[x][y] = this.SpritesManager.getID();
+    if(!this.SpritesManager.getID().paint)
+      return this.map.layer[x][y] = this.SpritesManager.getID().rep;
+
+    this.SpritesManager.getID().paint(this.SpritesManager.getID(), this.map, x, y);
+
 
     // const image = this.SpritesManager.spr(this.map.layer[x][y]);
     //

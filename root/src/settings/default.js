@@ -2,9 +2,11 @@
 
 import path from 'path';
 import * as secret from './secrets';
+import spr from './spr';
 
 export default {
 
+  tiles: spr,
 
   // Init module configuration options
   applicationModuleName: 'rmejs',

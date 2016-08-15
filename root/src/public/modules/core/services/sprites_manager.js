@@ -3,6 +3,7 @@
 import settings from '../../../../settings/init';
 import BufferReader from 'buffer-reader';
 import PNGImage from 'pngjs-image';
+import _ from 'lodash';
 
 function createPNG(size) {
   const image = PNGImage.createImage(size, size);
@@ -95,28 +96,48 @@ class SpritesManager {
     return this._dat[id];
   }
 
+  getPalette(type){
+
+    return Object.keys(settings.tiles[type]);
+
+  }
+
+  setTile(palette, id){
+
+    this.selectedID = settings.tiles[palette][id];
+
+  }
+
+  getFromPalette(palette, id){
+
+    const sprID = settings.tiles[palette][id].rep;
+
+    return _.isFunction(sprID) ?
+      sprID(settings.tiles[palette][id], this) : this.spr(sprID);
+  }
+
   load(data){
 
     this._spr_buffer = new BufferReader(new Buffer(data.spr.data));
-    this._dat_buffer = new BufferReader(new Buffer(data.dat.data));
-
-    this.info = {
-
-      sprSignature: this._spr_buffer.nextUInt32LE(),
-      sprSize: this._spr_buffer.nextUInt16LE(),
-
-      datSignature: this._dat_buffer.nextUInt32LE(),
-      datSize: {
-
-      	itemCount: this._dat_buffer.nextUInt16LE(),
-      	creatureCount: this._dat_buffer.nextUInt16LE(),
-      	effectCount: this._dat_buffer.nextUInt16LE(),
-      	distanceCount: this._dat_buffer.nextUInt16LE()
-      }
-    };
-
+    // this._dat_buffer = new BufferReader(new Buffer(data.dat.data));
+    //
+    // this.info = {
+    //
+    //   sprSignature: this._spr_buffer.nextUInt32LE(),
+    //   sprSize: this._spr_buffer.nextUInt16LE(),
+    //
+    //   datSignature: this._dat_buffer.nextUInt32LE(),
+    //   datSize: {
+    //
+    //   	itemCount: this._dat_buffer.nextUInt16LE(),
+    //   	creatureCount: this._dat_buffer.nextUInt16LE(),
+    //   	effectCount: this._dat_buffer.nextUInt16LE(),
+    //   	distanceCount: this._dat_buffer.nextUInt16LE()
+    //   }
+    // };
+    //
     this._spr = {};
-    this._dat = loadSpritesMetadata(this._dat_buffer, this.info.datSize.itemCount + this.info.datSize.creatureCount);
+    // this._dat = loadSpritesMetadata(this._dat_buffer, this.info.datSize.itemCount + this.info.datSize.creatureCount);
     this._loaded = true;
 
   }

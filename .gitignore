@@ -13,3 +13,4 @@ root/releases
 root/src/settings/secrets.js
 .DS_Store
 npm-debug.log
+root/media/game_data

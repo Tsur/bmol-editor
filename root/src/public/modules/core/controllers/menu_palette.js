@@ -33,15 +33,19 @@ class MenuPaletteCtrl {
 
         SpritesManager.load(data);
 
-        $scope.terrainPalette = [
+        $scope.groundPalette = SpritesManager.getPalette('ground');
+        $scope.naturePalette = SpritesManager.getPalette('nature');
+        $scope.itemPalette = SpritesManager.getPalette('item');
 
-          SpritesManager.id(100).spriteList[0].id,
-          SpritesManager.id(101).spriteList[0].id,
-          SpritesManager.id(103).spriteList[0].id,
-          SpritesManager.id(104).spriteList[0].id,
-          SpritesManager.id(106).spriteList[0].id 
-
-        ];
+        // [
+        //
+        //   SpritesManager.id(100).spriteList[0].id,
+        //   SpritesManager.id(101).spriteList[0].id,
+        //   SpritesManager.id(103).spriteList[0].id,
+        //   SpritesManager.id(104).spriteList[0].id,
+        //   SpritesManager.id(106).spriteList[0].id
+        //
+        // ];
 
         $scope.sprFile.loading = false;
         $scope.sprFile.ready = true;

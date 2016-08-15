@@ -1,9 +1,0 @@
-<form data-ng-submit="signin()" data-ng-class="{'form-loading': loading}" novalidate>
-	<input type="text" placeholder="Nombre de emplead@" class="form-control btn-custom" data-ng-model="username" name="username" data-typeahead="item for item in ['ana.de.la.rosa.villalobos@gmail.com','canciondiferente@hotmail.com'] | filter:$viewValue | limitTo:1" autocomplete="off" tabindex="1" />
-	<input type="password" placeholder="Contraseña" class="form-control btn-custom" data-ng-model="password" name="password" tabindex="2" data-ng-mouseenter="display_forgot_icon = true" data-ng-mouseleave="display_forgot_icon = false" data-ng-focus="display_forgot_icon = true" data-ng-blur="hideForgotIconOnBlur()"/>
-	<a ui-sref="forgot" class="forgot-icon" title="Recover your password" data-ng-show="display_forgot_icon" data-ng-mouseenter="display_forgot_icon = true"><span class="glyphicon glyphicon-question-sign"></span></a>
-	<input type="submit" class="btn btn-lg btn-primary btn-block btn-custom" value="Acceder" tabindex="3"/>
-	<div class="text-center text-medium-size">
-		<small> ¿Tu primer día de trabajo? <a class="text-primary" ui-sref="signup" title="signup for now!">¡No pierdas más tiempo!</a></small>
-	</div>
-</form>
