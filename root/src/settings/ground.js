@@ -7,7 +7,7 @@ export default {
   "1": {
     "description": "Soil Ground",
     "rep": 118,
-    "paint": (self, map, x, y) => map.layer[x][y] = _.sample(_.range(118, 127))
+    "paint": (self, spritesManager, x, y) => spritesManager.setInMap(x, y, _.sample(_.range(118, 127)))
   }
 
 };

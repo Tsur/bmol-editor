@@ -43,8 +43,9 @@
               </div>
               <div class="content">
                 <ul class="transition hidden">
-                  <!-- <li data-ng-repeat="id in groundPalette"><img src="{{manager.spr(id)}}" data-ng-click="manager.setID(id)"></li> -->
-                  <li data-ng-repeat="id in groundPalette"><img src="{{manager.getFromPalette('ground', id)}}" data-ng-click="manager.setTile('ground', id)"></li>
+
+                  <!-- <li data-ng-repeat="id in groundPalette"><img data-ng-src="{{manager.getFromPalette('ground', id)}}" data-ng-click="manager.setTile('ground', id)"></li> -->
+                  <li data-ng-repeat="item in groundPalette track by item.id"><img data-ng-src="{{item.img}}" data-ng-click="manager.setTile('ground', item.id)"></li>
 
                 </ul>
               </div>
@@ -53,14 +54,14 @@
                 Nature Palette
               </div>
               <div class="content">
-                <li data-ng-repeat="id in naturePalette"><img src="{{manager.getFromPalette('nature', id)}}" data-ng-click="manager.setTile('nature', id)"></li>
+                <li data-ng-repeat="item in naturePalette track by item.id"><img data-ng-src="{{item.img}}" data-ng-click="manager.setTile('nature', item.id)"></li>
               </div>
               <div class="title">
                 <i class="dropdown icon"></i>
                 Item Palette
               </div>
               <div class="content">
-                <li data-ng-repeat="id in itemPalette"><img src="{{manager.getFromPalette('item', id)}}" data-ng-click="manager.setTile('item', id)"></li>
+                <li data-ng-repeat="item in itemPalette track by item.id"><img data-ng-src="{{item.img}}" data-ng-click="manager.setTile('item', item.id)"></li>
               </div>
               <div class="title">
                 <i class="dropdown icon"></i>

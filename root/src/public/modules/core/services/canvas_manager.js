@@ -17,12 +17,14 @@ class CanvasManager {
     this.map = {
 
       version: '1.0',
-      info: 'Bmol Map Editor',
-      desc: 'This is a map example',
+      vendor: 'Bmol Map Editor',
+      description: 'This is a map example',
       width: 1000,
       height: 1000,
+      origin: 1230,
       temple: {x:8, y:8, z:4},
-      layer: []
+      layer: 0,
+      tiles: [{}]
     }
 
     this.coords = {x:0, y:0};
@@ -33,19 +35,19 @@ class CanvasManager {
 
   initMap(){
 
-    const tiles = [12929, 536, 9879, 10355];
-
-    for (let i=0; i < this.map.width; i++){
-
-      this.map.layer[i] = [];
-
-      for (let j=0; j < this.map.height; j++){
-
-        this.map.layer[i][j] = 0; //tiles[Math.floor(Math.random() * tiles.length)];
-
-      }
-
-    }
+    // const tiles = [12929, 536, 9879, 10355];
+    //
+    // for (let i=0; i < this.map.width; i++){
+    //
+    //   this.map.layer[i] = [];
+    //
+    //   for (let j=0; j < this.map.height; j++){
+    //
+    //     this.map.layer[i][j] = 0; //tiles[Math.floor(Math.random() * tiles.length)];
+    //
+    //   }
+    //
+    // }
 
   }
 
@@ -55,6 +57,20 @@ class CanvasManager {
 
     this.$rootScope.$broadcast('coords:updated', coords);
 
+  }
+
+  setInMap(x, y, id){
+
+    const wo = this.map.width;
+    const ho = this.map.height;
+
+    const pos = x%wo + (y%ho)*ho;
+
+    if(this.map.tiles[this.map.layer][pos]){
+      return this.map.tiles[this.map.layer][pos].items.push(id);
+    }
+
+    this.map.tiles[this.map.layer][pos] = {items: [id]};
   }
 
   set(canvasContext, x, y){
@@ -69,10 +85,11 @@ class CanvasManager {
     // console.log(this.SpritesManager.getID())
 
     // this.map.layer[x][y] = this.SpritesManager.getID();
-    if(!this.SpritesManager.getID().paint)
-      return this.map.layer[x][y] = this.SpritesManager.getID().rep;
 
-    this.SpritesManager.getID().paint(this.SpritesManager.getID(), this.map, x, y);
+    if(!this.SpritesManager.getID().paint)
+      return this.setInMap(x, y, this.SpritesManager.getID().rep);
+
+    this.SpritesManager.getID().paint(this.SpritesManager.getID(), this, x, y);
 
 
     // const image = this.SpritesManager.spr(this.map.layer[x][y]);
@@ -101,11 +118,16 @@ class CanvasManager {
 
       for (let j=0; j <= horizontalLines+1; j++){
 
-        if(!this.map.layer[i+wo] || !this.map.layer[i+wo][j+ho]) {
+        const pos = (i+wo)%this.map.width + ((j+ho)%this.map.height)*this.map.height;
+
+        if(!this.map.tiles[this.map.layer][pos]) {
             continue;
         }
 
-        canvasUtil.paintTile(canvasContext, (i*32)-wop, (j*32)-hop, this.SpritesManager.spr(this.map.layer[i+wo][j+ho]));
+        this.map.tiles[this.map.layer][pos].items.forEach(
+          id => canvasUtil.paintTile(canvasContext, (i*32)-wop, (j*32)-hop, this.SpritesManager.spr(id)))
+
+        ;
 
       }
     }

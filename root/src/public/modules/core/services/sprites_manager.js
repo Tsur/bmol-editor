@@ -98,7 +98,14 @@ class SpritesManager {
 
   getPalette(type){
 
-    return Object.keys(settings.tiles[type]);
+    //@todo research why do we need to return the img
+    //if we return here just Object.keys(settings.tiles[type]); and then
+    //from the template.html we call to {{spritemanager.getFromPalette}}
+    // every time we click or apply is called this is called too ¿¿??
+
+    const ids = Object.keys(settings.tiles[type]);
+
+    return ids.map(id => ({id, img: this.getFromPalette(type, id)}));
 
   }
 
