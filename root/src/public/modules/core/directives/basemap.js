@@ -26,11 +26,13 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
   let scrollTop = 0;
   let lastDownTarget;
   let increment = 0;
+  let shift = false;
+  let drag = false;
 
   $rootScope.$on('game:scope', e => {
 
     lastDownTarget = null;
-    
+
   })
 
   // // Set Canvas Size Dynamically
@@ -78,13 +80,26 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
     const coords = getCoords(canvas, e.clientX, e.clientY, scrollLeft, scrollTop);
     // console.log(x,y);
 
-    CanvasManager.set(context, coords.x, coords.y);
+    shift ? CanvasManager.unset(context, coords.x, coords.y) : CanvasManager.set(context, coords.x, coords.y);
 
     CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
+
+    drag = true;
 
     return false;
 
   });
+
+  element
+  .unbind("mouseup")
+  .bind("mouseup", function(e) {
+
+    drag = false;
+
+    return false;
+
+  });
+
 
   element
   .unbind("mousemove")
@@ -92,10 +107,20 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
     CanvasManager.setCoords(getCoords(canvas, e.clientX, e.clientY, scrollLeft, scrollTop));
 
+    if(drag){
+
+      const coords = getCoords(canvas, e.clientX, e.clientY, scrollLeft, scrollTop);
+
+      shift ? CanvasManager.unset(context, coords.x, coords.y) : CanvasManager.set(context, coords.x, coords.y);
+
+      CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
+
+    }
+
     // console.log(CanvasManager.coords.x, CanvasManager.coords.y);
     return false;
 
-  }, 50));
+  }, 10));
 
   document.addEventListener('keydown', debounce(e => {
 
@@ -133,6 +158,12 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
     }
 
+    if(e.keyIdentifier === "Shift"){
+
+      shift = true;
+
+    }
+
     horizontalScroll.scrollLeft = scrollLeft;
     verticalScroll.scrollTop = scrollTop;
 
@@ -145,6 +176,12 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
   document.addEventListener('keyup', e => {
 
     if(lastDownTarget != canvas) return;
+
+    if(e.keyIdentifier === "Shift"){
+
+      shift = false;
+
+    }
 
     // console.log(increment);
 

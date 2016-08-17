@@ -77,24 +77,23 @@ class CanvasManager {
 
     if(!this.SpritesManager.getID()) return;
 
-    // const wo = Math.floor(widthOffset/32);
-    // const ho = Math.floor(heightOffset/32);
-
-    // console.log(x+wo, y+ho);
-
-    // console.log(this.SpritesManager.getID())
-
-    // this.map.layer[x][y] = this.SpritesManager.getID();
-
     if(!this.SpritesManager.getID().paint)
       return this.setInMap(x, y, this.SpritesManager.getID().rep);
 
     this.SpritesManager.getID().paint(this.SpritesManager.getID(), this, x, y);
 
+  }
 
-    // const image = this.SpritesManager.spr(this.map.layer[x][y]);
-    //
-    // if(image) canvasUtil.paintTile(canvasContext, x*32, y*32, image);
+  unset(canvasContext, x, y){
+
+    const wo = this.map.width;
+    const ho = this.map.height;
+
+    const pos = x%wo + (y%ho)*ho;
+
+    if(this.map.tiles[this.map.layer][pos]){
+      return this.map.tiles[this.map.layer][pos].items.pop();
+    }
 
   }
 
