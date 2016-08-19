@@ -42,10 +42,10 @@
                 Ground Palette
               </div>
               <div class="content">
-                <ul class="transition hidden">
+                <ul class="transition hidden bm-palette">
 
                   <!-- <li data-ng-repeat="id in groundPalette"><img data-ng-src="{{manager.getFromPalette('ground', id)}}" data-ng-click="manager.setTile('ground', id)"></li> -->
-                  <li data-ng-repeat="item in groundPalette track by item.id"><img data-ng-src="{{item.img}}" data-ng-click="manager.setTile('ground', item.id)"></li>
+                  <li data-ng-repeat="item in groundPalette track by item.id" data-ng-click="manager.setTile('ground', item.id)"><img data-ng-src="{{item.img}}"><span>{{item.desc}}</span></li>
 
                 </ul>
               </div>
@@ -54,22 +54,27 @@
                 Nature Palette
               </div>
               <div class="content">
-                <li data-ng-repeat="item in naturePalette track by item.id"><img data-ng-src="{{item.img}}" data-ng-click="manager.setTile('nature', item.id)"></li>
+                <ul class="transition hidden bm-palette">
+                <li data-ng-repeat="item in naturePalette track by item.id" data-ng-click="manager.setTile('nature', item.id)"><img data-ng-src="{{item.img}}"><span>{{item.desc}}</span></li>
+                </ul>
               </div>
               <div class="title">
                 <i class="dropdown icon"></i>
                 Item Palette
               </div>
               <div class="content">
-                <li data-ng-repeat="item in itemPalette track by item.id"><img data-ng-src="{{item.img}}" data-ng-click="manager.setTile('item', item.id)"></li>
+                <ul class="transition hidden bm-palette">
+                <li data-ng-repeat="item in itemPalette track by item.id" data-ng-click="manager.setTile('item', item.id)"><img data-ng-src="{{item.img}}"><span>{{item.desc}}</span></li>
+                </ul>
               </div>
               <div class="title">
                 <i class="dropdown icon"></i>
                 Raw Palette
               </div>
               <div class="content">
-                <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
-                <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
+                <ul class="transition hidden bm-palette">
+                  <li data-ng-repeat="item in rawPalette track by item.id" data-ng-click="manager.setTile('raw', item.id)"><img data-ng-src="{{item.img}}"><span>{{item.id}}</span></li>
+                </ul>
               </div>
             </div>
           </div>

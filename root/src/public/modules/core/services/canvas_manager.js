@@ -59,18 +59,30 @@ class CanvasManager {
 
   }
 
-  setInMap(x, y, id){
+  setInMap(x, y, id, type){
 
     const wo = this.map.width;
     const ho = this.map.height;
 
     const pos = x%wo + (y%ho)*ho;
 
-    if(this.map.tiles[this.map.layer][pos]){
-      return this.map.tiles[this.map.layer][pos].items.push(id);
+    if(!this.map.tiles[this.map.layer][pos]){
+
+      return this.map.tiles[this.map.layer][pos] = {items: [id]};
+
     }
 
-    this.map.tiles[this.map.layer][pos] = {items: [id]};
+    switch(type){
+
+      case settings.types.GROUND:
+        this.map.tiles[this.map.layer][pos].items[0] = id;
+        break;
+
+      default:
+        this.map.tiles[this.map.layer][pos].items.push(id);
+
+    }
+
   }
 
   set(canvasContext, x, y){
@@ -78,7 +90,7 @@ class CanvasManager {
     if(!this.SpritesManager.getID()) return;
 
     if(!this.SpritesManager.getID().paint)
-      return this.setInMap(x, y, this.SpritesManager.getID().rep);
+      return this.setInMap(x, y, this.SpritesManager.getID().rep ? this.SpritesManager.getID().rep: this.SpritesManager.getID());
 
     this.SpritesManager.getID().paint(this.SpritesManager.getID(), this, x, y);
 
@@ -181,6 +193,22 @@ class CanvasManager {
 
     // return JSON.stringify(serializedMap);
     return this.map;
+  }
+
+  deserializeMap(map){
+
+    // const serializedMap = {};
+    //
+    // serializedMap.version =  this.map.version;
+    // serializedMap.info =  this.map.info;
+    // serializedMap.desc =  this.map.desc;
+    // serializedMap.width =  this.map.width;
+    // serializedMap.height =  this.map.height;
+
+    // return JSON.stringify(serializedMap);
+    this.map = map;
+
+
   }
 
   static factory($rootScope, SpritesManager){

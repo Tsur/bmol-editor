@@ -47,5 +47,21 @@ export default {
   "126": {
     "flags": "00100",
     "description": "soil"
+  },
+  "1137": {
+    "flags": "11100",
+    "description": "tree"
+  },
+  "1138": {
+    "flags": "11100",
+    "description": "tree"
+  },
+  "1139": {
+    "flags": "00000",
+    "description": "tree"
+  },
+  "1140": {
+    "flags": "00000",
+    "description": "tree"
   }
 };

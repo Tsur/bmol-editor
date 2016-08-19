@@ -35,6 +35,25 @@ class MapCtrl {
 
     }
 
+    $scope.loadMap = function(file){
+
+      try{
+
+        const map = JSON.parse(file)
+
+        CanvasManager.deserializeMap(map);
+
+        $rootScope.$broadcast('game:force-paint');
+
+      }
+      catch(e){
+
+        console.error(e);
+
+      }
+
+    }
+
     // $timeout(() => {
     //
       $scope.progress = false

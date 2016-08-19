@@ -18,6 +18,7 @@ import MapCtrl from './controllers/map';
 import DropDownDirective from './directives/sui_dropdown';
 import AccordionDirective from './directives/sui_accordion';
 import DownloadDirective from './directives/download';
+import UploadDirective from './directives/upload';
 import FolderDropDirective from './directives/folderdrop';
 import BaseMapDirective from './directives/basemap';
 import GameMapDirective from './directives/gamemap';
@@ -52,6 +53,7 @@ export default function(){
   angular.module('core').directive('suiAccordion', AccordionDirective);
   angular.module('core').directive('suiDropdown', DropDownDirective);
   angular.module('core').directive('downloadJson', DownloadDirective);
+  angular.module('core').directive('uploadJson', UploadDirective);
   angular.module('core').directive('folderDrop', FolderDropDirective);
   angular.module('core').directive('baseMap', BaseMapDirective);
   angular.module('core').directive('gameMap', GameMapDirective);

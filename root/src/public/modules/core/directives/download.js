@@ -19,7 +19,10 @@ function linkHandler(scope, element, attrs){
       const data = scope.download();
 
       jsonfile.writeFile(filename, data, function (err) {
-        console.error(err);
+
+        if(err) console.error(err);
+        
+        console.log('file saved');
 
       });
 

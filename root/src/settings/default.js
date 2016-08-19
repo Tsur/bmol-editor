@@ -7,6 +7,10 @@ import spr from './spr';
 export default {
 
   tiles: spr,
+  types: {
+
+    GROUND: 'ground'
+  },
 
   // Init module configuration options
   applicationModuleName: 'rmejs',

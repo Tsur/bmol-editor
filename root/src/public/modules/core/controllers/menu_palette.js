@@ -36,6 +36,7 @@ class MenuPaletteCtrl {
         $scope.groundPalette = SpritesManager.getPalette('ground');
         $scope.naturePalette = SpritesManager.getPalette('nature');
         $scope.itemPalette = SpritesManager.getPalette('item');
+        $scope.rawPalette = SpritesManager.getPalette('raw');
 
         // [
         //

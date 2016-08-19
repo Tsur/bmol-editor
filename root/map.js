@@ -6,8 +6,7 @@
   "description": "",
   "houseFile": "",
   "spawnFile": "",
-  "layer": 0,
-  "origin": 1230,
+  "temple": {x,y,z},
   "tiles": [
 
     {

@@ -105,17 +105,19 @@ class SpritesManager {
 
     const ids = Object.keys(settings.tiles[type]);
 
-    return ids.map(id => ({id, img: this.getFromPalette(type, id)}));
+    return ids.map(id => ({id, img: this.getFromPalette(type, id), desc: settings.tiles[type][id].description}));
 
   }
 
   setTile(palette, id){
 
-    this.selectedID = settings.tiles[palette][id];
+    this.selectedID = palette == "raw" ? id : settings.tiles[palette][id];
 
   }
 
   getFromPalette(palette, id){
+
+    if(palette == "raw") return this.spr(id);
 
     const sprID = settings.tiles[palette][id].rep;
 

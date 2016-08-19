@@ -35,6 +35,12 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
   })
 
+  $rootScope.$on('game:force-paint', e => {
+
+    CanvasManager.paint(context, parent.offsetWidth, parent.offsetHeight, scrollLeft, scrollTop);
+
+  })
+
   // // Set Canvas Size Dynamically
   canvas.width = parent.offsetWidth;
   canvas.height = parent.offsetHeight;

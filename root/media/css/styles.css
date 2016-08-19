@@ -509,6 +509,27 @@ nav {
   font: normal normal normal 14px / normal Arial;
   color: rgba(255, 255, 255, 0.4);
 }
+#app-menu .kz-menu-container .kz-menu-content .accordion div {
+  padding: 0;
+  margin: 10px 0;
+}
+#app-menu .kz-menu-container .kz-menu-content .bm-palette {
+  list-style-type: none;
+  margin: 0px;
+  padding: 10px;
+}
+#app-menu .kz-menu-container .kz-menu-content .bm-palette li {
+  height: 34px;
+}
+#app-menu .kz-menu-container .kz-menu-content .bm-palette li:hover {
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+#app-menu .kz-menu-container .kz-menu-content .bm-palette span {
+  margin-left: 15px;
+  position: relative;
+  top: -10px;
+}
 #app-section .kz-nav-menu {
   height: 45px;
 }
