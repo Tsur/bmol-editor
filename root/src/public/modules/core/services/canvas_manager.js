@@ -23,7 +23,7 @@ class CanvasManager {
       height: 1000,
       player: {
         temple: {x:8, y:8, z:0},
-        speed: 4.5, //can be 2, 4, 8, 16: optimal seems to be 4
+        speed: 4, //can be 2, 4, 8, 16: optimal seems to be 4
         life: 100,
         mana: 100,
         outfit: 319

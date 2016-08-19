@@ -38,7 +38,7 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
         this.animating = pos;
 
         var self = this;
-        var countTotal = (Math.ceil(32/player.speed))/2;
+        var countTotal = (Math.ceil(32/player.speed))/4;
         //var countTotal = (Math.ceil(32/player.speed))/4; // optimal for player.speed = 4
 
         const _animate = function(count){
@@ -59,8 +59,6 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
           const speed = (count+1) * player.speed
           const increment =  speed > 32 ? 32 - (count * player.speed) : player.speed;
-
-          console.log(increment);
 
           switch(pos){
 
