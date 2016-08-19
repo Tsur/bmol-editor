@@ -21,9 +21,13 @@ class CanvasManager {
       description: 'This is a map example',
       width: 1000,
       height: 1000,
-      origin: 1230,
-      temple: {x:8, y:8, z:4},
-      layer: 0,
+      player: {
+        temple: {x:8, y:8, z:0},
+        speed: 4.5, //can be 2, 4, 8, 16: optimal seems to be 4
+        life: 100,
+        mana: 100,
+        outfit: 319
+      },
       tiles: [{}]
     }
 
@@ -146,12 +150,12 @@ class CanvasManager {
   }
 
   //Same but painting empty tiles too
-  paintPlayer(canvasContext, width, height, widthOffset=0, heightOffset=0){
+  paintPlayer(canvasContext, spr, width, height, widthOffset=0, heightOffset=0){
 
     const x = (width/2) - 16;
     const y = (height/2) - 16;
 
-    canvasUtil.paintTile(canvasContext, x, y, this.SpritesManager.spr(128));
+    canvasUtil.paintTile(canvasContext, x, y, this.SpritesManager.spr(spr));
 
 
   }
@@ -206,7 +210,7 @@ class CanvasManager {
     // serializedMap.height =  this.map.height;
 
     // return JSON.stringify(serializedMap);
-    this.map = map;
+    this.map = Object.assign(this.map, map);
 
 
   }

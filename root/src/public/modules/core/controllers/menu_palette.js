@@ -36,7 +36,8 @@ class MenuPaletteCtrl {
         $scope.groundPalette = SpritesManager.getPalette('ground');
         $scope.naturePalette = SpritesManager.getPalette('nature');
         $scope.itemPalette = SpritesManager.getPalette('item');
-        $scope.rawPalette = SpritesManager.getPalette('raw');
+        // $scope.rawPalette = SpritesManager.getPalette('raw');
+        $scope.rawPalette = _.range(316, 328).map(id => ({id, img: SpritesManager.spr(id), desc:""}))
 
         // [
         //
