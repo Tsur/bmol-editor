@@ -60,6 +60,7 @@ export default function(){
 
   // Load filters
 
+
   // Load services
   angular.module('core').factory('Auth', AuthService.factory);
   angular.module('core').factory('ClientsVersion', ClientsVersion.factory);

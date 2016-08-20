@@ -26,7 +26,7 @@ class CanvasManager {
         speed: 4, //can be 2, 4, 8, 16: optimal seems to be 4
         life: 100,
         mana: 100,
-        outfit: 319
+        outfit: 316
       },
       tiles: [{}]
     }
@@ -34,6 +34,10 @@ class CanvasManager {
     this.coords = {x:0, y:0};
 
     this.initMap();
+
+    // Debugging purporse
+    // @todo check if(DEBUG_MODE)
+    // window.CanvasManager = this;
 
   }
 
@@ -61,6 +65,20 @@ class CanvasManager {
 
     this.$rootScope.$broadcast('coords:updated', coords);
 
+  }
+
+  isTileWalkable(x, y){
+
+    const wo = this.map.width;
+    const ho = this.map.height;
+
+    const pos = x%wo + (y%ho)*ho;
+
+    if(!this.map.tiles[this.map.layer][pos]) return false;
+
+    const isWalkable = item => settings.tiles.raw[item] && ((parseInt(settings.tiles.raw[item].flags, 2) & 4) === 4);
+
+    return this.map.tiles[this.map.layer][pos].items.every(isWalkable);
   }
 
   setInMap(x, y, id, type){
@@ -113,7 +131,7 @@ class CanvasManager {
 
   }
 
-  paint(canvasContext, width, height, widthOffset=0, heightOffset=0){
+  paint(canvasContext, width, height, widthOffset=0, heightOffset=0, scale=1){
 
     if(!this.SpritesManager.isLoaded()) return;
 
@@ -140,7 +158,7 @@ class CanvasManager {
         }
 
         this.map.tiles[this.map.layer][pos].items.forEach(
-          id => canvasUtil.paintTile(canvasContext, (i*32)-wop, (j*32)-hop, this.SpritesManager.spr(id)))
+          id => canvasUtil.paintTile(canvasContext, ((i*32)-wop)*scale, ((j*32)-hop)*scale, this.SpritesManager.spr(id), scale))
 
         ;
 
@@ -150,12 +168,12 @@ class CanvasManager {
   }
 
   //Same but painting empty tiles too
-  paintPlayer(canvasContext, spr, width, height, widthOffset=0, heightOffset=0){
+  paintPlayer(canvasContext, spr, width, height, widthOffset=0, heightOffset=0, scale=1){
 
     const x = (width/2) - 16;
     const y = (height/2) - 16;
 
-    canvasUtil.paintTile(canvasContext, x, y, this.SpritesManager.spr(spr));
+    canvasUtil.paintTile(canvasContext, x*scale, y*scale, this.SpritesManager.spr(spr), scale);
 
 
   }

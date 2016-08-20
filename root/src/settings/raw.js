@@ -48,6 +48,14 @@ export default {
     "flags": "00100",
     "description": "soil"
   },
+  "200": {
+    "flags": "00111",
+    "description": "backpack"
+  },
+  "201": {
+    "flags": "00010",
+    "description": "drawer"
+  },
   "1137": {
     "flags": "11100",
     "description": "tree"
