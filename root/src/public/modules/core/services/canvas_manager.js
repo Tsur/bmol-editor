@@ -21,8 +21,9 @@ class CanvasManager {
       description: 'This is a map example',
       width: 1000,
       height: 1000,
+      layer: 0,
       player: {
-        temple: {x:8, y:8, z:0},
+        temple: {x:7, y:4, z:0},
         speed: 4, //can be 2, 4, 8, 16: optimal seems to be 4
         life: 100,
         mana: 100,
@@ -131,7 +132,19 @@ class CanvasManager {
 
   }
 
-  paint(canvasContext, width, height, widthOffset=0, heightOffset=0, scale=1){
+  getPos(x,y){
+
+    return x%this.map.width + (y%this.map.height)*this.map.height;
+  }
+
+  /*
+  * @todo split into next tasks:
+  * Paint world
+  * Paint Monsters & NPCs
+  * Paint Player
+  * @todo optimize paint world to use a single loop
+  */
+  paint(canvasContext, width, height, widthOffset=0, heightOffset=0, scale=1, player=false){
 
     if(!this.SpritesManager.isLoaded()) return;
 
@@ -144,6 +157,9 @@ class CanvasManager {
     const horizontalLines = Math.floor(height/32);
 
     // console.log(horizontalLines, verticalLines);
+    const playerPos = this.getPos(this.map.player.temple.x, this.map.player.temple.y);
+
+    let ip, jp;
 
     canvasUtil.clearTile(canvasContext, 0, 0, width, height);
 
@@ -157,24 +173,205 @@ class CanvasManager {
             continue;
         }
 
+        if(pos == playerPos){
+          ip = i;
+          jp= j;
+        }
+
         this.map.tiles[this.map.layer][pos].items.forEach(
           id => canvasUtil.paintTile(canvasContext, ((i*32)-wop)*scale, ((j*32)-hop)*scale, this.SpritesManager.spr(id), scale))
 
-        ;
+      }
+    }
+
+    //@todo most of time there is no overable items around(normally only trees) so try to optimize it fot the common case
+    if(player){
+
+      const posUp = this.getPos(this.map.player.temple.x, this.map.player.temple.y+1);
+      const posDown = this.getPos(this.map.player.temple.x, this.map.player.temple.y-1);
+      const posRight = this.getPos(this.map.player.temple.x+1, this.map.player.temple.y);
+      const posLeft = this.getPos(this.map.player.temple.x-1, this.map.player.temple.y);
+
+      const itemsUp = this.map.tiles[this.map.layer][posUp] ? this.map.tiles[this.map.layer][posUp].items : null;
+      const itemsDown = this.map.tiles[this.map.layer][posDown] ? this.map.tiles[this.map.layer][posDown].items : null;
+      const itemsRight = this.map.tiles[this.map.layer][posRight] ? this.map.tiles[this.map.layer][posRight].items : null;
+      const itemsLeft = this.map.tiles[this.map.layer][posLeft] ? this.map.tiles[this.map.layer][posLeft].items : null;
+      const items = this.map.tiles[this.map.layer][playerPos] ? this.map.tiles[this.map.layer][playerPos].items : null;
+
+      const lastItemUp = itemsUp ? _.last(itemsUp) : null;
+      const lastItemDown = itemsDown ? _.last(itemsDown) : null;
+      const lastItemRight = itemsRight ? _.last(itemsRight) : null;
+      const lastItemLeft = itemsLeft ? _.last(itemsLeft) : null;
+      const lastItem = items ? _.last(items) : null;
+
+      const isCurrentPosOverable = lastItem ? (parseInt(settings.tiles.raw[lastItem].flags, 2) & 16) == 16 : false;
+      const isRightPosOverable = lastItemRight ? (parseInt(settings.tiles.raw[lastItemRight].flags, 2) & 16) == 16 : false;
+      const isLeftPosOverable = lastItemLeft ? (parseInt(settings.tiles.raw[lastItemLeft].flags, 2) & 16) == 16 : false;
+      const isUpPosOverable = lastItemUp ? (parseInt(settings.tiles.raw[lastItemUp].flags, 2) & 16) == 16 : false;
+      const isDownPosOverable = lastItemDown ? (parseInt(settings.tiles.raw[lastItemDown].flags, 2) & 16) == 16 : false;
+
+      //@todo check the todo above, this code below should go somehow on the top, just after if(player){ <here> ...}
+      // if(!isCurrentPosOverable && !isRightPosOverable && !isLeftPosOverable && !isUpPosOverable && !isDownPosOverable){
+      //
+      //     return this.paintPlayer(canvasContext, width, height, scale);
+      // }
+
+      // Negative Current Position | Positive Next Position
+      if(!isCurrentPosOverable && isRightPosOverable){
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:0, sy:0, sw:32-this.map.player.ow, sh: 32, dx: 0});
+
+        itemsRight.forEach((id, index) => {
+
+            if(index == itemsRight.length-1){
+              return;
+            }
+
+            canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(32))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(id), scale)
+
+        });
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:32-this.map.player.ow, sy:0, sw: this.map.player.ow, sh: 32, dx:32-this.map.player.ow});
+
+        return canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(32))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(lastItemRight), scale)
 
       }
+
+      // Positive Current Position | Positive Next Position
+      if(isCurrentPosOverable && isRightPosOverable){
+
+        items.forEach((id, index) => {
+
+            if(index == items.length-1){
+              return;
+            }
+
+            canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(0))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(id), scale)
+
+        });
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:0, sy:0, sw:32-this.map.player.ow, sh: 32, dx: 0});
+
+        canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(0))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(lastItem), scale)
+
+        itemsRight.forEach((id, index) => {
+
+            if(index == itemsRight.length-1){
+              return;
+            }
+
+            canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(32))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(id), scale)
+
+        });
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:32-this.map.player.ow, sy:0, sw: this.map.player.ow, sh: 32, dx:32-this.map.player.ow});
+
+        return canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(32))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(lastItemRight), scale)
+
+      }
+
+      if(isCurrentPosOverable && isLeftPosOverable && this.map.player.animating == 'l'){
+
+        items.forEach((id, index) => {
+
+            if(index == items.length-1){
+              return;
+            }
+
+            canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(0))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(id), scale)
+
+        });
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:-this.map.player.ow, sy:0, sw:32, sh: 32, dx: -this.map.player.ow});
+
+        canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(0))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(lastItem), scale)
+
+        itemsLeft.forEach((id, index) => {
+
+            if(index == itemsLeft.length-1){
+              return;
+            }
+
+            canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(-32))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(id), scale)
+
+        });
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:0, sy:0, sw: -this.map.player.ow, sh: 32, dx:0});
+
+        return canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(-32))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(lastItemLeft), scale)
+
+      }
+
+      // Positive Current Position | Negative Next Position
+      if(isCurrentPosOverable && !isRightPosOverable){
+
+        const itemsCurrent = this.map.tiles[this.map.layer][playerPos].items;
+
+        itemsRight.forEach((id, index) => {
+
+            if(index == itemsRight.length-1){
+              return;
+            }
+
+            canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(0))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(id), scale)
+
+        });
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:0, sy:0, sw:32-this.map.player.ow, sh: 32, dx: 0});
+
+        canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(0))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(lastItem), scale)
+
+        return this.paintPlayer(canvasContext, width, height, scale,
+          {sx:32-this.map.player.ow, sy:0, sw: this.map.player.ow, sh: 32, dx:32-this.map.player.ow});
+
+      }
+
+      if(!isCurrentPosOverable && isLeftPosOverable && this.map.player.animating == 'l'){
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:-this.map.player.ow, sy:0, sw:32, sh: 32, dx: -this.map.player.ow});
+
+        itemsLeft.forEach((id, index) => {
+
+            if(index == itemsLeft.length-1){
+              return;
+            }
+
+            canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(-32))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(id), scale)
+
+        });
+
+        this.paintPlayer(canvasContext, width, height, scale,
+          {sx:0, sy:0, sw: -this.map.player.ow, sh: 32, dx:0});
+
+        return canvasUtil.paintTile(canvasContext, ((ip*32)-wop+(-32))*scale, ((jp*32)-hop)*scale, this.SpritesManager.spr(lastItemLeft), scale)
+
+      }
+
+      this.paintPlayer(canvasContext, width, height, scale);
     }
 
   }
 
   //Same but painting empty tiles too
-  paintPlayer(canvasContext, spr, width, height, widthOffset=0, heightOffset=0, scale=1){
+  paintPlayer(canvasContext, width, height, scale=1, offset=false){
 
-    const x = (width/2) - 16;
-    const y = (height/2) - 16;
+    const x = (width/2) - (16*scale);
+    const y = (height/2) - (16*scale);
 
-    canvasUtil.paintTile(canvasContext, x*scale, y*scale, this.SpritesManager.spr(spr), scale);
+    if(offset) {
 
+      return canvasUtil.paintTileOffset(canvasContext, offset.sx, offset.sy, offset.sw, offset.sh, x+(offset.dx*scale), y, offset.sw, offset.sh, this.SpritesManager.spr(this.map.player.outfit), scale);
+    };
+
+    canvasUtil.paintTile(canvasContext, x, y, this.SpritesManager.spr(this.map.player.outfit), scale);
 
   }
 
@@ -226,6 +423,9 @@ class CanvasManager {
     // serializedMap.desc =  this.map.desc;
     // serializedMap.width =  this.map.width;
     // serializedMap.height =  this.map.height;
+
+    map.player.x = 7;
+    map.player.y = 4;
 
     // return JSON.stringify(serializedMap);
     this.map = Object.assign(this.map, map);

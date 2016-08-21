@@ -9,6 +9,16 @@ export function paintLine(canvasCtx, x, y, x2, y2, color, lineWidth){
 
 }
 
+export function paintTileOffset(canvasCtx, sx, sy, sw, sh, dx, dy, dw, dh, image, scale = 1){
+
+	const img = new Image();
+
+	img.src = image;
+
+	canvasCtx.drawImage(img, sx, sy, sw, sh, dx, dy, dw*scale, dh*scale);
+
+}
+
 export function paintTile(canvasCtx, x, y, image, scale = 1){
 
 	const img = new Image();

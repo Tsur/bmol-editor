@@ -11,13 +11,20 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
   $(element[0]).click(e => {
 
     const gameContainer = document.querySelector('#game');
+    const gameContainerCanvas = gameContainer.querySelector('.canvas');
     const canvas = gameContainer.querySelector('canvas');
     const context = canvas.getContext("2d");
     const player = CanvasManager.getMap().player;
-    const scale = 1;
+    const scale = 1.6;
 
-    canvas.width = 544*scale;
-    canvas.height = 544*scale;
+    canvas.width = 480*scale;
+    canvas.height = 288*scale;
+
+    gameContainerCanvas.style.width= (canvas.width+2)+"px";
+    gameContainerCanvas.style.height= (canvas.height+2)+"px";
+
+    player.ow = 0;
+    player.oh = 0;
 
     // For using globally, but debugger freezes when using requestAnimationFrame
     // window.setSpeed = function(s){
@@ -29,9 +36,9 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
       animate(player, init, frames, pos){
 
-        if(this.animating){
+        if(player.animating){
 
-            //if(this.animating != pos){
+            //if(player.animating != pos){
 
               this.nextAnimation = {init, frames, pos};
             //}
@@ -67,7 +74,9 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
         if(!CanvasManager.isTileWalkable(x, y)) return;
 
-        this.animating = pos;
+        player.animating = pos;
+        player.ow = 0;
+        player.oh = 0;
 
         var self = this;
         var countTotal = (Math.ceil(32/player.speed))/4;
@@ -76,29 +85,36 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
         const _animate = function(count){
 
           if(count >= 32/player.speed){
-            self.animating = false;
+
             player.outfit = init;
+            player.ow = 0;
+            player.oh = 0;
+
+            player.temple.x = x;
+            player.temple.y = y;
 
             // Update player coords
-            switch(pos){
+            // switch(pos){
+            //
+            //   case 'r':
+            //     player.temple.x++;
+            //     break;
+            //
+            //   case 'l':
+            //     player.temple.x--;
+            //     break;
+            //
+            //   case 'd':
+            //     player.temple.y++;
+            //     break;
+            //
+            //   case 'u':
+            //     player.temple.y--;
+            //     break;
+            //
+            // }
 
-              case 'r':
-                player.temple.x++;
-                break;
-
-              case 'l':
-                player.temple.x--;
-                break;
-
-              case 'd':
-                player.temple.y++;
-                break;
-
-              case 'u':
-                player.temple.y--;
-                break;
-
-            }
+            player.animating = false;
 
             if(self.nextAnimation){
 
@@ -117,10 +133,12 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
             case 'r':
               left += increment;
+              player.ow += increment;
               break;
 
             case 'l':
               left -= increment;
+              player.ow -= increment;
               break;
 
             case 'd':
@@ -143,11 +161,42 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
     }
 
+    const limitLoop = function (fn, fps) {
+
+        // Use var then = Date.now(); if you
+        // don't care about targetting < IE9
+        var then = new Date().getTime();
+
+        // custom fps, otherwise fallback to 60
+        fps = fps || 60;
+        var interval = 1000 / fps;
+
+        return (function loop(time){
+            requestAnimationFrame(loop);
+
+            // again, Date.now() if it's available
+            var now = new Date().getTime();
+            var delta = now - then;
+
+            if (delta > interval) {
+                // Update time
+                // now - (delta % interval) is an improvement over just
+                // using then = now, which can end up lowering overall fps
+                then = now - (delta % interval);
+
+                // call the fn
+                fn();
+            }
+        }(0));
+    };
+
     const runGame = function(){
 
       running = true;
 
-      window.requestAnimationFrame(loop);
+      limitLoop(loop, 10);
+
+      // window.requestAnimationFrame(loop);
 
     };
 
@@ -155,10 +204,10 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
       if(!running) return;
 
-      CanvasManager.paint(context, canvas.width, canvas.height, left, top, scale);
-      CanvasManager.paintPlayer(context, player.outfit, canvas.width, canvas.height, left, top, scale);
+      CanvasManager.paint(context, canvas.width, canvas.height, left, top, scale, true);
+      // CanvasManager.paintPlayer(context, player.outfit, canvas.width, canvas.height, left, top, scale);
 
-      window.requestAnimationFrame(loop);
+      // window.requestAnimationFrame(loop);
 
     };
 
