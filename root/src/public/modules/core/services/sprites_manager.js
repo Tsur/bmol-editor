@@ -111,6 +111,14 @@ class SpritesManager {
 
   setTile(palette, id){
 
+    const mapContainerElement = document.querySelector('.ui-map-grid-container');
+
+    if(mapContainerElement) mapContainerElement.classList[palette ? 'add' : 'remove']('cursor-paint');
+
+    if(!palette){
+      return this.selectedID = null;
+    }
+
     this.selectedID = palette == "raw" ? id : settings.tiles[palette][id];
 
   }

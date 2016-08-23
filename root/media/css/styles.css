@@ -75,6 +75,9 @@ a {
   overflow: hidden;
   border: 1px solid #444;
 }
+#app-section .kz-section-content .ui-map-grid-container.cursor-paint {
+  cursor: crosshair;
+}
 #app-section .kz-section-content .ui-map-horizontal-scrollbar {
   margin-left: 10px;
   position: absolute;
@@ -511,6 +514,12 @@ nav {
 #app-menu .kz-menu-container .kz-menu-content .accordion div {
   padding: 0;
   margin: 10px 0;
+}
+#app-menu .kz-menu-container .kz-menu-content .bm-move-map {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  cursor: pointer;
 }
 #app-menu .kz-menu-container .kz-menu-content .bm-palette {
   list-style-type: none;

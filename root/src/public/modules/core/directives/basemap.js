@@ -2,7 +2,7 @@
 
 import debounce from 'debounce';
 
-function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
+function linkHandler(scope, element, attrs, $rootScope, CanvasManager, SpritesManager){
 
   // const base_img = new Image();
   // base_img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAADxJREFUWEft0MEJACAMBEHt+rpXItZgfEzg3llmJlmj825ARTzf+S2AAAECBAgQIECAAAECBAh8IVARXdukCGAlxHjlDAAAAABJRU5ErkJggg==";
@@ -129,6 +129,9 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
   }, 10));
 
   document.addEventListener('keydown', debounce(e => {
+
+    // Escape key pressed down
+    if(e.keyCode === 27) return SpritesManager.setTile(false);
 
     if(lastDownTarget != canvas) return;
 
@@ -351,7 +354,7 @@ function BaseMap($rootScope, SpritesManager, CanvasManager){
 
     return {
 
-      link: (scope, element, attrs) => linkHandler(scope, element, attrs, $rootScope, CanvasManager)
+      link: (scope, element, attrs) => linkHandler(scope, element, attrs, $rootScope, CanvasManager, SpritesManager)
 
     };
 }

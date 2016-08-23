@@ -14,6 +14,7 @@ class CanvasManager {
     this.dragging = false;
     this.deleting = false;
     this.out = false;
+    this.gridEnabled = false;
     this.map = {
 
       version: '1.0',
@@ -181,6 +182,20 @@ class CanvasManager {
         this.map.tiles[this.map.layer][pos].items.forEach(
           id => canvasUtil.paintTile(canvasContext, ((i*32)-wop)*scale, ((j*32)-hop)*scale, this.SpritesManager.spr(id), scale))
 
+      }
+    }
+
+    // Paint grid
+    if(!player && this.gridEnabled){
+
+      // Paint Vertical Lines
+      for (let i=0; i <= verticalLines+1; i++){
+          canvasUtil.paintLine(canvasContext, (i*32)-wop, 0, (i*32)-wop, height, "#bbb", 1);
+      }
+
+      // Paint Horizontal Lines
+      for (let j=0; j <= horizontalLines+1; j++){
+          canvasUtil.paintLine(canvasContext, 0, (j*32)-hop, width, (j*32)-hop, "#bbb", 1);
       }
     }
 

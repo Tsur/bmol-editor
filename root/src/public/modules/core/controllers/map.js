@@ -54,6 +54,11 @@ class MapCtrl {
 
     }
 
+    $scope.grid = function(){
+      CanvasManager.gridEnabled = !CanvasManager.gridEnabled;
+      $rootScope.$broadcast('game:force-paint');
+    }
+
     // $timeout(() => {
     //
       $scope.progress = false
