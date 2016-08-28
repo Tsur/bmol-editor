@@ -138,6 +138,35 @@ class CanvasManager {
     return x%this.map.width + (y%this.map.height)*this.map.height;
   }
 
+  runTileHover(x,y, cb){
+
+    const wo = this.map.width;
+    const ho = this.map.height;
+
+    const pos = x%wo + (y%ho)*ho;
+    const tile = this.map.tiles[this.map.layer][pos];
+
+    if(!tile || !tile.items || !tile.items[0]) return;
+
+    const hoverFunction = settings.tiles.raw[tile.items[0]].hover;
+
+    if(!hoverFunction) return;
+
+    hoverFunction({
+
+      movePlayer: (x,y) => {
+
+        this.map.player.temple.x = x;
+        this.map.player.temple.y = y;
+
+        cb(32*(x-7), 32*(y-4));
+      }
+
+    }, (tile.meta || {}).hover);
+
+    return true;
+  }
+
   /*
   * @todo split into next tasks:
   * Paint world

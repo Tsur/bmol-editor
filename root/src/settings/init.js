@@ -3,7 +3,7 @@
 import _ from 'lodash';
 
 const mode = process.env.NODE_ENV;
-const settings = require(`./${mode}`);
+const settings = window.www ? require('./default.js') : require(`./${mode}`);
 
 settings.default.get = (field, defaultValue) => {
 
@@ -13,7 +13,7 @@ settings.default.get = (field, defaultValue) => {
 
 settings.default.switch = mode => {
 
-  settings.default = require(`./${mode}`).default;
+  settings.default = window.www ? require('./default.js') : require(`./${mode}`).default;
 
 };
 

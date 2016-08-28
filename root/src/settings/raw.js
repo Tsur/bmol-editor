@@ -12,6 +12,15 @@
 */
 export default {
 
+  "30": {
+    "flags": "00100",
+    "description": "down stairs",
+    "hover": function(action, meta){
+
+        // action.movePlayer(meta.x, meta.y);
+        action.movePlayer(15, 4);
+    }
+  },
   "118": {
     "flags": "00100",
     "description": "soil"
@@ -55,6 +64,14 @@ export default {
   "201": {
     "flags": "00010",
     "description": "drawer"
+  },
+  "208": {
+    "flags": "00100",
+    "description": "black soil"
+  },
+  "209": {
+    "flags": "00100",
+    "description": "white soil"
   },
   "1137": {
     "flags": "11100",

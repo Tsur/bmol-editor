@@ -4,6 +4,7 @@ import settings from '../../../../settings/init';
 import BufferReader from 'buffer-reader';
 import PNGImage from 'pngjs-image';
 import _ from 'lodash';
+import base64 from 'base64-js';
 
 function createPNG(size) {
   const image = PNGImage.createImage(size, size);
@@ -15,6 +16,14 @@ function createPNG(size) {
   }
 
   return image;
+}
+
+function base64Slice (buf, start, end) {
+  if (start === 0 && end === buf.length) {
+    return base64.fromByteArray(buf)
+  } else {
+    return base64.fromByteArray(buf.slice(start, end))
+  }
 }
 
 class SpritesManager {
@@ -84,8 +93,9 @@ class SpritesManager {
 
     // const img_64 = String.fromCharCode.apply(null, image.toBlobSync());
     // this._spr[id] = 'data:image/png;base64,' + btoa(img_64);
+    const imagBlob = image.toBlobSync();
 
-    this._spr[id] = 'data:image/png;base64,' + image.toBlobSync().base64Slice(0, image.toBlobSync().byteLength);
+    this._spr[id] = 'data:image/png;base64,' + base64Slice(imagBlob, 0, imagBlob.byteLength);
 
     return this._spr[id];
 
@@ -120,8 +130,14 @@ class SpritesManager {
     }
 
     this.selectedID = palette == "raw" ? id : settings.tiles[palette][id];
+    // this.palette = palette;
 
   }
+
+  // getSelectedPalette(){
+  //
+  //   return this.palette;
+  // }
 
   getFromPalette(palette, id){
 

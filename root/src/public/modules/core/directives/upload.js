@@ -2,27 +2,60 @@
 
 function linkHandler(scope, element, attrs){
 
-  const dialog = require('electron').remote.require('dialog');
-  const fs = require('fs');
+  // const dialog = require('electron').remote.require('dialog');
+  // const fs = require('fs');
 
   $(element[0]).click(e => {
 
-    dialog.showOpenDialog({title:'Load Map'}, filename => {
+  //   dialog.showOpenDialog({title:'Load Map'}, filename => {
+  //
+  //     if(!filename) return;
+  //
+  //     fs.readFile(filename[0], (err, file) => {
+  //
+  //       if(err) return console.error(err);
+  //
+  //       scope.upload(file);
+  //
+  //     });
+  //
+  //   });
 
-      if(!filename) return;
+    const input = document.createElement('input');
 
-      fs.readFile(filename[0], (err, file) => {
+    input.type = "file";
+    input.id = "item"+Math.random();
 
-        if(err) return console.error(err);
+    const changeHandler = event => {
 
-        scope.upload(file);
+        const file = event.target.files[0];
 
-      });
+        if(file){
 
-    });
+            const reader = new FileReader();
+
+            reader.onload = event => {
+
+                const content = event.target.result;
+
+                scope.upload(content);
+            };
+
+            reader.readAsText(file);
+        }
+
+        input.removeEventListener('click', changeHandler, false);
+
+        input.remove();
+
+    };
+
+    input.addEventListener('change', changeHandler, false);
+
+    input.click();
 
   });
-
+  
 }
 
 function Download(){

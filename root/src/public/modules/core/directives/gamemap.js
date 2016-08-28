@@ -116,6 +116,8 @@ function linkHandler(scope, element, attrs, $rootScope, CanvasManager){
 
             player.animating = false;
 
+            if(CanvasManager.runTileHover(x, y, (xl, yt) => {left = xl; top= yt;})) return;
+
             if(self.nextAnimation){
 
               Animator.animate(player, self.nextAnimation.init,  self.nextAnimation.frames, self.nextAnimation.pos);
