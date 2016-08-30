@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-  <title>rmeJS</title>
+  <title>Bmol</title>
   <base href="">
 
   <!-- General META -->
@@ -20,18 +20,13 @@
   <!--<link href="" rel="shortcut icon" type="image/x-icon">-->
 
   <!-- Application CSS Files -->
-
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css" media="screen">
-  <link rel="stylesheet" href="dist/styles.css" media="screen">
-
+  <link rel="stylesheet" href="media/css/animate.min.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="node_modules/semantic-ui-css/semantic.min.css">
+  <link rel="stylesheet" href="media/css/styles.css" media="screen">
 
   <!-- Application JS Files -->
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
-
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
 
 </head>
 <body data-ng-cloak>
@@ -48,20 +43,40 @@
 <div id="game"><div class="canvas"><canvas></canvas></div></div>
 
 <!--Application JavaScript Files-->
+  <script>
 
+    window.user = {};
 
-<script>
+    if(typeof require !== 'undefined'){
 
-  window.user = {};
-  window.www = true;
+      <!-- @if NODE_ENV='production' -->
 
-  let script = document.createElement('script');
+      process.env.NODE_ENV = "production";
 
-  script.src = "dist/bundle.js";
+      require('./es5/public/entry.js');
 
-  document.body.appendChild(script);
+      <!-- @endif -->
 
-</script>
+      <!-- @if NODE_ENV='development' -->
+
+      process.env.NODE_ENV = "development";
+
+      require("babel-core/register")({
+
+          presets: ["es2015"],
+          only: 'src',
+          extensions: [".js"],
+          sourceMaps: false
+
+        });
+
+      require('./src/public/entry.js');
+
+      <!-- @endif -->
+
+    }
+
+  </script>
 
 </body>
 </html>

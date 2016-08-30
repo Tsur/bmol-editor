@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-  <title>rmeJS</title>
+  <title>Bmol</title>
   <base href="">
 
   <!-- General META -->
@@ -20,13 +20,18 @@
   <!--<link href="" rel="shortcut icon" type="image/x-icon">-->
 
   <!-- Application CSS Files -->
-  <link rel="stylesheet" href="media/css/animate.min.css" media="screen">
-  <link rel="stylesheet" type="text/css" href="node_modules/semantic-ui-css/semantic.min.css">
-  <link rel="stylesheet" href="media/css/styles.css" media="screen">
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css" media="screen">
+  <link rel="stylesheet" href="dist/styles.css" media="screen">
+
 
   <!-- Application JS Files -->
-  <script src="node_modules/angular/angular.js"></script>
-  <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
+
 
 </head>
 <body data-ng-cloak>
@@ -43,30 +48,20 @@
 <div id="game"><div class="canvas"><canvas></canvas></div></div>
 
 <!--Application JavaScript Files-->
-  <script>
-
-    window.user = {};
-
-    if(typeof require !== 'undefined'){
 
 
-      process.env.NODE_ENV = "development";
+<script>
 
-      require("babel-core/register")({
+  window.user = {};
+  window.www = true;
 
-          presets: ["es2015"],
-          only: 'src',
-          extensions: [".js"],
-          sourceMaps: false
+  let script = document.createElement('script');
 
-        });
+  script.src = "dist/bundle.js";
 
-      require('./src/public/entry.js');
+  document.body.appendChild(script);
 
-
-    }
-
-  </script>
+</script>
 
 </body>
 </html>

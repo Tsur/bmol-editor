@@ -154,28 +154,28 @@ function linkHandler(scope, element, attrs, $compile){
     if(!files || !files.files || !files.files.length)
       return scope.$apply(() => scope.onFileError({err: new Error("No files found in the folder")}));
 
-    const dat = _.filter(files.files, file => file.name.indexOf('.dat') > -1 );
+    // const dat = _.filter(files.files, file => file.name.indexOf('.dat') > -1 );
     const spr = _.filter(files.files, file => file.name.indexOf('.spr') > -1 );
 
-    if(!dat.length && !spr.length) return scope.$apply(() => scope.onFileError({err: new Error("No .data or .spr file found")}));
-    if(!dat.length) return scope.$apply(() => scope.onFileError({err: new Error("No .data file found")}));
+    // if(!dat.length && !spr.length) return scope.$apply(() => scope.onFileError({err: new Error("No .data or .spr file found")}));
+    // if(!dat.length) return scope.$apply(() => scope.onFileError({err: new Error("No .data file found")}));
     if(!spr.length) return scope.$apply(() => scope.onFileError({err: new Error("No .spr file found")}));
 
-    let numFiles = 2;
+    let numFiles = 1;
     const data = {};
 
-    dat[0].file( file => processFile(file, file => {
-
-      data.dat = file;
-
-      numFiles--;
-
-      if(!numFiles){
-
-         onData(data);
-      }
-
-    }));
+    // dat[0].file( file => processFile(file, file => {
+    //
+    //   data.dat = file;
+    //
+    //   numFiles--;
+    //
+    //   if(!numFiles){
+    //
+    //      onData(data);
+    //   }
+    //
+    // }));
 
     spr[0].file( file => processFile(file, file => {
 

@@ -104538,39 +104538,32 @@ function linkHandler(scope, element, attrs, $compile) {
       return scope.onFileError({ err: new Error("No files found in the folder") });
     });
 
-    var dat = _lodash2.default.filter(files.files, function (file) {
-      return file.name.indexOf('.dat') > -1;
-    });
+    // const dat = _.filter(files.files, file => file.name.indexOf('.dat') > -1 );
     var spr = _lodash2.default.filter(files.files, function (file) {
       return file.name.indexOf('.spr') > -1;
     });
 
-    if (!dat.length && !spr.length) return scope.$apply(function () {
-      return scope.onFileError({ err: new Error("No .data or .spr file found") });
-    });
-    if (!dat.length) return scope.$apply(function () {
-      return scope.onFileError({ err: new Error("No .data file found") });
-    });
+    // if(!dat.length && !spr.length) return scope.$apply(() => scope.onFileError({err: new Error("No .data or .spr file found")}));
+    // if(!dat.length) return scope.$apply(() => scope.onFileError({err: new Error("No .data file found")}));
     if (!spr.length) return scope.$apply(function () {
       return scope.onFileError({ err: new Error("No .spr file found") });
     });
 
-    var numFiles = 2;
+    var numFiles = 1;
     var data = {};
 
-    dat[0].file(function (file) {
-      return processFile(file, function (file) {
-
-        data.dat = file;
-
-        numFiles--;
-
-        if (!numFiles) {
-
-          onData(data);
-        }
-      });
-    });
+    // dat[0].file( file => processFile(file, file => {
+    //
+    //   data.dat = file;
+    //
+    //   numFiles--;
+    //
+    //   if(!numFiles){
+    //
+    //      onData(data);
+    //   }
+    //
+    // }));
 
     spr[0].file(function (file) {
       return processFile(file, function (file) {
@@ -106519,6 +106512,7 @@ var SpritesManager = function () {
       var imagBlob = image.toBlobSync();
 
       this._spr[id] = 'data:image/png;base64,' + base64Slice(imagBlob, 0, imagBlob.byteLength);
+      // this._spr[id] = 'data:image/png;base64,' + image.toBlobSync().base64Slice(0, image.toBlobSync().byteLength);
 
       return this._spr[id];
     }
@@ -106953,7 +106947,7 @@ exports.default = {
   },
 
   // Init module configuration options
-  applicationModuleName: 'rmejs',
+  applicationModuleName: 'bmol',
   // export const applicationModuleVendorDependences = ['ngCookies', 'ngResource',
   //   'ngAnimate', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap',
   //   'ui.utils'

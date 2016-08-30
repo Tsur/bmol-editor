@@ -1,56 +1,32 @@
 
 # What it is
 
-A browser-based map editor
+A 2D browser-based map editor
+
+Note: You will need the sprites in order to make it to work. It supports plain png images or a compressed `.spr` file ( try this [one](https://www.dropbox.com/s/l1mozr8w3mafgjd/images.spr?dl=0) for testing purposes). Then drop a folder containing the `.spr` file into the application.
 
 ## Setting up
 
 ```bash
-$ cd root
-# Set up a virtual environment
-$ npm install -g nave
-$ nave use myenvironment stable
-# Set up global dependences
-$ npm install -g bower grunt-cli bunyan less jsdoc
-# Set up local dependences
-$ npm install
+$ nvm use && npm install
 ```
 
 ## Running at local
 
 ```bash
-$ cd root
-$ grunt server | bunyan
-# if also requiring js linting, just:
-$ grunt | bunyan
+$ npm run desktop:dev
 ```
 
 ## Testing
 
 ```bash
-$ cd root
-$ grunt test | bunyan
+$ npm test
 ```
 
-You may also run it directly if futher configuration is needed:
+# Issues
 
-```bash
-$ cd root
-$ export NODE_ENV=testing
-$ mocha -r "server.js" server/tests/ | bunyan
-# If running server after running tests in same terminal, run to retrieve .env data:
-$ export NODE_ENV=
-```
+* pngjs-image
 
-## Docs
+  We are using a modified version of pngjs-image to make compatible with browserify and make to run in browser. If for some reason, you get into problems, then use the original pngjs-image version. To do so, just replace in `package.json` file next line:
 
-```bash
-$ cd root/docs/html && http-server
-```
-
-To generate the docs from sources:
-
-```bash
-$ cd /vagrant/root
-$ grunt docs --debug
-```
+  "pngjs-image": "" --> "pngjs-image": "^0.11.6"

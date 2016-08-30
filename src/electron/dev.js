@@ -6,7 +6,7 @@ import BrowserWindow from 'browser-window';
 import shell from 'shell';
 // import server from '../server/index';
 
-const TITLE = 'rmeJS';
+const TITLE = 'Bmol - dev';
 let mainWindow = null;
 
 // Quit when all windows are closed.

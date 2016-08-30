@@ -96,6 +96,7 @@ class SpritesManager {
     const imagBlob = image.toBlobSync();
 
     this._spr[id] = 'data:image/png;base64,' + base64Slice(imagBlob, 0, imagBlob.byteLength);
+    // this._spr[id] = 'data:image/png;base64,' + image.toBlobSync().base64Slice(0, image.toBlobSync().byteLength);
 
     return this._spr[id];
 

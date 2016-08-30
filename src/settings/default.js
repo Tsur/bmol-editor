@@ -13,7 +13,7 @@ export default {
   },
 
   // Init module configuration options
-  applicationModuleName: 'rmejs',
+  applicationModuleName: 'bmol',
   // export const applicationModuleVendorDependences = ['ngCookies', 'ngResource',
   //   'ngAnimate', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap',
   //   'ui.utils'
