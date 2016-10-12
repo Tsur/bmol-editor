@@ -17,8 +17,7 @@ export default {
     "description": "down stairs",
     "hover": function(action, meta){
 
-        // action.movePlayer(meta.x, meta.y);
-        action.movePlayer(15, 4);
+        action.movePlayer(meta.x, meta.y);
     }
   },
   "118": {

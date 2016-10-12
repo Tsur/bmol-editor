@@ -15,12 +15,23 @@ $ nvm use && npm install
 
 ```bash
 $ npm run desktop:dev
+$ npm run website:build && npm run website:server
 ```
 
 ## Testing
 
 ```bash
 $ npm test
+```
+
+# Meta
+
+For setting up meta in tiles, set the x and y coords and the type in the meta in yaml format, as in the example below:
+
+```yaml
+hover:
+  x: 11
+  y: 6
 ```
 
 # Issues

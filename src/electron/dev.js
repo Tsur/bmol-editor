@@ -1,9 +1,7 @@
 "use strict";
 
 import path from 'path';
-import app from 'app';
-import BrowserWindow from 'browser-window';
-import shell from 'shell';
+import {app, BrowserWindow, shell} from 'electron';
 // import server from '../server/index';
 
 const TITLE = 'Bmol - dev';

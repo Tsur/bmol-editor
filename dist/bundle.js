@@ -28017,15 +28017,23 @@ var compile = function(schema, cache, root, reporter, opts) {
     }
 
     if (node.minimum !== undefined) {
+      if (type !== 'number' && type !== 'integer') validate('if (%s) {', types.number(name))
+
       validate('if (%s %s %d) {', name, node.exclusiveMinimum ? '<=' : '<', node.minimum)
       error('is less than minimum')
       validate('}')
+
+      if (type !== 'number' && type !== 'integer') validate('}')
     }
 
     if (node.maximum !== undefined) {
+      if (type !== 'number' && type !== 'integer') validate('if (%s) {', types.number(name))
+
       validate('if (%s %s %d) {', name, node.exclusiveMaximum ? '>=' : '>', node.maximum)
       error('is more than maximum')
       validate('}')
+
+      if (type !== 'number' && type !== 'integer') validate('}')
     }
 
     if (properties) {
@@ -28043,6 +28051,8 @@ var compile = function(schema, cache, root, reporter, opts) {
 
   var validate = genfun
     ('function validate(data) {')
+      // Since undefined is not a valid JSON value, we coerce to null and other checks will catch this
+      ('if (data === undefined) data = null')
       ('validate.errors = null')
       ('var errors = 0')
 
@@ -41274,82 +41284,99 @@ function serializer(replacer, cycleReplacer) {
 }
 
 },{}],187:[function(require,module,exports){
-var untilde = function(str) {
-  return str.replace(/~./g, function(m) {
-    switch (m) {
-      case "~0":
-        return "~";
-      case "~1":
-        return "/";
+var hasExcape = /~/
+var escapeMatcher = /~[01]/g
+function escapeReplacer (m) {
+  switch (m) {
+    case '~1': return '/'
+    case '~0': return '~'
+  }
+  throw new Error('Invalid tilde escape: ' + m)
+}
+
+function untilde (str) {
+  if (!hasExcape.test(str)) return str
+  return str.replace(escapeMatcher, escapeReplacer)
+}
+
+function setter (obj, pointer, value) {
+  var part
+  var hasNextPart
+
+  for (var p = 1, len = pointer.length; p < len;) {
+    part = untilde(pointer[p++])
+    hasNextPart = len > p
+
+    if (typeof obj[part] === 'undefined') {
+      // support setting of /-
+      if (Array.isArray(obj) && part === '-') {
+        part = obj.length
+      }
+
+      // support nested objects/array when setting values
+      if (hasNextPart) {
+        if ((pointer[p] !== '' && pointer[p] < Infinity) || pointer[p] === '-') obj[part] = []
+        else obj[part] = {}
+      }
     }
-    throw new Error("Invalid tilde escape: " + m);
-  });
+
+    if (!hasNextPart) break
+    obj = obj[part]
+  }
+
+  var oldValue = obj[part]
+  if (value === undefined) delete obj[part]
+  else obj[part] = value
+  return oldValue
 }
 
-var traverse = function(obj, pointer, value) {
-  // assert(isArray(pointer))
-  var part = untilde(pointer.shift());
-  if(!obj.hasOwnProperty(part)) {
-    return null;
+function compilePointer (pointer) {
+  if (typeof pointer === 'string') {
+    pointer = pointer.split('/')
+    if (pointer[0] === '') return pointer
+    throw new Error('Invalid JSON pointer.')
+  } else if (Array.isArray(pointer)) {
+    return pointer
   }
-  if(pointer.length !== 0) { // keep traversin!
-    return traverse(obj[part], pointer, value);
-  }
-  // we're done
-  if(typeof value === "undefined") {
-    // just reading
-    return obj[part];
-  }
-  // set new value, return old value
-  var old_value = obj[part];
-  if(value === null) {
-    delete obj[part];
-  } else {
-    obj[part] = value;
-  }
-  return old_value;
+
+  throw new Error('Invalid JSON pointer.')
 }
 
-var validate_input = function(obj, pointer) {
-  if(typeof obj !== "object") {
-    throw new Error("Invalid input object.");
-  }
+function get (obj, pointer) {
+  if (typeof obj !== 'object') throw new Error('Invalid input object.')
+  pointer = compilePointer(pointer)
+  var len = pointer.length
+  if (len === 1) return obj
 
-  if(pointer === "") {
-    return [];
+  for (var p = 1; p < len;) {
+    obj = obj[untilde(pointer[p++])]
+    if (len === p) return obj
+    if (typeof obj !== 'object') return undefined
   }
-
-  if(!pointer) {
-    throw new Error("Invalid JSON pointer.");
-  }
-
-  pointer = pointer.split("/");
-  var first = pointer.shift();
-  if (first !== "") {
-    throw new Error("Invalid JSON pointer.");
-  }
-
-  return pointer;
 }
 
-var get = function(obj, pointer) {
-  pointer = validate_input(obj, pointer);
-  if (pointer.length === 0) {
-    return obj;
-  }
-  return traverse(obj, pointer);
+function set (obj, pointer, value) {
+  if (typeof obj !== 'object') throw new Error('Invalid input object.')
+  pointer = compilePointer(pointer)
+  if (pointer.length === 0) throw new Error('Invalid JSON pointer for set.')
+  return setter(obj, pointer, value)
 }
 
-var set = function(obj, pointer, value) {
-  pointer = validate_input(obj, pointer);
-  if (pointer.length === 0) {
-    throw new Error("Invalid JSON pointer for set.")
+function compile (pointer) {
+  var compiled = compilePointer(pointer)
+  return {
+    get: function (object) {
+      return get(object, compiled)
+    },
+    set: function (object, value) {
+      return set(object, compiled, value)
+    }
   }
-  return traverse(obj, pointer, value);
 }
 
 exports.get = get
 exports.set = set
+exports.compile = compile
 
 },{}],188:[function(require,module,exports){
 /*
@@ -105507,6 +105534,7 @@ var CanvasManager = function () {
       switch (type) {
 
         case _init2.default.types.GROUND:
+          // if this is the ground, just allow a single ground item (it makes no sense having mutiple ground tiles in same tile)
           this.map.tiles[this.map.layer][pos].items[0] = id;
           break;
 
@@ -105514,6 +105542,22 @@ var CanvasManager = function () {
           this.map.tiles[this.map.layer][pos].items.push(id);
 
       }
+    }
+  }, {
+    key: 'setMeta',
+    value: function setMeta(x, y, meta) {
+
+      var wo = this.map.width;
+      var ho = this.map.height;
+
+      var pos = x % wo + y % ho * ho;
+
+      if (!this.map.tiles[this.map.layer][pos]) {
+
+        return this.map.tiles[this.map.layer][pos] = { meta: meta, items: [] };
+      }
+
+      this.map.tiles[this.map.layer][pos].meta = meta; //Object.assign({}, this.map.tiles[this.map.layer][pos].meta, meta);
     }
   }, {
     key: 'set',

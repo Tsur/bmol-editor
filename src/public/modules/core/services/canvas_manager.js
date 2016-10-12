@@ -99,6 +99,7 @@ class CanvasManager {
     switch(type){
 
       case settings.types.GROUND:
+        // if this is the ground, just allow a single ground item (it makes no sense having mutiple ground tiles in same tile)
         this.map.tiles[this.map.layer][pos].items[0] = id;
         break;
 
@@ -106,6 +107,36 @@ class CanvasManager {
         this.map.tiles[this.map.layer][pos].items.push(id);
 
     }
+
+  }
+
+  setMeta(x, y, meta){
+
+    const wo = this.map.width;
+    const ho = this.map.height;
+
+    const pos = x%wo + (y%ho)*ho;
+
+    if(!this.map.tiles[this.map.layer][pos]){
+
+      return this.map.tiles[this.map.layer][pos] = {meta, items:[]};
+
+    }
+
+    this.map.tiles[this.map.layer][pos].meta = meta; //Object.assign({}, this.map.tiles[this.map.layer][pos].meta, meta);
+
+  }
+
+  getMeta(x, y){
+
+    const wo = this.map.width;
+    const ho = this.map.height;
+
+    const pos = x%wo + (y%ho)*ho;
+
+    if(!this.map.tiles[this.map.layer][pos]) return "";
+
+    return this.map.tiles[this.map.layer][pos].meta;
 
   }
 

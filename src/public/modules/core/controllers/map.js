@@ -1,12 +1,15 @@
 /* Controllers */
 
-/* Controllers */
+import YAML from 'yamljs';
 
 class MapCtrl {
 
   constructor($rootScope, $scope, $state, $timeout, CanvasManager){
 
     $scope.progress = true;
+    $scope.metaX = "";
+    $scope.metaY = "";
+    $scope.meta = "";
 
     $rootScope.$on('coords:updated', (event, coords) => {
 
@@ -57,6 +60,31 @@ class MapCtrl {
     $scope.grid = function(){
       CanvasManager.gridEnabled = !CanvasManager.gridEnabled;
       $rootScope.$broadcast('game:force-paint');
+    }
+
+    $scope.saveMeta = function(){
+
+      try {
+
+        CanvasManager.setMeta($scope.metaX, $scope.metaY, YAML.parse($scope.meta));
+      }
+      catch(error) {
+
+        console.error(error);
+      }
+
+    }
+
+    $scope.fetchMeta = function(){
+
+      try {
+        $scope.meta = YAML.stringify(CanvasManager.getMeta($scope.metaX, $scope.metaY));
+      }
+      catch(error) {
+
+        console.error(error);
+      }
+
     }
 
     // $timeout(() => {

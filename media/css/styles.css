@@ -544,6 +544,36 @@ nav {
 #app-section .kz-nav-menu .menu a {
   color: grey;
 }
+#app-section .kz-nav-menu .kz-meta {
+  position: relative;
+}
+#app-section .kz-nav-menu .kz-meta:hover + .kz-meta-control,
+#app-section .kz-nav-menu .kz-meta-control:hover {
+  display: block !important;
+}
+#app-section .kz-nav-menu .kz-meta-control {
+  position: absolute;
+  z-index: 1;
+  top: 35px;
+  left: 250px;
+  width: 270px;
+  height: 245px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: #333535;
+  display: none;
+  padding: 20px;
+}
+#app-section .kz-nav-menu .kz-meta-control input,
+#app-section .kz-nav-menu .kz-meta-control textarea {
+  position: relative;
+  color: rgba(255, 255, 255, 0.8);
+}
+#app-section .kz-nav-menu .kz-meta-control textarea {
+  background-color: transparent;
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 #app-section .kz-section-content {
   height: calc(100% - 45px);
 }

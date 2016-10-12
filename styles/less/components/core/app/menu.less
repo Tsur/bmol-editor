@@ -500,6 +500,40 @@ nav
 
     }
 
+    .kz-meta {
+      position:relative;
+    }
+
+    .kz-meta:hover + .kz-meta-control, .kz-meta-control:hover {
+      display: block !important;
+    }
+
+    .kz-meta-control {
+      position: absolute;
+      z-index: 1;
+      top: 35px;
+      left: 250px;
+      width: 270px;
+      height: 245px;
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0 ,0.5);
+      background-color: #333535;
+      display:none;
+      padding: 20px;
+
+      input, textarea {
+        // background-color: black;
+        position: relative;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      textarea {
+        background-color: transparent;
+        outline: none;
+        border: 1px solid rgba(255,255,255,.1);
+      }
+    }
+
   }
 
   .kz-section-content{

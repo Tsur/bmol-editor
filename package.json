@@ -15,11 +15,12 @@
     "browserify": "^13.1.0",
     "concat-files": "^0.1.0",
     "debounce": "^1.0.0",
-    "electron-packager": "^5.1.1",
-    "electron-prebuilt": "^0.36.1",
+    "electron-packager": "^8.1.0",
+    "electron-prebuilt": "^1.4.3",
     "less": "^2.5.3",
     "nanoscroller": "^0.8.7",
-    "preprocess": "^3.0.2"
+    "preprocess": "^3.0.2",
+    "yamljs": "^0.2.8"
   },
   "dependencies": {
     "angular": "^1.4.7",
@@ -36,7 +37,7 @@
     "desktop:prod": "export NODE_ENV=production && npm run _preprocess:prod && electron .",
     "website:dev": "export NODE_ENV=development && ./bin/www_preprocess.js && npm run website:server",
     "website:server": "python -m SimpleHTTPServer",
-    "website:prod": "export NODE_ENV=production && npm run _build && node ./bin/www_preprocess.js && node ./bin/concat_styles.js",
+    "website:build": "export NODE_ENV=production && npm run _build && node ./bin/www_preprocess.js && node ./bin/concat_styles.js",
     "release:win": "npm run _preprocess:prod && electron-packager . $npm_package_name --version-string.CompanyName=$npm_package_name --version $npm_package_config_build_version --app-version=$npm_package_version --platform='win32' --arch='x64' --ignore dbpath --out=./releases --prune",
     "release:osx": "npm run _preprocess:prod && electron-packager . $npm_package_name --version-string.CompanyName=$npm_package_name --version $npm_package_config_build_version --app-version=$npm_package_version --platform='darwin' --arch='x64' --ignore dbpath --out=./releases --prune",
     "test": "mocha test/index.js",

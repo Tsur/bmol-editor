@@ -2,9 +2,9 @@
 
 var TITLE = 'Bmol';
 var path = require('path');
-var app = require('app');  // Module to control application life.
-var BrowserWindow = require('browser-window');  // Module to create native browser window.
-var shell = require('shell'); // shell.openExternal('https://github.com');
+var app = require('electron').app;  // Module to control application life.
+var BrowserWindow = require('electron').BrowserWindow;  // Module to create native browser window.
+var shell = require('electron').shell; // shell.openExternal('https://github.com');
 // var server = require('../../es5/server/index').default;
 var mainWindow = null;
 // Report crashes to our server.

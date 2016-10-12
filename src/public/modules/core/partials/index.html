@@ -7,6 +7,42 @@
 		  <a class="item" data-upload-json="loadMap">Load Map</a>
 		  <a class="item" data-game-map="#game">Play Game</a>
 		  <a class="item" data-ng-click="grid()">Grid</a>
+		  <a class="item kz-meta">Meta</a>
+			<div class="kz-meta-control">
+				<div class="ui form inverted">
+					<div class="field">
+				    <div class="two fields">
+				      <div class="field">
+								<div class="ui inverted labeled input">
+									<div class="ui inverted transparent icon input">
+    								<input type="text" placeholder="x ..." data-ng-model="metaX">
+								    <i class="image icon"></i>
+								  </div>
+								</div>
+				      </div>
+				      <div class="field">
+								<div class="ui inverted labeled input">
+									<div class="ui inverted transparent icon input">
+    								<input type="text" placeholder="y ..." data-ng-model="metaY">
+								    <i class="image icon"></i>
+								  </div>
+								</div>
+				      </div>
+				    </div>
+				  </div>
+					<div class="ui inverted divider"></div>
+				  <div class="field">
+				    <div class="fields">
+				      <div class="sixteen wide field inverted">
+				        <textarea data-ng-model="meta" rows="4"></textarea>
+				      </div>
+				    </div>
+				  </div>
+					<div class="ui inverted divider"></div>
+					<div class="ui button positive small" data-ng-click="saveMeta()" tabindex="0">Save</div>
+					<div class="ui button small" data-ng-click="fetchMeta()">Fetch</div>
+			  </div>
+			</div>
 			<div class="right menu">
 				<a class="active item">(<span>{{canvasX}}</span>, <span>{{canvasY}}</span>)</a>
 			</div>

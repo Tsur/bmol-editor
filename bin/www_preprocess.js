@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var pp = require('preprocess');
 
 var src = __dirname + "/../www_main.html";
